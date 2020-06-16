@@ -4,19 +4,14 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Laravel</title>
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
-    <!-- Styles -->
+    <title>Laravel/Vue.js &mdash; MySQL REST Example</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,600|Material+Design+Icons" rel="stylesheet" type="text/css">
     <style>
         html, body {
             background-color: #fff;
             color: #636b6f;
-            font-family: 'Raleway', sans-serif;
-            font-weight: 100;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 200;
             height: 100vh;
             margin: 0;
         }
@@ -46,13 +41,13 @@
         }
 
         .title {
-            font-size: 84px;
+            font-size: 5em;
         }
 
         .links > a {
             color: #636b6f;
-            padding: 0 25px;
-            font-size: 12px;
+            padding: 0 1.5em;
+            font-size: .75em;
             font-weight: 600;
             letter-spacing: .1rem;
             text-decoration: none;
@@ -60,16 +55,19 @@
         }
 
         .m-b-md {
-            margin-bottom: 30px;
+            margin-bottom: 2em;
         }
 
-        .swiss {
-            max-width: 300px;
-            opacity: 0.2;
+        .logo-icon {
+            max-width: 37.5vmax;
+        }
+
+        .logo-icon + .logo-icon {
+            margin-left: 1.25em;
         }
     </style>
 </head>
-<body>
+<body class="no-js">
 <div class="flex-center position-ref full-height">
     @if (Route::has('login'))
         <div class="top-right links">
@@ -84,12 +82,13 @@
 
     <div class="content">
         <div class="title m-b-md">
-            <img class="swiss" src="{{url('img/camper-swiss-knife.jpg')}}">
+            <img class="icon-logo logo-laravel" src="{{url('img/icons/logo.laravel.svg')}}">
+            <img class="icon-logo logo-vue" src="{{url('img/icons/logo.vue.svg')}}">
         </div>
 
         <div class="links">
-            <h1>Laravel <span style="color: #F4D8D8">Starter Kit</span></h1>
-            <h4>Powered by VueJS + Material Design</h4>
+            <h1>MySQL Web App &mdash; REST API</h1>
+            <h3>Powered by Laravel, VueJS & Material Design</h3>
         </div>
     </div>
 </div>
