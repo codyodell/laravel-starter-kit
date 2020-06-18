@@ -11,9 +11,13 @@
             background-color: #fff;
             color: #636b6f;
             font-family: 'Roboto', sans-serif;
-            font-weight: 200;
+            font-weight: 400;
             height: 100vh;
             margin: 0;
+        }
+
+        h1 {
+            color: #222;
         }
 
         .full-height {
@@ -55,14 +59,19 @@
         }
 
         .m-b-md {
-            margin-bottom: 2em;
+            margin-bottom: 0.25em;
+            &.title {
+                display: flex;
+                flex-direction: row;
+            }
         }
 
-        .logo-icon {
-            max-width: 37.5vmax;
+        .icon-logo {
+            display: inline;
+            height: 12rem;
         }
 
-        .logo-icon + .logo-icon {
+        .icon-logo + .icon-logo {
             margin-left: 1.25em;
         }
     </style>
@@ -82,8 +91,8 @@
 
     <div class="content">
         <div class="title m-b-md">
-            <img class="icon-logo logo-laravel" src="{{url('img/icons/logo.laravel.svg')}}">
-            <img class="icon-logo logo-vue" src="{{url('img/icons/logo.vue.svg')}}">
+            <img class="icon-logo logo-laravel" src="{{url('img/logos/laravel.svg')}}">
+            <img class="icon-logo logo-vue" src="{{url('img/logos/vuejs.svg')}}">
         </div>
 
         <div class="links">

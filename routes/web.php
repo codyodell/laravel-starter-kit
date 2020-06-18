@@ -30,6 +30,7 @@ Route::prefix('admin')->namespace('Admin')->group(function()
 
     // resource routes
     Route::resource('users','UserController');
+    Route::resource('products','ProductController');
     Route::resource('groups','GroupController');
     Route::resource('permissions','PermissionController');
     Route::resource('files','FileController');

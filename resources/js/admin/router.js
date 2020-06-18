@@ -13,7 +13,7 @@ const router = new Router({
         {
             name: 'dashboard',
             path: '/dashboard',
-            component: require('./dashboard/Home'),
+            component: require('./dashboard/Admin'),
         },
         {
             path: '/users',
@@ -73,6 +73,17 @@ const router = new Router({
             name: 'files',
             path: '/files',
             component: require('./files/Files'),
+        },
+        {
+            path: '/products',
+            component: require('./products/Products'),
+            children: [
+                {
+                    name: 'product.lists',
+                    path: '/products/list',
+                    component: require('./products/components/ProductLists')
+                }
+            ]
         },
         {
             name: 'settings',

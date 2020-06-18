@@ -12,9 +12,9 @@ yarn-error.log
 .env
 .notes
 .DS_Store
-
 Icon
-
+storage/
+cache/
 Icon
-
+Icon*
 storage/

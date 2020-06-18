@@ -161,7 +161,7 @@
                 let w = width || 4000;
                 let act = action || 'resize';
 
-                return LSK_APP.APP_URL +`/files/`+file.id+`/preview?w=`+w+`&action=`+act;
+                return 'http://' + LSK_APP.APP_URL +`/files/`+file.id+`/preview?w=`+w+`&action=`+act;
             },
             downloadFile(file) {
                 window.open(LSK_APP.APP_URL + '/files/'+file.id+'/download?file_token='+file.file_token);

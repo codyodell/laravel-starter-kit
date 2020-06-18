@@ -19,6 +19,7 @@
                     </v-btn>
                 </div>
             </div>
+            <!--
             <div class="d-flex flex-lg-row flex-sm-column">
                 <div class="flex-grow-1 pa-2">
                     <v-text-field filled prepend-icon="search" label="Filter By Name" v-model="filters.name"></v-text-field>
@@ -41,6 +42,7 @@
                     ></v-autocomplete>
                 </div>
             </div>
+            -->
         </v-card>
         <!-- /search -->
         <v-divider class="pb-2"/>
@@ -53,7 +55,7 @@
                 :items="items"
                 :server-items-length="totalItems"
                 class="elevation-1">
-            <template v-slot:header="{props:{headers}}">
+            <template v-slot:headers="{props:{headers}}">
                 <thead>
                 <tr>
                     <th v-for="header in headers">

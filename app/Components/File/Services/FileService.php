@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: darryldecode
@@ -43,14 +44,13 @@ class FileService extends BaseService
         $fileOriginalName = $file->getClientOriginalName();
         $filePath = $file->store('local');
 
-        if(!$filePath)
-        {
-            $this->addError("Failed to upload.",400);
+        if (!$filePath) {
+            $this->addError("Failed to upload.", 400);
             return false;
         }
 
         // other data
-        $ext   = pathinfo(config('filesystems.disks.local.root').'/'.$filePath, PATHINFO_EXTENSION);
+        $ext   = pathinfo(config('filesystems.disks.local.root') . '/' . $filePath, PATHINFO_EXTENSION);
         $size  = Storage::disk('local')->getSize($filePath);
         $type  = Storage::disk('local')->getMimetype($filePath);
 
@@ -71,8 +71,7 @@ class FileService extends BaseService
      */
     public function deleteFile($path)
     {
-        if(Storage::disk('local')->exists($path))
-        {
+        if (Storage::disk('local')->exists($path)) {
             Storage::disk('local')->delete($path);
         }
     }
@@ -91,12 +90,10 @@ class FileService extends BaseService
         $action = $data['action'];
 
         // if file is not found, we will return a not found image
-        if(!$File)
-        {
-            $img = Image::make(Storage::disk('public')->path(FileHelper::getIconPath('not-found')))->resize($w, $h, function($constraint) use ($aspectRatio,$upSize)
-            {
-                if($aspectRatio) $constraint->aspectRatio();
-                if($upSize) $constraint->upsize();
+        if (!$File) {
+            $img = Image::make(Storage::disk('public')->path(FileHelper::getIconPath('not-found')))->resize($w, $h, function ($constraint) use ($aspectRatio, $upSize) {
+                if ($aspectRatio) $constraint->aspectRatio();
+                if ($upSize) $constraint->upsize();
             });
             $img = $img->response();
 
@@ -107,21 +104,15 @@ class FileService extends BaseService
         $fullPath = Storage::disk('local')->path($File->path);
 
         // if image and not PSD, we will create an image instance and resize accordingly
-        if(FileHelper::isImage($fullPath) && !FileHelper::isPSD($File->file_type))
-        {
-            if($action=='resize')
-            {
-                $img = Image::make($fullPath)->resize($w, $h, function($constraint) use ($aspectRatio,$upSize)
-                {
-                    if($aspectRatio) $constraint->aspectRatio();
-                    if($upSize) $constraint->upsize();
+        if (FileHelper::isImage($fullPath) && !FileHelper::isPSD($File->file_type)) {
+            if ($action == 'resize') {
+                $img = Image::make($fullPath)->resize($w, $h, function ($constraint) use ($aspectRatio, $upSize) {
+                    if ($aspectRatio) $constraint->aspectRatio();
+                    if ($upSize) $constraint->upsize();
                 });
-            }
-            else
-            {
-                $img = Image::make($fullPath)->fit($w, $h, function($constraint) use ($aspectRatio,$upSize)
-                {
-                    if($upSize) $constraint->upsize();
+            } else {
+                $img = Image::make($fullPath)->fit($w, $h, function ($constraint) use ($aspectRatio, $upSize) {
+                    if ($upSize) $constraint->upsize();
                 });
             }
 
@@ -129,13 +120,11 @@ class FileService extends BaseService
         }
 
         // if its not an image, we will get the proper icon
-        else
-        {
+        else {
             $fullPath = asset(FileHelper::getIconPath($File->file_type));
-            $img = Image::make($fullPath)->resize(50, null, function($constraint) use ($aspectRatio,$upSize)
-            {
-                if($aspectRatio) $constraint->aspectRatio();
-                if($upSize) $constraint->upsize();
+            $img = Image::make($fullPath)->resize(50, null, function ($constraint) use ($aspectRatio, $upSize) {
+                if ($aspectRatio) $constraint->aspectRatio();
+                if ($upSize) $constraint->upsize();
             });
             $res = $img->response();
         }
@@ -153,26 +142,23 @@ class FileService extends BaseService
         /** @var File $File */
         $File = $this->fileRepository->find($id);
 
-        if(!$File)
-        {
-            $this->addError("File not found.",404);
+        if (!$File) {
+            $this->addError("File not found.", 404);
             return false;
         }
 
-        if(!$File->verifyFileToken($token))
-        {
-            $this->addError("Invalid Token",403);
+        if (!$File->verifyFileToken($token)) {
+            $this->addError("Invalid Token", 403);
             return false;
         }
 
         $fileFullPath = Storage::disk('local')->path($File->path);
 
-        if(!Storage::disk('local')->exists($File->path))
-        {
-            $this->addError("File not exist.",404);
+        if (!Storage::disk('local')->exists($File->path)) {
+            $this->addError("File not exist.", 404);
             return false;
         }
 
-        return response()->download($fileFullPath,str_replace(' ','_',$File->name).".{$File->extension}");
+        return response()->download($fileFullPath, str_replace(' ', '_', $File->name) . ".{$File->extension}");
     }
 }
