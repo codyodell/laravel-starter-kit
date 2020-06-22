@@ -24,14 +24,14 @@
                 :items="items"
                 :server-items-length="totalItems"
                 class="elevation-1">
-            <template v-slot:body="{items}">
+            <template v-slot:body="{items}" v-slot:scope="props">
                 <tbody>
                 <tr v-for="item in items" :key="item.id">
                     <td>
-                        <v-btn @click="showDialog('file_group_edit',item)" icon small>
+                        <v-btn @click="showDialog('file_group_edit',item)" icon small flat>
                             <v-icon class="blue--text">edit</v-icon>
                         </v-btn>
-                        <v-btn @click="trash(props.item)" icon small>
+                        <v-btn @click="trash(props.item)" icon small flat>
                             <v-icon class="red--text">delete</v-icon>
                         </v-btn>
                     </td>

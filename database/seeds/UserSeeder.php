@@ -51,7 +51,7 @@ class UserSeeder extends Seeder
                 ]
             ]
         ]);
-        $groupSuperUser->addPermission($permissionSuperUser,Permission::PERMISSION_ALLOW);
+        $groupSuperUser->addPermission($permissionSuperUser, Permission::PERMISSION_ALLOW);
 
         // create normal user
         $groupDefaultUser = Group::create([
@@ -75,9 +75,8 @@ class UserSeeder extends Seeder
         $AdminUser->groups()->attach($groupSuperUser);
 
         // generate random users
-        $users = factory(User::class,30)->create();
-        $users->each(function($u) use ($groupDefaultUser)
-        {
+        $users = factory(User::class, 30)->create();
+        $users->each(function ($u) use ($groupDefaultUser) {
             $u->groups()->attach($groupDefaultUser);
         });
     }

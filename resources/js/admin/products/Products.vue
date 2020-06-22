@@ -11,16 +11,24 @@ import ProductLists from "./components/ProductLists.vue";
 // import ProductCategoryLists from './components/ProductCategoryLists.vue';
 
 export default {
-  components: { 
-     ProductLists 
+  components: {
+    ProductLists
   },
   data() {
     return {
-      active: ""
+      active: "products"
     };
   },
   mounted() {
+    
+    console.info("pages.FileManager.vue");
+
     const self = this;
+
+    self.$store.commit("setBreadcrumbs", [{ 
+      label: "Products", 
+      name: "" 
+    }]);
   }
 };
 </script>

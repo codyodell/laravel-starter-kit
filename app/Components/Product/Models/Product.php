@@ -34,16 +34,24 @@ class Product extends Model
         'description',
         'attributes',
         'brand_id',
-        'category_id'
+        'category_id',
+        'created_by',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'uploaded_by');
+    }
+
     // Each product has a category
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo('Category');
     }
-    
+
     // Each product has a brand
-    public function brand(){
+    public function brand()
+    {
         return $this->belongsTo('Brand');
     }
 }

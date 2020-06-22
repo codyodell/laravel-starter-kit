@@ -10,11 +10,11 @@ require('../bootstrap');
 window.Vue = require('vue');
 
 // 3rd party
-import '@mdi/font/css/materialdesignicons.css'
+import '@mdi/font/css/materialdesignicons.css';
 import 'vuetify/dist/vuetify.min.css';
 import Vue from 'vue';
 import Vuetify from 'vuetify';
-import VueProgressBar from 'vue-progressbar'
+import VueProgressBar from 'vue-progressbar';
 
 // this is the vuetify theming options
 // you can change colors here based on your needs
@@ -24,9 +24,9 @@ Vue.use(Vuetify);
 // this is the progress bar settings, you
 // can change colors here to fit on your needs or match
 // your theming above
-Vue.use(VueProgressBar,{
-    color: '#3f51b5',
-    failedColor: '#b71c1c',
+Vue.use(VueProgressBar, {
+    color: '#ffcb6b',
+    failedColor: '#ff5874',
     thickness: '5px',
     transition: {
         speed: '0.2s',
@@ -56,12 +56,12 @@ const admin = new Vue({
             dark: true,
             themes: {
                 dark: {
-                    primary: '#3f51b5',
-                    info: '#4c86b5',
-                    success: '#17b535',
-                    secondary: '#b0bec5',
-                    accent: '#8c9eff',
-                    error: '#b71c1c',
+                    primary: '#6479f6',
+                    info: '#95affb',
+                    success: '#65b25f',
+                    secondary: '#bfc7d5',
+                    accent: '#ffcb6b',
+                    error: '#ff5874',
                 }
             },
         },
@@ -77,13 +77,11 @@ const admin = new Vue({
         drawer: true,
     }),
     mounted() {
-
         const self = this;
-
         // progress bar top
-        AxiosAjaxDetct.init(()=>{
+        AxiosAjaxDetct.init(() => {
             self.$Progress.start();
-        },()=>{
+        }, () => {
             self.$Progress.finish();
         });
     },
@@ -99,7 +97,7 @@ const admin = new Vue({
                 return store.getters.showSnackbar;
             },
             set(val) {
-                if(!val) store.commit('hideSnackbar');
+                if (!val) store.commit('hideSnackbar');
             }
         },
         snackbarMessage() {
@@ -111,14 +109,13 @@ const admin = new Vue({
         snackbarDuration() {
             return store.getters.snackbarDuration;
         },
-
         // dialog
         showDialog: {
             get() {
                 return store.getters.showDialog;
             },
             set(val) {
-                if(!val) store.commit('hideDialog');
+                if (!val) store.commit('hideDialog');
             }
         },
         dialogType() {
@@ -139,17 +136,15 @@ const admin = new Vue({
 
             let rn = routeType || 'vue';
 
-            if(rn==='vue') {
-
-                this.$router.push({name: routeName});
+            if (rn === 'vue') {
+                this.$router.push({ name: routeName });
             }
-            if(rn==='full_load') {
-
+            if (rn === 'full_load') {
                 window.location.href = routeName;
             }
         },
-        clickLogout(logoutUrl,afterLogoutRedirectUrl) {
-            axios.post(logoutUrl).then((r)=>{
+        clickLogout(logoutUrl, afterLogoutRedirectUrl) {
+            axios.post(logoutUrl).then((r) => {
                 window.location.href = afterLogoutRedirectUrl;
             });
         },

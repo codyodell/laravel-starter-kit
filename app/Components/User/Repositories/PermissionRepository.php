@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: darryl
@@ -28,11 +29,10 @@ class PermissionRepository extends BaseRepository
      */
     public function index($params)
     {
-        return $this->get($params,[],function($q) use ($params)
-        {
-            $title = Arr::get($params,'title','');
+        return $this->get($params, [], function ($q) use ($params) {
+            $title = Arr::get($params, 'title', '');
 
-            $q->where('title','like',"%{$title}%");
+            $q->where('title', 'like', "%{$title}%");
 
             return $q;
         });

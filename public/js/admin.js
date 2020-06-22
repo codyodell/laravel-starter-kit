@@ -1161,8 +1161,8 @@ __WEBPACK_IMPORTED_MODULE_2_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vuet
 // can change colors here to fit on your needs or match
 // your theming above
 __WEBPACK_IMPORTED_MODULE_2_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_4_vue_progressbar___default.a, {
-    color: '#3f51b5',
-    failedColor: '#b71c1c',
+    color: '#ffcb6b',
+    failedColor: '#ff5874',
     thickness: '5px',
     transition: {
         speed: '0.2s',
@@ -1192,12 +1192,12 @@ var admin = new __WEBPACK_IMPORTED_MODULE_2_vue___default.a({
             dark: true,
             themes: {
                 dark: {
-                    primary: '#3f51b5',
-                    info: '#4c86b5',
-                    success: '#17b535',
-                    secondary: '#b0bec5',
-                    accent: '#8c9eff',
-                    error: '#b71c1c'
+                    primary: '#6479f6',
+                    info: '#95affb',
+                    success: '#65b25f',
+                    secondary: '#bfc7d5',
+                    accent: '#ffcb6b',
+                    error: '#ff5874'
                 }
             }
         },
@@ -1215,9 +1215,7 @@ var admin = new __WEBPACK_IMPORTED_MODULE_2_vue___default.a({
         };
     },
     mounted: function mounted() {
-
         var self = this;
-
         // progress bar top
         __WEBPACK_IMPORTED_MODULE_9__common_AxiosAjaxDetect__["a" /* default */].init(function () {
             self.$Progress.start();
@@ -51561,7 +51559,6 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["default"]({
         path: '/files',
         component: __webpack_require__(229)
     }, {
-        name: 'products',
         path: '/products',
         component: __webpack_require__(253),
         children: [{
@@ -58971,7 +58968,7 @@ var render = function() {
                           _c(
                             "v-btn",
                             {
-                              attrs: { icon: "", small: "" },
+                              attrs: { icon: "", small: "", flat: "" },
                               on: {
                                 click: function($event) {
                                   return _vm.showDialog("file_group_edit", item)
@@ -58989,7 +58986,7 @@ var render = function() {
                           _c(
                             "v-btn",
                             {
-                              attrs: { icon: "", small: "" },
+                              attrs: { icon: "", small: "", flat: "" },
                               on: {
                                 click: function($event) {
                                   return _vm.trash(_vm.props.item)
@@ -60391,11 +60388,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   data: function data() {
     return {
-      active: ""
+      active: "products"
     };
   },
   mounted: function mounted() {
+
+    console.info("pages.FileManager.vue");
+
     var self = this;
+
+    self.$store.commit("setBreadcrumbs", [{
+      label: "Products",
+      name: ""
+    }]);
   }
 });
 

@@ -71,7 +71,7 @@
     }
 </script>
 
-<style scoped="">
+<style scoped>
     .finder_wrap {
         padding: 0 20px;
     }
