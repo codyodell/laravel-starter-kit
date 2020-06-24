@@ -1,20 +1,20 @@
 <template>
   <div class="component-wrap">
-    <v-card>
-      <v-form v-model="valid" ref="fileGroupFormAdd" lazy-validation>
+    <v-card dark>
+      <v-form v-model="valid" ref="categoryFormEdit" lazy-validation>
         <v-container grid-list-md>
           <v-layout row wrap>
             <v-flex xs12>
-              <div class="body-2 white--text">File Group Details</div>
+              <div class="body-2 white--text">Category Details</div>
             </v-flex>
             <v-flex xs12>
-              <v-text-field label="Group Name" v-model="name" :rules="nameRules"></v-text-field>
+              <v-text-field dark label="Name" v-model="name" :rules="nameRules"></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-textarea label="Group Description" v-model="description" :rules="descriptionRules"></v-textarea>
+              <v-textarea dark label="Description" v-model="description" :rules="descriptionRules"></v-textarea>
             </v-flex>
             <v-flex xs12>
-              <v-btn @click="save()" :disabled="!valid" color="primary">Save</v-btn>
+              <v-btn @click="save()" :disabled="!valid" color="primary" dark>Update</v-btn>
             </v-flex>
           </v-layout>
         </v-container>
@@ -25,6 +25,11 @@
 
 <script>
 export default {
+  props: {
+    propCategoryId: {
+      required: true
+    }
+  },
   data() {
     return {
       valid: false,
@@ -36,9 +41,14 @@ export default {
     };
   },
   mounted() {
-    console.log("pages.files.components.FileGroupAdd.vue");
+    console.log("pages.products.components.CategoryEdit.vue");
 
     const self = this;
+  },
+  watch: {
+    propCategoryId(v) {
+      if (v) this.loadCategory(() => {});
+    }
   },
   methods: {
     save() {
@@ -52,7 +62,7 @@ export default {
       self.isLoading = true;
 
       axios
-        .post("/admin/file-groups", payload)
+        .put("/admin/categories/" + self.propCategoryId, payload)
         .then(function(response) {
           self.$store.commit("showSnackbar", {
             message: response.data.message,
@@ -61,10 +71,7 @@ export default {
           });
 
           self.isLoading = false;
-          self.$eventBus.$emit("FILE_GROUP_ADDED");
-
-          // reset
-          self.$refs.fileGroupFormAdd.reset();
+          self.$eventBus.$emit("CATEGORY_UPDATED");
         })
         .catch(function(error) {
           self.isLoading = false;
@@ -79,6 +86,18 @@ export default {
           } else {
             console.log("Error", error.message);
           }
+        });
+    },
+    loadCategory(cb) {
+      const self = this;
+
+      axios
+        .get("/admin/categories/" + self.propCategoryId)
+        .then(function(response) {
+          let Category = response.data.data;
+          self.name = Category.name;
+          self.description = Category.description;
+          cb();
         });
     }
   }

@@ -58,8 +58,7 @@ class FileController extends AdminController
         $errorMessage = '';
         $fileRecord = null;
 
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             try {
                 $fileData = $this->fileService->upload($file);
             } catch (FileNotFoundException $e) {
@@ -68,8 +67,7 @@ class FileController extends AdminController
                 break;
             }
 
-            if(!$fileData)
-            {
+            if (!$fileData) {
                 $error = true;
                 $errorMessage = $this->fileService->getErrors()->first();
                 break;
@@ -86,8 +84,7 @@ class FileController extends AdminController
                 'path' => $fileData['path'],
             ]);
 
-            if(!$fileRecord)
-            {
+            if (!$fileRecord) {
                 $this->fileService->deleteFile($fileData['path']);
                 $error = true;
                 $errorMessage = "Failed to create record.";
@@ -95,8 +92,7 @@ class FileController extends AdminController
             }
         }
 
-        if($error)
-        {
+        if ($error) {
             return $this->sendResponseBadRequest($errorMessage);
         }
 

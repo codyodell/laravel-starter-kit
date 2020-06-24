@@ -42,19 +42,19 @@ class FileGroupController extends AdminController
      */
     public function store(Request $request)
     {
-        $validate = validator($request->all(),[
-            'name' => 'required|string',
-            'description' => 'required|string',
+        $validate = validator($request->all(), [
+            'name' => 'required|unique:file_groups|max:255|string',
+            'description' => 'string',
         ]);
 
-        if($validate->fails())
-        {
+        if ($validate->fails()) {
             return $this->sendResponseBadRequest($validate->errors()->first());
         }
 
         $file = $this->fileGroupRepository->create($request->all());
 
-        if(!$file)  return $this->sendResponseBadRequest("Failed to create.");
+        if (!$file)  
+            return $this->sendResponseBadRequest("Failed to create.");
 
         return $this->sendResponseCreated($file);
     }
@@ -69,7 +69,8 @@ class FileGroupController extends AdminController
     {
         $file = $this->fileGroupRepository->find($id);
 
-        if(!$file) return $this->sendResponseNotFound();
+        if (!$file) 
+            return $this->sendResponseNotFound();
 
         return $this->sendResponseOk($file);
     }
@@ -83,18 +84,20 @@ class FileGroupController extends AdminController
      */
     public function update(Request $request, $id)
     {
-        $validate = validator($request->all(),[
-            'name' => 'required|string',
-            'description' => 'required|string',
+        $validate = validator($request->all(), [
+            'name' => 'required|unique:file_groups|max:255|string',
+            'description' => 'string',
         ]);
 
-        if($validate->fails()) return $this->sendResponseBadRequest($validate->errors()->first());
+        if ($validate->fails())
+            return $this->sendResponseBadRequest($validate->errors()->first());
 
-        $updated = $this->fileGroupRepository->update($id,$request->all());
+        $updated = $this->fileGroupRepository->update($id, $request->all());
 
-        if(!$updated) return $this->sendResponseBadRequest("Failed to update");
+        if (!$updated)
+            return $this->sendResponseBadRequest("Failed to update");
 
-        return $this->sendResponseOk([],"Updated.");
+        return $this->sendResponseOk([], "Updated.");
     }
 
     /**
@@ -107,6 +110,6 @@ class FileGroupController extends AdminController
     {
         $this->fileGroupRepository->delete($id);
 
-        return $this->sendResponseOk([],"Deleted.");
+        return $this->sendResponseOk([], "Deleted.");
     }
 }

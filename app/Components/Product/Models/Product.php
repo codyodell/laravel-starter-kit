@@ -2,9 +2,10 @@
 
 namespace App\Components\Product\Models;
 
-use App\Components\User\Models\User;
-use Carbon\Carbon;
-use Firebase\JWT\JWT;
+// use App\Components\User\Models\Brand;
+// use App\Components\User\Models\User;
+// use Carbon\Carbon;
+// use Firebase\JWT\JWT;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,14 +21,12 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Product extends Model
 {
-    const TAG = 'WASK_PRODUCT_MANAGER';
+    protected $table = 'products';
 
     // Cast attributes JSON to array
     protected $casts = [
         'attributes' => 'array'
     ];
-
-    protected $table = 'products';
 
     protected $fillable = [
         'name',
@@ -36,6 +35,7 @@ class Product extends Model
         'brand_id',
         'category_id',
         'created_by',
+        'uploaded_by',
     ];
 
     public function user()
@@ -43,15 +43,13 @@ class Product extends Model
         return $this->belongsTo(User::class, 'uploaded_by');
     }
 
-    // Each product has a category
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo('Category');
+        return $this->belongsToMany(Category::class);
     }
 
-    // Each product has a brand
     public function brand()
     {
-        return $this->belongsTo('Brand');
+        return $this->belongsTo(Brand::class);
     }
 }

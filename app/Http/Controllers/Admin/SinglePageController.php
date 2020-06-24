@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: darryldecode
@@ -27,52 +28,52 @@ class SinglePageController extends AdminController
             new MenuItem([
                 'group_requirements' => [],
                 'permission_requirements' => ['superuser'],
-                'label'=>'Dashboard',
+                'label' => 'Dashboard',
                 'nav_type' => MenuItem::$NAV_TYPE_NAV,
-                'icon'=>'dashboard',
-                'route_type'=>'vue',
-                'route_name'=>'dashboard',
-                'visible'=>true,
+                'icon' => 'dashboard',
+                'route_type' => 'vue',
+                'route_name' => 'dashboard',
+                'visible' => true,
             ]),
             new MenuItem([
                 'group_requirements' => [],
                 'permission_requirements' => ['superuser'],
-                'label'=>'User',
+                'label' => 'Users',
                 'nav_type' => MenuItem::$NAV_TYPE_NAV,
-                'icon'=>'person',
-                'route_type'=>'vue',
-                'route_name'=>'users.list',
-                'visible'=>true,
+                'icon' => 'person',
+                'route_type' => 'vue',
+                'route_name' => 'users.list',
+                'visible' => true,
             ]),
             new MenuItem([
                 'group_requirements' => [],
                 'permission_requirements' => ['superuser'],
-                'label'=>'Products',
+                'label' => 'Products',
                 'nav_type' => MenuItem::$NAV_TYPE_NAV,
-                'icon'=>'shopping_bag',
-                'route_type'=>'vue',
-                'route_name'=>'product.lists',
-                'visible'=>true,
+                'icon' => 'shopping_bag',
+                'route_type' => 'vue',
+                'route_name' => 'product.lists',
+                'visible' => true,
             ]),
             new MenuItem([
                 'group_requirements' => [],
                 'permission_requirements' => ['superuser'],
-                'label'=>'Files',
+                'label' => 'Files',
                 'nav_type' => MenuItem::$NAV_TYPE_NAV,
-                'icon'=>'cloud_circle',
-                'route_type'=>'vue',
-                'route_name'=>'files',
-                'visible'=>true,
+                'icon' => 'cloud_circle',
+                'route_type' => 'vue',
+                'route_name' => 'files',
+                'visible' => true,
             ]),
             new MenuItem([
                 'group_requirements' => [],
                 'permission_requirements' => ['superuser'],
-                'label'=>'Settings',
+                'label' => 'Settings',
                 'nav_type' => MenuItem::$NAV_TYPE_NAV,
-                'icon'=>'settings',
-                'route_type'=>'vue',
-                'route_name'=>'settings',
-                'visible'=>true,
+                'icon' => 'settings',
+                'route_type' => 'vue',
+                'route_name' => 'settings',
+                'visible' => true,
             ]),
             new MenuItem([
                 'nav_type' => MenuItem::$NAV_TYPE_DIVIDER
@@ -81,7 +82,7 @@ class SinglePageController extends AdminController
 
         $menus = $menuManager->getFiltered();
 
-        view()->share('nav',$menus);
+        view()->share('nav', $menus);
 
         return view('layouts.admin');
     }

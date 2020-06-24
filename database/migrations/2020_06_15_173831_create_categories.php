@@ -19,7 +19,8 @@ class CreateCategories extends Migration
         Schema::create('categories', function(Blueprint $table){
             $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('name');
+            $table->string('name', 255)->index()->unique();
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -31,6 +32,8 @@ class CreateCategories extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Schema::drop('categories');
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
     }
 }

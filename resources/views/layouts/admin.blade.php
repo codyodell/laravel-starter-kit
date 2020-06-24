@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel') }}</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <title>{{ config('app.name', 'Laravel/Vue — MySQL Project') }}</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet">
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     <script type="application/javascript">
         var LSK_APP = {};
@@ -20,10 +20,11 @@
         <v-app id="inspire">
 
             <v-navigation-drawer
-                    v-model="drawer"
-                    app
-                    clipped
-                    left>
+                v-model="drawer"
+                app
+                clipped
+                left
+            >
                 <v-list dense>
                     @foreach($nav as $n)
                         @if($n->navType==\App\Components\Core\Menu\MenuItem::$NAV_TYPE_NAV && $n->visible)
@@ -57,9 +58,13 @@
             <v-app-bar app clipped-left>
                 <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
                 <v-toolbar-title>{{config('app.name')}}</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon>
+                    <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
             </v-app-bar>
 
-            <v-content>
+            <v-main>
                 <div>
                     <v-breadcrumbs :items="getBreadcrumbs">
                         <template v-slot:item="props">
@@ -78,7 +83,7 @@
                 <transition name="fade">
                     <router-view></router-view>
                 </transition>
-            </v-content>
+            </v-main>
             <v-footer fixed>
                 <span>&copy; {{ date('Y') }}</span>
             </v-footer>

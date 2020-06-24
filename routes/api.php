@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,23 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:api')->get('/product', function (Request $request) {
-    return $request->product();
-});
+/* Products */
+Route::get('products', 'ProductController@getAllProducts');
+Route::get('products/{id}', 'ProductController@getProduct');
+// Route::post('products', 'ProductController@store');
+// Route::put('products/{id}', 'ProductController@update');
+// Route::delete('products/{id}', 'ProductController@delete');
+
+/* Categories */
+Route::get('categories', 'CategoryController@index');
+Route::get('categories/{id}', 'CategoryController@show');
+Route::post('categories', 'CategoryController@store');
+Route::put('categories/{id}', 'CategoryController@update');
+Route::delete('categories/{id}', 'CategoryController@delete');
+
+/* Brands */
+Route::get('brand', 'BrandController@index');
+Route::get('brand/{id}', 'BrandController@show');
+Route::post('brand', 'BrandController@store');
+Route::put('brand/{id}', 'BrandController@update');
+Route::delete('brand/{id}', 'BrandController@delete');

@@ -68,14 +68,12 @@ class File extends Model
         try {
             $key = env('FILE_DOWNLOAD_SECRET');
             $decoded = JWT::decode($token, $key, array('HS256'));
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
             \Log::error(self::TAG . ": Invalid file token.");
             return false;
         }
 
-        if(!$decoded->file_id==$this->id)
-        {
+        if (!$decoded->file_id == $this->id) {
             return false;
         }
 
@@ -89,7 +87,7 @@ class File extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class,'uploaded_by');
+        return $this->belongsTo(User::class, 'uploaded_by');
     }
 
     /**
@@ -99,7 +97,7 @@ class File extends Model
      */
     public function group()
     {
-        return $this->belongsTo(FileGroup::class,'file_group_id');
+        return $this->belongsTo(FileGroup::class, 'file_group_id');
     }
 
     /**

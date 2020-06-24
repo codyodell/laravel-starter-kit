@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: darryl
@@ -38,7 +39,7 @@ class UserController extends AdminController
     {
         $data = $this->userRepository->listUsers(request()->all());
 
-        return $this->sendResponseOk($data,"list users ok.");
+        return $this->sendResponseOk($data, "list users ok.");
     }
 
     /**
@@ -49,7 +50,7 @@ class UserController extends AdminController
      */
     public function store(Request $request)
     {
-        $validate = validator($request->all(),[
+        $validate = validator($request->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8',
@@ -57,19 +58,17 @@ class UserController extends AdminController
             'groups' => 'array',
         ]);
 
-        if($validate->fails()) return $this->sendResponseBadRequest($validate->errors()->first());
+        if ($validate->fails()) return $this->sendResponseBadRequest($validate->errors()->first());
 
         /** @var User $user */
         $user = $this->userRepository->create($request->all());
 
-        if(!$user) return $this->sendResponseBadRequest("Failed create.");
+        if (!$user) return $this->sendResponseBadRequest("Failed create.");
 
         // attach to group
-        if($groups = $request->get('groups',[]))
-        {
-            foreach ($groups as $groupId => $shouldAttach)
-            {
-                if($shouldAttach) $user->groups()->attach($groupId);
+        if ($groups = $request->get('groups', [])) {
+            foreach ($groups as $groupId => $shouldAttach) {
+                if ($shouldAttach) $user->groups()->attach($groupId);
             }
         }
 
@@ -84,9 +83,9 @@ class UserController extends AdminController
      */
     public function show($id)
     {
-        $user = $this->userRepository->find($id,['groups']);
+        $user = $this->userRepository->find($id, ['groups']);
 
-        if(!$user) return $this->sendResponseNotFound();
+        if (!$user) return $this->sendResponseNotFound();
 
         return $this->sendResponseOk($user);
     }
@@ -100,24 +99,24 @@ class UserController extends AdminController
      */
     public function update(Request $request, $id)
     {
-        $validate = validator($request->all(),[
+        $validate = validator($request->all(), [
             'name' => 'required',
             'email' => 'required|email',
             'permissions' => 'array',
             'groups' => 'array',
         ]);
 
-        if($validate->fails()) return $this->sendResponseBadRequest($validate->errors()->first());
+        if ($validate->fails()) return $this->sendResponseBadRequest($validate->errors()->first());
 
         $payload = $request->all();
 
         // if password field is present but has empty value or null value
         // we will remove it to avoid updating password with unexpected value
-        if(!Helpers::hasValue($payload['password'])) unset($payload['password']);
+        if (!Helpers::hasValue($payload['password'])) unset($payload['password']);
 
-        $updated = $this->userRepository->update($id,$payload);
+        $updated = $this->userRepository->update($id, $payload);
 
-        if(!$updated) return $this->sendResponseBadRequest("Failed update");
+        if (!$updated) return $this->sendResponseBadRequest("Failed update");
 
         // re-sync groups
 
@@ -126,11 +125,9 @@ class UserController extends AdminController
 
         $groupIds = [];
 
-        if($groups = $request->get('groups',[]))
-        {
-            foreach ($groups as $groupId => $shouldAttach)
-            {
-                if($shouldAttach) $groupIds[] = $groupId;
+        if ($groups = $request->get('groups', [])) {
+            foreach ($groups as $groupId => $shouldAttach) {
+                if ($shouldAttach) $groupIds[] = $groupId;
             }
         }
 
@@ -148,7 +145,7 @@ class UserController extends AdminController
     public function destroy($id)
     {
         // do not delete self
-        if($id == auth()->user()->id) return $this->sendResponseForbidden();
+        if ($id == auth()->user()->id) return $this->sendResponseForbidden();
 
         try {
             $this->userRepository->delete($id);

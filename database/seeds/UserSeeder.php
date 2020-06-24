@@ -3,6 +3,7 @@
 use App\Components\User\Models\Group;
 use App\Components\User\Models\Permission;
 use App\Components\User\Models\User;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 

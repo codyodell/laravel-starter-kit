@@ -31,7 +31,7 @@ class GroupController extends AdminController
     {
         $data = $this->groupRepository->index(request()->all());
 
-        return $this->sendResponseOk($data,"Get groups ok.");
+        return $this->sendResponseOk($data, "Get groups ok.");
     }
 
     /**
@@ -42,16 +42,17 @@ class GroupController extends AdminController
      */
     public function store(Request $request)
     {
-        $validate = validator($request->all(),[
+        $validate = validator($request->all(), [
             'name' => 'required',
             'permissions' => 'array',
         ]);
 
-        if($validate->fails()) return $this->sendResponseBadRequest($validate->errors()->first());
+        if ($validate->fails()) 
+            return $this->sendResponseBadRequest($validate->errors()->first());
 
         $group = $this->groupRepository->create($request->all());
 
-        return $this->sendResponseOk($group,"Created.");
+        return $this->sendResponseOk($group, "Created.");
     }
 
     /**
@@ -64,7 +65,7 @@ class GroupController extends AdminController
     {
         $group = $this->groupRepository->find($id);
 
-        if(!$group) return $this->sendResponseNotFound();
+        if (!$group) return $this->sendResponseNotFound();
 
         return $this->sendResponseOk($group);
     }
@@ -78,16 +79,18 @@ class GroupController extends AdminController
      */
     public function update(Request $request, $id)
     {
-        $validate = validator($request->all(),[
+        $validate = validator($request->all(), [
             'name' => 'required',
             'permissions' => 'array',
         ]);
 
-        if($validate->fails()) return $this->sendResponseBadRequest($validate->errors()->first());
+        if ($validate->fails()) 
+            return $this->sendResponseBadRequest($validate->errors()->first());
 
-        $updated = $this->groupRepository->update($id,$request->all());
+        $updated = $this->groupRepository->update($id, $request->all());
 
-        if(!$updated) return $this->sendResponseBadRequest("Failed update.");
+        if (!$updated) 
+            return $this->sendResponseBadRequest("Failed update.");
 
         return $this->sendResponseUpdated();
     }
@@ -103,10 +106,12 @@ class GroupController extends AdminController
         /** @var Group $group */
         $group = $this->groupRepository->find($id);
 
-        if(!$group) return $this->sendResponseNotFound();
+        if (!$group) 
+            return $this->sendResponseNotFound();
 
         // prevent delete of super user
-        if($group->name == Group::SUPER_USER_GROUP_NAME) return $this->sendResponseBadRequest("Cannot delete group.");
+        if ($group->name == Group::SUPER_USER_GROUP_NAME) 
+            return $this->sendResponseBadRequest("Cannot delete group.");
 
         // detach all users first
         $group->users()->detach();

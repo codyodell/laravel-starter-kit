@@ -7,8 +7,8 @@
           <v-text-field prepend-icon="search" label="Filter By Name" v-model="filters.name"></v-text-field>
         </div>
         <div class="flex-grow-1 text-right">
-          <v-btn @click="showDialog('file_group_add')" dark class="primary lighten-1">
-            New File Group
+          <v-btn @click="showDialog('category_add')" dark class="primary lighten-1">
+            New Category
             <v-icon right>mdi-add</v-icon>
           </v-btn>
         </div>
@@ -16,7 +16,7 @@
     </v-card>
     <!-- /search -->
 
-    <!-- groups table -->
+    <!-- categorys table -->
     <v-data-table
       v-bind:headers="headers"
       :options.sync="pagination"
@@ -25,20 +25,22 @@
       class="elevation-1"
       :disable-pagination="!totalItems"
     >
-      <template slot="items" slot-scope="props">
+      <template slot="items">
         <tbody>
           <tr v-for="item in items" :key="item.id">
             <td>
               <strong>{{ item.name }}</strong>
             </td>
             <td>{{ item.description }}</td>
-            <td>{{ item.file_count }}</td>
+            <td>
+              <v-btn tag="span" rounded>{{ item.product_count }}</v-btn>
+            </td>
             <td>{{ $appFormatters.formatDate(item.created_at) }}</td>
-            <td class="align-right">
-              <v-btn @click="showDialog('file_group_edit',item)" icon small>
+            <td align="right">
+              <v-btn @click="showDialog('category_edit', item)" icon small>
                 <v-icon class="blue--text">edit</v-icon>
               </v-btn>
-              <v-btn @click="trash(props.item)" icon small>
+              <v-btn @click="trash(item)" icon small>
                 <v-icon class="red--text">delete</v-icon>
               </v-btn>
             </td>
@@ -47,7 +49,7 @@
       </template>
     </v-data-table>
 
-    <!-- add file group -->
+    <!-- add category -->
     <v-dialog
       v-model="dialogs.add.show"
       fullscreen
@@ -59,19 +61,19 @@
           <v-btn icon @click.native="dialogs.add.show = false">
             <v-icon>close</v-icon>
           </v-btn>
-          <v-toolbar-title>Create New File Group</v-toolbar-title>
+          <v-toolbar-title>Create New Category</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn text @click.native="dialogs.add.show = false">Done</v-btn>
           </v-toolbar-items>
         </v-toolbar>
         <v-card-text>
-          <file-group-add></file-group-add>
+          <!--<category-add></category-add>-->
         </v-card-text>
       </v-card>
     </v-dialog>
 
-    <!-- edit file group -->
+    <!-- edit category -->
     <v-dialog
       v-model="dialogs.edit.show"
       fullscreen
@@ -84,14 +86,14 @@
           <v-btn icon @click.native="dialogs.edit.show = false">
             <v-icon>close</v-icon>
           </v-btn>
-          <v-toolbar-title>Edit File Group</v-toolbar-title>
+          <v-toolbar-title>Edit Category</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn text @click.native="dialogs.edit.show = false">Done</v-btn>
           </v-toolbar-items>
         </v-toolbar>
         <v-card-text>
-          <file-group-edit :propFileGroupId="dialogs.edit.fileGroup.id"></file-group-edit>
+          <category-edit :propCategoryId="dialogs.edit.category.id"></category-edit>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -99,12 +101,13 @@
 </template>
 
 <script>
-import FileGroupAdd from "./FileGroupAdd.vue";
-import FileGroupEdit from "./FileGroupEdit.vue";
+import CategoryAdd from "./CategoryAdd.vue";
+import CategoryEdit from "./CategoryEdit.vue";
+
 export default {
   components: {
-    FileGroupAdd,
-    FileGroupEdit
+    CategoryAdd,
+    CategoryEdit
   },
   data() {
     return {
@@ -122,9 +125,9 @@ export default {
           sortable: false
         },
         {
-          text: "Total Files",
-          value: "file_count",
-          align: "left",
+          text: "Total Products",
+          value: "product_count",
+          align: "center",
           sortable: false
         },
         {
@@ -152,7 +155,7 @@ export default {
 
       dialogs: {
         edit: {
-          fileGroup: {},
+          category: {},
           show: false
         },
         add: {
@@ -162,39 +165,37 @@ export default {
     };
   },
   mounted() {
-    console.log("pages.files.components.FileGroupLists.vue");
-
+    console.log("pages.products.components.CategoryLists.vue");
     const self = this;
-
     self.$eventBus.$on(
-      ["FILE_GROUP_ADDED", "FILE_GROUP_UPDATED", "FILE_GROUP_DELETED"],
+      ["CATEGORY_ADDED", "CATEGORY_UPDATED", "CATEGORY_DELETED"],
       () => {
-        self.loadFileGroups(() => {});
+        self.loadCategories(() => {});
       }
     );
   },
   watch: {
     "filters.name": _.debounce(function(v) {
-      this.loadFileGroups(() => {});
+      this.loadCategories(() => {});
     }, 500),
     "pagination.page": function() {
-      this.loadFileGroups(() => {});
+      this.loadCategories(() => {});
     },
     "pagination.rowsPerPage": function() {
-      this.loadFileGroups(() => {});
+      this.loadCategories(() => {});
     }
   },
   methods: {
-    trash(group) {
+    trash(category) {
       const self = this;
 
       self.$store.commit("showDialog", {
         type: "confirm",
         title: "Confirm Deletion",
-        message: "Are you sure you want to delete this file group?",
+        message: "Are you sure you want to delete this category?",
         okCb: () => {
           axios
-            .delete("/admin/file-groups/" + group.id)
+            .delete("/admin/categories/" + category.id)
             .then(function(response) {
               self.$store.commit("showSnackbar", {
                 message: response.data.message,
@@ -202,7 +203,7 @@ export default {
                 duration: 3000
               });
 
-              self.$eventBus.$emit("FILE_GROUP_DELETED");
+              self.$eventBus.$emit("CATEGORY_DELETED");
             })
             .catch(function(error) {
               if (error.response) {
@@ -227,20 +228,20 @@ export default {
       const self = this;
 
       switch (dialog) {
-        case "file_group_edit":
-          self.dialogs.edit.fileGroup = data;
+        case "category_edit":
+          self.dialogs.edit.category = data;
           setTimeout(() => {
             self.dialogs.edit.show = true;
           }, 500);
           break;
-        case "file_group_add":
+        case "category_add":
           setTimeout(() => {
             self.dialogs.add.show = true;
           }, 500);
           break;
       }
     },
-    loadFileGroups(cb) {
+    loadCategories(cb) {
       const self = this;
 
       let params = {
@@ -250,7 +251,7 @@ export default {
       };
 
       axios
-        .get("/admin/file-groups", { params: params })
+        .get("/admin/categories", { params: params })
         .then(function(response) {
           self.items = response.data.data.data;
           self.totalItems = response.data.data.total;

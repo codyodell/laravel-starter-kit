@@ -1,17 +1,15 @@
 <template>
   <div class="component-wrap">
     <v-card>
-      <v-form v-model="valid" ref="fileGroupFormAdd" lazy-validation>
+      <v-card-title>Test</v-card-title>
+      <v-form v-model="valid" ref="brandFormAdd" lazy-validation>
         <v-container grid-list-md>
           <v-layout row wrap>
             <v-flex xs12>
-              <div class="body-2 white--text">File Group Details</div>
+              <div class="body-2 white--text">Brand Details</div>
             </v-flex>
             <v-flex xs12>
-              <v-text-field label="Group Name" v-model="name" :rules="nameRules"></v-text-field>
-            </v-flex>
-            <v-flex xs12>
-              <v-textarea label="Group Description" v-model="description" :rules="descriptionRules"></v-textarea>
+              <v-text-field label="Name" v-model="name" :rules="nameRules"></v-text-field>
             </v-flex>
             <v-flex xs12>
               <v-btn @click="save()" :disabled="!valid" color="primary">Save</v-btn>
@@ -31,12 +29,10 @@ export default {
       isLoading: false,
       name: "",
       nameRules: [v => !!v || "Name is required"],
-      description: "",
-      descriptionRules: [v => !!v || "Description is required"]
     };
   },
   mounted() {
-    console.log("pages.files.components.FileGroupAdd.vue");
+    console.log("pages.products.components.BrandAdd.vue");
 
     const self = this;
   },
@@ -46,13 +42,12 @@ export default {
 
       let payload = {
         name: self.name,
-        description: self.description
       };
 
       self.isLoading = true;
 
       axios
-        .post("/admin/file-groups", payload)
+        .post("/admin/brand", payload)
         .then(function(response) {
           self.$store.commit("showSnackbar", {
             message: response.data.message,
@@ -61,10 +56,10 @@ export default {
           });
 
           self.isLoading = false;
-          self.$eventBus.$emit("FILE_GROUP_ADDED");
+          self.$eventBus.$emit("BRAND_ADDED");
 
           // reset
-          self.$refs.fileGroupFormAdd.reset();
+          self.$refs.brandFormAdd.reset();
         })
         .catch(function(error) {
           self.isLoading = false;

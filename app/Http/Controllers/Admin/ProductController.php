@@ -32,7 +32,7 @@ class ProductController extends AdminController
      *
      * @return \Illuminate\Http\Response
      */
-   public function index(Request $request)
+    public function index(Request $request)
     {
         $results = $this->productRepository->index($request->all());
 
@@ -48,24 +48,24 @@ class ProductController extends AdminController
     public function store(Request $request)
     {
         $validate = validator($request->all(), [
-            'name' => 'required',
+            'name' => 'required|string|unique:products|max:255',
             'description' => 'required',
-            'attributes' => 'required|min:2',
+            'attributes' => 'json',
             'categories' => 'array',
-            'brand' => 'array',
+            'brands' => 'array',
         ]);
 
-        if ($validate->fails()) return $this->sendResponseBadRequest($validate->errors()->first());
-
+        if ($validate->fails())
+            return $this->sendResponseBadRequest($validate->errors()->first());
         /** @var Product $product */
         $product = $this->productRepository->create($request->all());
-
-        if (!$product) return $this->sendResponseBadRequest("Failed create.");
-
+        if (!$product)
+            return $this->sendResponseBadRequest("Failed create.");
         // attach to category
         if ($categories = $request->get('categories', [])) {
             foreach ($categories as $categoryId => $shouldAttach) {
-                if ($shouldAttach) $product->categories()->attach($categoryId);
+                if ($shouldAttach)
+                    $product->categories()->attach($categoryId);
             }
         }
 
@@ -78,13 +78,12 @@ class ProductController extends AdminController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id = null)
     {
-        $product = $this->productRepository->find($id, ['categories']);
-var_dump($product);
-        if (!$product) return $this->sendResponseNotFound();
-
-        return $this->sendResponseOk($product);
+        $product = $this->productRepository->listProducts(['categories']);
+        return $product ?
+            $this->sendResponseOk($product) :
+            $this->sendResponseNotFound();
     }
 
     /**
@@ -97,24 +96,27 @@ var_dump($product);
     public function update(Request $request, $id)
     {
         $validate = validator($request->all(), [
-            'name' => 'required',
+            'name' => 'required|unique:products|max:255',
             'description' => 'required',
-            'attributes' => 'required|min:2',
+            'attributes' => 'json',
             'categories' => 'array',
             'brand' => 'array'
         ]);
 
-        if ($validate->fails()) return $this->sendResponseBadRequest($validate->errors()->first());
+        if ($validate->fails())
+            return $this->sendResponseBadRequest($validate->errors()->first());
 
         $payload = $request->all();
 
         // if password field is present but has empty value or null value
         // we will remove it to avoid updating password with unexpected value
-        if (!Helpers::hasValue($payload['password'])) unset($payload['password']);
+        if (!Helpers::hasValue($payload['password']))
+            unset($payload['password']);
 
         $updated = $this->productRepository->update($id, $payload);
 
-        if (!$updated) return $this->sendResponseBadRequest("Failed update");
+        if (!$updated)
+            return $this->sendResponseBadRequest("Failed update");
 
         // re-sync categories
 
@@ -125,7 +127,8 @@ var_dump($product);
 
         if ($categories = $request->get('categories', [])) {
             foreach ($categories as $categoryId => $shouldAttach) {
-                if ($shouldAttach) $categoryIds[] = $categoryId;
+                if ($shouldAttach)
+                    $categoryIds[] = $categoryId;
             }
         }
 

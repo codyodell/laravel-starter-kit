@@ -19,28 +19,31 @@
 
         <!-- groups table -->
         <v-data-table
-                v-bind:headers="headers"
-                :options.sync="pagination"
-                :items="items"
-                :server-items-length="totalItems"
-                class="elevation-1">
+            v-bind:headers="headers"
+            :options.sync="pagination"
+            :items="items"
+            :server-items-length="totalItems"
+            class="elevation-1"
+        >
             <template v-slot:body="{items}">
                 <tbody>
                 <tr v-for="item in items" :key="item.id">
+                    <td>{{ item.name }}</td>
                     <td>
-                        <v-btn @click="$router.push({name:'users.groups.edit',params:{id:item.id}})" class="ma-2" outlined fab small color="info">
+                        <v-btn small @click="showDialog('group_permissions', item.permissions)" outlined rounded color="grey" dark>
+                            Show
+                        </v-btn>
+                    </td>
+                    <td>{{ item.members_count }}</td>
+                    <td>{{ $appFormatters.formatDate(item.created_at) }}</td>
+                    <td>
+                        <v-btn @click="$router.push({name:'users.groups.edit', params:{id:item.id}})" class="ma-2" outlined fab small color="info">
                             <v-icon>mdi-pencil</v-icon>
                         </v-btn>
                         <v-btn @click="trash(item)" class="ma-2" outlined fab small color="red">
                             <v-icon>mdi-delete</v-icon>
                         </v-btn>
                     </td>
-                    <td>{{ item.name }}</td>
-                    <td>
-                        <v-btn small @click="showDialog('group_permissions',item.permissions)" outlined rounded color="grey" dark>Show</v-btn>
-                    </td>
-                    <td>{{ item.members_count }}</td>
-                    <td>{{ $appFormatters.formatDate(item.created_at) }}</td>
                 </tr>
                 </tbody>
             </template>
@@ -78,11 +81,11 @@
         data () {
             return {
                 headers: [
-                    { text: 'Action', value: false, align: 'left', sortable: false },
                     { text: 'Name', value: 'name', align: 'left', sortable: false },
                     { text: 'Permissions', value: 'permissions', align: 'left', sortable: false },
                     { text: 'Total Members', value: 'members_count', align: 'left', sortable: false },
                     { text: 'Date Created', value: 'created_at', align: 'left', sortable: false },
+                    { text: ' ', value: false, align: 'right', sortable: false },
                 ],
                 items: [],
                 totalItems: 0,

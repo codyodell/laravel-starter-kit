@@ -1,5 +1,5 @@
 <template>
-  <div class="page_wrap_vue pa-3">
+  <div class="page_wrap_vue">
     <transition name="fade">
       <router-view></router-view>
     </transition>
@@ -8,27 +8,34 @@
 
 <script>
 import ProductLists from "./components/ProductLists.vue";
-// import ProductCategoryLists from './components/ProductCategoryLists.vue';
+import CategoryLists from "./components/CategoryLists.vue";
 
 export default {
   components: {
-    ProductLists
+    ProductLists,
+    CategoryLists
   },
   data() {
     return {
-      active: "products"
+      active: ""
     };
   },
   mounted() {
-    
-    console.info("pages.FileManager.vue");
+    console.info("pages.Products.vue");
 
     const self = this;
 
-    self.$store.commit("setBreadcrumbs", [{ 
-      label: "Products", 
-      name: "" 
-    }]);
-  }
+    self.$store.commit("setBreadcrumbs", [
+      {
+        label: "Products",
+        name: ""
+      }
+    ]);
+  },
+  watch: {
+    active(v) {
+      console.log("active tab: " + v);
+    }
+  },
 };
 </script>

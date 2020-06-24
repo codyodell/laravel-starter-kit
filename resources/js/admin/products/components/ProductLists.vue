@@ -1,57 +1,91 @@
 <template>
   <div class="component-wrap">
-    <!-- Products -->
-    <v-card>
-      <div class="d-flex flex-column">
-        <div class="flex-grow-1 pa-2">
-          <v-text-field prepend-icon="search" label="Filter By Name" v-model="filters.name"></v-text-field>
-        </div>
-        <div class="flex-grow-1 pa-2">Show Only:</div>
-        <div class="flex-grow-1 pa-2">
-          <span v-for="(category, i) in filters.productCategoriesHolder" :key="i">
-            <v-checkbox
-              v-bind:label="category.name"
-              v-model="filters.productCategoryId[category.id]"
-            ></v-checkbox>
-          </span>
-        </div>
-      </div>
-    </v-card>
+    <v-tabs color="primary" v-model="active">
+      <v-tab key="product.lists" href="#product.lists" ripple>Products</v-tab>
+      <v-tab key="product.categories" href="#product.categories" ripple>Categories</v-tab>
+      <v-tab key="product.brands" href="#product.brands" ripple>Brands</v-tab>
+      <v-tab-item value="product.lists">
+        <v-container>
+          <v-card-text>
+            <!-- Products -->
+            <v-toolbar dense>
+              <div class="d-flex flex-column">
+                <div class="flex-grow-1 pa-2">
+                  <v-text-field prepend-icon="search" label="Filter By Name" v-model="filters.name"></v-text-field>
+                </div>
+                <div class="flex-grow-1 pa-2">Show Only:</div>
+                <div class="flex-grow-1 pa-2">
+                  <span v-for="(category, i) in filters.categoriesHolder" :key="i">
+                    <v-checkbox
+                      v-bind:label="category.name"
+                      v-model="filters.categoryId[category.id]"
+                    ></v-checkbox>
+                  </span>
+                </div>
+              </div>
+            </v-toolbar>
+            <!-- categories table -->
+            <v-data-table
+              v-bind:headers="headers"
+              :options.sync="pagination"
+              :items="items"
+              :server-items-length="totalItems"
+              class="elevation-1"
+              :disable-filtering="true"
+              :disable-pagination="!totalItems"
+            >
+              <template slot="items" slot-scope="props">
+                <tbody>
+                  <tr v-for="item in props.items" :key="item.id">
+                    <td>
+                      <strong>
+                        <a @click="showDialog('product_details', item)">
+                          {{ item.name }}
+                        </a>
+                      </strong>
+                    </td>
+                    <td>
+                      <v-btn
+                        v-for="category in props.item.categories"
+                        :key="category.id"
+                        small
+                        outlined
+                      >{{ category.name }}</v-btn>
+                    </td>
+                    <td>
+                      <v-btn small outlined>{{ props.item.brand_id }}</v-btn>
+                    </td>
+                    <td>{{ $appFormatters.formatDate(props.item.created_at) }}</td>
+                    <td align="right">
+                      <v-btn @click="trash(props.item)" icon small>
+                        <v-icon class="red--text">delete</v-icon>
+                      </v-btn>
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-data-table>
+            <!-- /products table -->
+          </v-card-text>
+        </v-container>
+      </v-tab-item>
+      <v-tab-item value="product.categories">
+        <v-container>
+          <category-lists></category-lists>
+        </v-container>
+      </v-tab-item>
+      <v-tab-item value="product.brands">
+        <v-container>
+          <brand-lists></brand-lists>
+        </v-container>
+      </v-tab-item>
+    </v-tabs>
 
-    <!-- categories table -->
-    <v-data-table
-      v-bind:headers="headers"
-      :options.sync="pagination"
-      :items="items"
-      :server-items-length="totalItems"
-      class="elevation-1"
-    >
-      <template v-slot:body="{items}">
-        <tbody>
-          <tr v-for="item in items" :key="item.id">
-            <td>
-              <v-btn @click="showDialog('product_show',item)" icon small>
-                <v-icon class="blue--text">mdi-magnify</v-icon>
-              </v-btn>
-              <v-btn @click="trash(props.item)" icon small>
-                <v-icon class="red--text">mdi-delete</v-icon>
-              </v-btn>
-            </td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.category.name }}</td>
-            <td>{{ item.brand.name }}</td>
-            <td>{{ $appFormatters.formatDate(item.created_at) }}</td>
-          </tr>
-        </tbody>
-      </template>
-    </v-data-table>
-    <!-- /groups table -->
-
-    <!-- view file dialog -->
+    <!-- view product dialog -->
     <v-dialog
-      v-model="dialogs.view.show"
       fullscreen
       :laze="false"
+      v-model="dialogs.view.show"
       transition="dialog-bottom-transition"
       :overlay="false"
     >
@@ -60,16 +94,8 @@
           <v-btn icon @click.native="dialogs.view.show = false" dark>
             <v-icon>close</v-icon>
           </v-btn>
-          <v-toolbar-title class="white--text">{{dialogs.view.product.name}}</v-toolbar-title>
+          <v-toolbar-title>{{dialogs.view.product.name}}</v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <!--
-            <v-btn dark text @click.native="downloadFile(dialogs.view.product)">
-              Download
-              <v-icon right dark>product_download</v-icon>
-            </v-btn>
-            -->
-          </v-toolbar-items>
           <v-toolbar-items>
             <v-btn dark text @click.native="trash(dialogs.view.product)">
               Delete
@@ -78,12 +104,7 @@
           </v-toolbar-items>
         </v-toolbar>
         <v-card-text>
-          <div class="product_view_popup">
-            <div class="product_view_popup_link">
-              <!--<v-text-field text disabled :value="getFullUrl(dialogs.view.product)"></v-text-field>-->
-            </div>
-            <!--<img :src="getFullUrl(dialogs.view.product)" />-->
-          </div>
+          <p>Test</p>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -91,19 +112,36 @@
 </template>
 
 <script>
+import CategoryLists from "./CategoryLists.vue";
+import BrandLists from "./BrandLists.vue";
+
 export default {
-  components: {},
+  components: {
+    CategoryLists,
+    BrandLists
+  },
   data() {
     return {
+      active: "product.lists",
       headers: [
-        { text: "Action", value: false, align: "left", sortable: false },
         { text: "Name", value: "name", align: "left", sortable: false },
-        { text: "Category", value: "category", align: "left", sortable: false },
-        { text: "Brand", value: "brand", align: "left", sortable: false },
+        {
+          text: "Category",
+          value: "categories",
+          align: "left",
+          sortable: false
+        },
+        { text: "Brand", value: "brand_id", align: "left", sortable: false },
         {
           text: "Date Created",
           value: "created_at",
           align: "left",
+          sortable: false
+        },
+        {
+          text: " ",
+          value: false,
+          align: "right",
           sortable: false
         }
       ],
@@ -116,8 +154,8 @@ export default {
       filters: {
         name: "",
         selectedCategoryIds: "",
-        productCategoryId: [],
-        productCategoryHolder: []
+        categoryId: [],
+        categoryHolder: []
       },
 
       dialogs: {
@@ -131,23 +169,11 @@ export default {
   mounted() {
     console.log("pages.products.components.ProductLists.vue");
     const self = this;
+    self.$eventBus.$on(["PRODUCT_DELETED"], function() {
+      self.loadProducts(() => {});
+    });
   },
   watch: {
-    "filters.productCategoryId": _.debounce(function(v) {
-      let selected = [];
-
-      _.each(v, (v, k) => {
-        if (v) selected.push(k);
-      });
-
-      this.filters.selectedCategoryIds = selected.join(",");
-    }, 500),
-    "filters.selectedGCategoryIds"(v) {
-      this.loadProducts(() => {});
-    },
-    "filters.name": _.debounce(function(v) {
-      this.loadProducts(() => {});
-    }, 500),
     "pagination.page": function() {
       this.loadProducts(() => {});
     },
@@ -210,7 +236,7 @@ export default {
         }
       });
     },
-    loadProductCategories(cb) {
+    loadCategories(cb) {
       const self = this;
 
       let params = {
@@ -218,9 +244,11 @@ export default {
       };
 
       axios
-        .get("/admin/product-categories", { params: params })
+        .get("/admin/categories", { params: params })
         .then(function(response) {
-          self.filters.productCategoriesHolder = response.data.data;
+          console.info("Categories");
+          console.log(response.data.data);
+          self.filters.categoriesHolder = response.data.data;
           cb();
         });
     },
@@ -235,8 +263,6 @@ export default {
       };
 
       axios.get("/admin/products", { params: params }).then(function(response) {
-        console.info("/admin/products");
-        console.log(response);
         self.items = response.data.data.data;
         self.totalItems = response.data.data.total;
         self.pagination.totalItems = response.data.data.total;
@@ -251,5 +277,8 @@ export default {
 .product_view_popup {
   min-width: 500px;
   text-align: center;
+}
+.finder_wrap {
+  padding: 0 1.25em;
 }
 </style>

@@ -14,9 +14,8 @@ class CreateBrands extends Migration
     public function up()
     {
         Schema::create('brands', function(Blueprint $table){
-            $table->engine = 'InnoDB';
             $table->increments('id');
-            $table->string('name');
+            $table->string('name', 255)->index()->unique();
             $table->timestamps();
         });
     }

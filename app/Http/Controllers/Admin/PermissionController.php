@@ -32,7 +32,7 @@ class PermissionController extends AdminController
     {
         $data = $this->permissionRepository->index(request()->all());
 
-        return $this->sendResponseOk($data,"get permissions ok.");
+        return $this->sendResponseOk($data, "get permissions ok.");
     }
 
     /**
@@ -43,17 +43,18 @@ class PermissionController extends AdminController
      */
     public function store(Request $request)
     {
-        $validate = validator($request->all(),[
+        $validate = validator($request->all(), [
             'title' => 'required|string',
             'description' => 'required|string',
             'key' => 'required|string|unique:permissions',
         ]);
 
-        if($validate->fails()) return $this->sendResponseBadRequest($validate->errors()->first());
+        if ($validate->fails()) 
+            return $this->sendResponseBadRequest($validate->errors()->first());
 
         $permission = $this->permissionRepository->create($request->all());
 
-        if(!$permission) return $this->sendResponseBadRequest("Failed to create");
+        if (!$permission) return $this->sendResponseBadRequest("Failed to create");
 
         return $this->sendResponseCreated($permission);
     }
@@ -68,7 +69,7 @@ class PermissionController extends AdminController
     {
         $permission = $this->permissionRepository->find($id);
 
-        if(!$permission) return $this->sendResponseNotFound();
+        if (!$permission) return $this->sendResponseNotFound();
 
         return $this->sendResponseOk($permission);
     }
@@ -82,17 +83,17 @@ class PermissionController extends AdminController
      */
     public function update(Request $request, $id)
     {
-        $validate = validator($request->all(),[
+        $validate = validator($request->all(), [
             'title' => 'required|string',
             'description' => 'required|string',
             'key' => 'required|string',
         ]);
 
-        if($validate->fails()) return $this->sendResponseBadRequest($validate->errors()->first());
+        if ($validate->fails()) return $this->sendResponseBadRequest($validate->errors()->first());
 
-        $updated = $this->permissionRepository->update($id,$request->all());
+        $updated = $this->permissionRepository->update($id, $request->all());
 
-        if(!$updated) return $this->sendResponseBadRequest("Failed update.");
+        if (!$updated) return $this->sendResponseBadRequest("Failed update.");
 
         return $this->sendResponseUpdated();
     }
@@ -108,11 +109,10 @@ class PermissionController extends AdminController
         /** @var Permission $permission */
         $permission = $this->permissionRepository->find($id);
 
-        if(!$permission) return $this->sendResponseNotFound();
+        if (!$permission) return $this->sendResponseNotFound();
 
         // prevent delete of super user permission
-        if($permission->key == Permission::SUPER_USER_PERMISSION_KEY)
-        {
+        if ($permission->key == Permission::SUPER_USER_PERMISSION_KEY) {
             return $this->sendResponseBadRequest("Cannot delete permission.");
         }
 

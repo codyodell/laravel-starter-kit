@@ -5,14 +5,14 @@ namespace App\Components\Product\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class ProductCategory
+ * Class Category
  * @package App\Components\Product\Models
  *
  * @property int $id
  * @property string $name
  * @property string $description
  */
-class ProductCategory extends Model
+class Category extends Model
 {
    protected $table = 'categories';
 
@@ -21,16 +21,18 @@ class ProductCategory extends Model
       'description'
    ];
 
-   protected $appends = ['category_count'];
+   protected $appends = [
+      'product_count'
+   ];
 
    /**
-    * get the category count attribute
+    * get the product count attribute
     *
     * @return mixed
     */
-   public function getCategoryCountAttribute()
+   public function getProductCountAttribute()
    {
-      return $this->categories()->count();
+      return $this->products()->count();
    }
 
    /**
@@ -38,8 +40,8 @@ class ProductCategory extends Model
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */
-   public function categories()
+   public function products()
    {
-      return $this->hasMany(Category::class, 'category_id');
+      return $this->belongsToMany(Product::class);
    }
 }
