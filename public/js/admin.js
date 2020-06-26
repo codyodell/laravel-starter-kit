@@ -60811,13 +60811,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      headers: [{ text: "Name", value: "name", align: "left", sortable: false }, { text: "Email", value: "email", align: "left", sortable: false }, {
+      headers: [{ text: "Name", value: "name", align: "left", sortable: true }, { text: "Email", value: "email", align: "left", sortable: false }, {
         text: "Permissions",
         value: "permissions",
         align: "left",
@@ -61089,7 +61087,7 @@ var render = function() {
                               "div",
                               { class: "text-" + header.align },
                               [
-                                _c("v-icon", [_vm._v("mdi-person")]),
+                                _c("v-icon", [_vm._v("person")]),
                                 _vm._v(
                                   "\n              " +
                                     _vm._s(header.text) +
@@ -61103,7 +61101,7 @@ var render = function() {
                               "div",
                               { class: "text-" + header.align },
                               [
-                                _c("v-icon", [_vm._v("mdi-email")]),
+                                _c("v-icon", [_vm._v("email")]),
                                 _vm._v(
                                   "\n              " +
                                     _vm._s(header.text) +
@@ -61117,7 +61115,7 @@ var render = function() {
                               "div",
                               { class: "text-" + header.align },
                               [
-                                _c("v-icon", [_vm._v("mdi-vpn_key")]),
+                                _c("v-icon", [_vm._v("vpn_key")]),
                                 _vm._v(
                                   "\n              " +
                                     _vm._s(header.text) +
@@ -61131,7 +61129,7 @@ var render = function() {
                               "div",
                               { class: "text-" + header.align },
                               [
-                                _c("v-icon", [_vm._v("mdi-group")]),
+                                _c("v-icon", [_vm._v("group")]),
                                 _vm._v(
                                   "\n              " +
                                     _vm._s(header.text) +
@@ -61145,7 +61143,7 @@ var render = function() {
                               "div",
                               { class: "text-" + header.align },
                               [
-                                _c("v-icon", [_vm._v("mdi-av_timer")]),
+                                _c("v-icon", [_vm._v("av_timer")]),
                                 _vm._v(
                                   "\n              " +
                                     _vm._s(header.text) +
@@ -61176,11 +61174,7 @@ var render = function() {
                     return _c("tr", { key: item.id }, [
                       _c("td", [_c("strong", [_vm._v(_vm._s(item.name))])]),
                       _vm._v(" "),
-                      _c("td", [
-                        _vm._v(
-                          "\n            " + _vm._s(item.email) + "\n          "
-                        )
-                      ]),
+                      _c("td", [_vm._v(_vm._s(item.email))]),
                       _vm._v(" "),
                       _c(
                         "td",
@@ -65861,10 +65855,10 @@ exports.push([module.i, "\n.finder_wrap[data-v-63f64bf1] {\n  padding: 0 1.25em;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_FileGroupLists_vue__ = __webpack_require__(241);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_FileGroupLists_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_FileGroupLists_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_FileUpload_vue__ = __webpack_require__(250);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_FileUpload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_FileUpload_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_FileUpload_vue__ = __webpack_require__(241);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_FileUpload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_FileUpload_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_FileGroupLists_vue__ = __webpack_require__(246);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_FileGroupLists_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_FileGroupLists_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_FileLists_vue__ = __webpack_require__(255);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_FileLists_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_FileLists_vue__);
 //
@@ -65892,32 +65886,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
+
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    FileUpload: __WEBPACK_IMPORTED_MODULE_1__components_FileUpload_vue___default.a,
-    FileGroupLists: __WEBPACK_IMPORTED_MODULE_0__components_FileGroupLists_vue___default.a,
+    FileUpload: __WEBPACK_IMPORTED_MODULE_0__components_FileUpload_vue___default.a,
+    FileGroupLists: __WEBPACK_IMPORTED_MODULE_1__components_FileGroupLists_vue___default.a,
     FileLists: __WEBPACK_IMPORTED_MODULE_2__components_FileLists_vue___default.a
   },
   mounted: function mounted() {
     console.log("pages.FileManager.vue");
-
     var self = this;
-
-    self.$store.commit("setBreadcrumbs", [{
-      label: "Files",
-      name: ""
-    }]);
+    self.update_breadcrumbs("Files");
   },
   data: function data() {
     return {
@@ -65927,10 +65910,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   watch: {
     active: function active(v) {
-      console.log("active tab: " + v);
+      var self = this;
+      self.update_breadcrumbs(v, v.split('-').join(' '));
     }
   },
-  methods: {}
+  methods: {
+    update_breadcrumbs: function update_breadcrumbs(strLabel, strName) {
+      console.info("Vue - Files.vue->methods->update_breadcrumbs()");
+      if (!strLabel || !strName) return false;
+      this.$store.commit("setBreadcrumbs", [{ label: strLabel, name: strName }]);
+    }
+  }
 });
 
 /***/ }),
@@ -65938,11 +65928,342 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(242)
+}
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(242)
+var __vue_script__ = __webpack_require__(244)
 /* template */
-var __vue_template__ = __webpack_require__(249)
+var __vue_template__ = __webpack_require__(245)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = "data-v-d291ed20"
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/admin/files/components/FileUpload.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d291ed20", Component.options)
+  } else {
+    hotAPI.reload("data-v-d291ed20", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 242 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(243);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(6)("8e2c6d80", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d291ed20\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FileUpload.vue", function() {
+     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d291ed20\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FileUpload.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 243 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(4)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n#fileupload[data-v-d291ed20] {\n  min-height: 400px;\n  background: grey;\n  border: 1px dashed #eaeaea;\n}\n.dropzone .dz-preview.dz-image-preview[data-v-d291ed20] {\n  background: none;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 244 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      dropzone: null,
+      fileGroups: [],
+      uploadTo: "",
+      addedFiles: []
+    };
+  },
+  mounted: function mounted() {
+    console.log("pages.files.components.FileUpload.vue");
+
+    var self = this;
+
+    self.loadFileGroups(function () {});
+    self.initDropzone();
+
+    self.$eventBus.$on(["FILE_GROUP_ADDED"], function () {
+      self.loadFileGroups(function () {});
+    });
+  },
+
+  methods: {
+    clear: function clear() {
+      var self = this;
+
+      _.each(self.addedFiles, function (f) {
+        self.dropzone.removeFile(f);
+      });
+
+      self.addedFiles = [];
+    },
+    upload: function upload() {
+      var self = this;
+
+      self.dropzone.processQueue();
+    },
+    initDropzone: function initDropzone() {
+      var self = this;
+
+      Dropzone.autoDiscover = false;
+
+      self.dropzone = new Dropzone("#fileupload", {
+        url: "/admin/files",
+        paramName: "file", // The name that will be used to transfer the file
+        maxFilesize: 50, // 50MB
+        uploadMultiple: true,
+        //acceptedFiles: 'image/*',
+        headers: { "X-CSRF-TOKEN": _token },
+        autoProcessQueue: true,
+        init: function init() {
+          // initial hook
+        },
+        success: function success(file, response) {
+          // success hook
+        }
+      });
+
+      self.dropzone.on("addedfile", function (file) {
+        if (!self.uploadTo) {
+          self.$store.commit("showSnackbar", {
+            message: "Please choose file group to upload the file(s)",
+            color: "error",
+            duration: 3000
+          });
+          self.dropzone.removeFile(file);
+        } else {
+          self.addedFiles.push(file);
+        }
+      });
+
+      self.dropzone.on("sending", function (file, xhr, formData) {
+        formData.append("file_group_id", self.uploadTo);
+      });
+
+      self.dropzone.on("complete", function (file) {
+        self.$store.commit("showSnackbar", {
+          message: "File(s) uploaded successfully.",
+          color: "success",
+          duration: 3000
+        });
+
+        self.$eventBus.$emit("FILE_UPLOADED");
+      });
+    },
+    loadFileGroups: function loadFileGroups(cb) {
+      var self = this;
+
+      var params = {
+        paginate: "no"
+      };
+
+      axios.get("/admin/file-groups", { params: params }).then(function (response) {
+        self.fileGroups = response.data.data;
+        cb();
+      });
+    }
+  }
+});
+
+/***/ }),
+/* 245 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "component-wrap" },
+    [
+      _c(
+        "v-card",
+        [
+          _c(
+            "v-form",
+            { ref: "fileFormUpload", attrs: { "lazy-validation": "" } },
+            [
+              _c(
+                "v-container",
+                { attrs: { "grid-list-md": "" } },
+                [
+                  _c(
+                    "v-layout",
+                    { attrs: { row: "", wrap: "" } },
+                    [
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm8: "" } },
+                        [
+                          _c("v-select", {
+                            attrs: {
+                              label: "Upload To File Group",
+                              items: _vm.fileGroups,
+                              "item-text": "name",
+                              "item-value": "id"
+                            },
+                            model: {
+                              value: _vm.uploadTo,
+                              callback: function($$v) {
+                                _vm.uploadTo = $$v
+                              },
+                              expression: "uploadTo"
+                            }
+                          })
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-flex",
+                        { attrs: { xs12: "", sm4: "" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              staticClass: "primary lighten-1",
+                              attrs: { block: "", dark: "" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.clear()
+                                }
+                              }
+                            },
+                            [_vm._v("Clear")]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c("v-flex", { attrs: { xs12: "" } }, [
+                        _c("div", {
+                          staticClass: "dropzone",
+                          attrs: { id: "fileupload" }
+                        })
+                      ])
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-d291ed20", module.exports)
+  }
+}
+
+/***/ }),
+/* 246 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(247)
+/* template */
+var __vue_template__ = __webpack_require__(254)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -65981,14 +66302,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 242 */
+/* 247 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FileGroupAdd_vue__ = __webpack_require__(243);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FileGroupAdd_vue__ = __webpack_require__(248);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__FileGroupAdd_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__FileGroupAdd_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FileGroupEdit_vue__ = __webpack_require__(246);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FileGroupEdit_vue__ = __webpack_require__(251);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__FileGroupEdit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__FileGroupEdit_vue__);
 //
 //
@@ -66128,6 +66449,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }],
       items: [],
       totalItems: 0,
+      disable_pagination: true,
       pagination: {
         rowsPerPage: 10
       },
@@ -66138,8 +66460,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       dialogs: {
         edit: {
-          fileGroup: {},
-          show: false
+          fileGroup: {}
         },
         add: {
           show: false
@@ -66235,21 +66556,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         self.totalItems = response.data.data.total;
         self.pagination.totalItems = response.data.data.total;
         (cb || Function)();
+      }).always(function (response) {
+        console.log("/admin/file-groups/ - GET->Always->response: ");
+        console.log(response);
       });
     }
   }
 });
 
 /***/ }),
-/* 243 */
+/* 248 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(244)
+var __vue_script__ = __webpack_require__(249)
 /* template */
-var __vue_template__ = __webpack_require__(245)
+var __vue_template__ = __webpack_require__(250)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -66288,7 +66612,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 244 */
+/* 249 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -66382,7 +66706,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 245 */
+/* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -66512,15 +66836,15 @@ if (false) {
 }
 
 /***/ }),
-/* 246 */
+/* 251 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(247)
+var __vue_script__ = __webpack_require__(252)
 /* template */
-var __vue_template__ = __webpack_require__(248)
+var __vue_template__ = __webpack_require__(253)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -66559,7 +66883,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 247 */
+/* 252 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -66675,7 +66999,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 248 */
+/* 253 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -66812,7 +67136,7 @@ if (false) {
 }
 
 /***/ }),
-/* 249 */
+/* 254 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -66860,7 +67184,7 @@ var render = function() {
                 },
                 [
                   _vm._v("\n          New File Group\n          "),
-                  _c("v-icon", { attrs: { right: "" } }, [_vm._v("mdi-add")])
+                  _c("v-icon", { attrs: { right: "" } }, [_vm._v("add")])
                 ],
                 1
               )
@@ -67120,346 +67444,6 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-8a700c76", module.exports)
-  }
-}
-
-/***/ }),
-/* 250 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(251)
-}
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(253)
-/* template */
-var __vue_template__ = __webpack_require__(254)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = "data-v-d291ed20"
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/admin/files/components/FileUpload.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-d291ed20", Component.options)
-  } else {
-    hotAPI.reload("data-v-d291ed20", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 251 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(252);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(6)("8e2c6d80", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d291ed20\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FileUpload.vue", function() {
-     var newContent = require("!!../../../../../node_modules/css-loader/index.js!../../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-d291ed20\",\"scoped\":true,\"hasInlineConfig\":true}!../../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./FileUpload.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 252 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(4)(false);
-// imports
-
-
-// module
-exports.push([module.i, "\n#fileupload[data-v-d291ed20] {\n    min-height: 400px;\n    background: grey;\n    border: 1px dashed #eaeaea;\n}\n.dropzone .dz-preview.dz-image-preview[data-v-d291ed20] {\n    background: none;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 253 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            dropzone: null,
-            fileGroups: [],
-            uploadTo: '',
-            addedFiles: []
-        };
-    },
-    mounted: function mounted() {
-        console.log('pages.files.components.FileUpload.vue');
-
-        var self = this;
-
-        self.loadFileGroups(function () {});
-        self.initDropzone();
-
-        self.$eventBus.$on(['FILE_GROUP_ADDED'], function () {
-            self.loadFileGroups(function () {});
-        });
-    },
-
-    methods: {
-        clear: function clear() {
-            var self = this;
-
-            _.each(self.addedFiles, function (f) {
-                self.dropzone.removeFile(f);
-            });
-
-            self.addedFiles = [];
-        },
-        upload: function upload() {
-
-            var self = this;
-
-            self.dropzone.processQueue();
-        },
-        initDropzone: function initDropzone() {
-
-            var self = this;
-
-            Dropzone.autoDiscover = false;
-
-            self.dropzone = new Dropzone("#fileupload", {
-                url: '/admin/files',
-                paramName: "file", // The name that will be used to transfer the file
-                maxFilesize: 50, // 50MB
-                uploadMultiple: true,
-                //acceptedFiles: 'image/*',
-                headers: { 'X-CSRF-TOKEN': _token },
-                autoProcessQueue: true,
-                init: function init() {
-                    // initial hook
-                },
-                success: function success(file, response) {
-                    // success hook
-                }
-            });
-
-            self.dropzone.on("addedfile", function (file) {
-                if (!self.uploadTo) {
-                    self.$store.commit('showSnackbar', {
-                        message: "Please choose file group to upload the file(s)",
-                        color: 'error',
-                        duration: 3000
-                    });
-                    self.dropzone.removeFile(file);
-                } else {
-                    self.addedFiles.push(file);
-                }
-            });
-
-            self.dropzone.on('sending', function (file, xhr, formData) {
-                formData.append('file_group_id', self.uploadTo);
-            });
-
-            self.dropzone.on("complete", function (file) {
-                self.$store.commit('showSnackbar', {
-                    message: "File(s) uploaded successfully.",
-                    color: 'success',
-                    duration: 3000
-                });
-
-                self.$eventBus.$emit('FILE_UPLOADED');
-            });
-        },
-        loadFileGroups: function loadFileGroups(cb) {
-
-            var self = this;
-
-            var params = {
-                paginate: 'no'
-            };
-
-            axios.get('/admin/file-groups', { params: params }).then(function (response) {
-                self.fileGroups = response.data.data;
-                cb();
-            });
-        }
-    }
-});
-
-/***/ }),
-/* 254 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "component-wrap" },
-    [
-      _c(
-        "v-card",
-        [
-          _c(
-            "v-form",
-            { ref: "fileFormUpload", attrs: { "lazy-validation": "" } },
-            [
-              _c(
-                "v-container",
-                { attrs: { "grid-list-md": "" } },
-                [
-                  _c(
-                    "v-layout",
-                    { attrs: { row: "", wrap: "" } },
-                    [
-                      _c(
-                        "v-flex",
-                        { attrs: { xs12: "", sm8: "" } },
-                        [
-                          _c("v-select", {
-                            attrs: {
-                              label: "Upload To File Group",
-                              items: _vm.fileGroups,
-                              "item-text": "name",
-                              "item-value": "id"
-                            },
-                            model: {
-                              value: _vm.uploadTo,
-                              callback: function($$v) {
-                                _vm.uploadTo = $$v
-                              },
-                              expression: "uploadTo"
-                            }
-                          })
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-flex",
-                        { attrs: { xs12: "", sm4: "" } },
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              staticClass: "primary lighten-1",
-                              attrs: { block: "", dark: "" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.clear()
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                            Clear\n                        "
-                              )
-                            ]
-                          )
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("v-flex", { attrs: { xs12: "" } }, [
-                        _c("div", {
-                          staticClass: "dropzone",
-                          attrs: { id: "fileupload" }
-                        })
-                      ])
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-d291ed20", module.exports)
   }
 }
 
@@ -68169,21 +68153,14 @@ var render = function() {
           }
         },
         [
-          _c(
-            "v-tab",
-            {
-              key: "files",
-              staticClass: "white--text",
-              attrs: { href: "#files", ripple: "" }
-            },
-            [_vm._v("Files")]
-          ),
+          _c("v-tab", { key: "files", attrs: { href: "#files", ripple: "" } }, [
+            _vm._v("Files")
+          ]),
           _vm._v(" "),
           _c(
             "v-tab",
             {
               key: "manage-groups",
-              staticClass: "white--text",
               attrs: { href: "#manage-groups", ripple: "" }
             },
             [_vm._v("Manage File Groups")]
@@ -68191,53 +68168,28 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-tab",
-            {
-              key: "upload",
-              staticClass: "white--text",
-              attrs: { href: "#upload", ripple: "" }
-            },
+            { key: "upload", attrs: { href: "#upload", ripple: "" } },
             [_vm._v("Upload")]
           ),
           _vm._v(" "),
           _c(
             "v-tab-item",
             { attrs: { value: "files" } },
-            [
-              _c(
-                "v-card",
-                { attrs: { flat: "" } },
-                [_c("v-card-text", [_c("file-lists")], 1)],
-                1
-              )
-            ],
+            [_c("v-container", [_c("file-lists")], 1)],
             1
           ),
           _vm._v(" "),
           _c(
             "v-tab-item",
             { attrs: { value: "manage-groups" } },
-            [
-              _c(
-                "v-card",
-                { attrs: { flat: "" } },
-                [_c("v-card-text", [_c("file-group-lists")], 1)],
-                1
-              )
-            ],
+            [_c("v-content", [_c("file-group-lists")], 1)],
             1
           ),
           _vm._v(" "),
           _c(
             "v-tab-item",
             { attrs: { value: "upload" } },
-            [
-              _c(
-                "v-card",
-                { attrs: { flat: "" } },
-                [_c("v-card-text", [_c("file-upload")], 1)],
-                1
-              )
-            ],
+            [_c("v-container", [_c("file-upload")], 1)],
             1
           )
         ],
@@ -69544,7 +69496,7 @@ var render = function() {
                 },
                 [
                   _vm._v("\n          New Category\n          "),
-                  _c("v-icon", { attrs: { right: "" } }, [_vm._v("mdi-add")])
+                  _c("v-icon", { attrs: { right: "" } }, [_vm._v("add")])
                 ],
                 1
               )
@@ -69925,7 +69877,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -69940,11 +69891,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       headers: [{
         text: "Name",
         value: "name",
-        align: "left",
-        sortable: false
-      }, {
-        text: "Description",
-        value: "description",
         align: "left",
         sortable: false
       }, {
@@ -69966,6 +69912,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       items: [],
       totalItems: 0,
       pagination: {
+        show: false,
         rowsPerPage: 10
       },
 
@@ -70071,6 +70018,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         self.items = response.data.data.data;
         self.totalItems = response.data.data.total;
         self.pagination.totalItems = response.data.data.total;
+        self.pagination.show = response.data.data.total > 0;
         (cb || Function)();
       });
     }
@@ -70634,7 +70582,7 @@ var render = function() {
                 },
                 [
                   _vm._v("\n          New Brand\n          "),
-                  _c("v-icon", { attrs: { right: "" } }, [_vm._v("mdi-add")])
+                  _c("v-icon", { attrs: { right: "" } }, [_vm._v("add")])
                 ],
                 1
               )
@@ -70653,7 +70601,7 @@ var render = function() {
             options: _vm.pagination,
             items: _vm.items,
             "server-items-length": _vm.totalItems,
-            "disable-pagination": !_vm.totalItems
+            "disable-pagination": _vm.pagination.show
           },
           on: {
             "update:options": function($event) {
@@ -70668,8 +70616,6 @@ var render = function() {
               _vm._l(_vm.items, function(item) {
                 return _c("tr", { key: item.id }, [
                   _c("td", [_c("strong", [_vm._v(_vm._s(item.name))])]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(item.description))]),
                   _vm._v(" "),
                   _c(
                     "td",

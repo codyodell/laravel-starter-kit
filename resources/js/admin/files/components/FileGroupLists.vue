@@ -9,7 +9,7 @@
         <div class="flex-grow-1 text-right">
           <v-btn @click="showDialog('file_group_add')" dark class="primary lighten-1">
             New File Group
-            <v-icon right>mdi-add</v-icon>
+            <v-icon right>add</v-icon>
           </v-btn>
         </div>
       </div>
@@ -142,6 +142,7 @@ export default {
       ],
       items: [],
       totalItems: 0,
+      disable_pagination: true,
       pagination: {
         rowsPerPage: 10
       },
@@ -152,8 +153,7 @@ export default {
 
       dialogs: {
         edit: {
-          fileGroup: {},
-          show: false
+          fileGroup: {}
         },
         add: {
           show: false
@@ -256,6 +256,10 @@ export default {
           self.totalItems = response.data.data.total;
           self.pagination.totalItems = response.data.data.total;
           (cb || Function)();
+        })
+        .always(function(response) {
+           console.log(`/admin/file-groups/ - GET->Always->response: `);
+           console.log(response);
         });
     }
   }

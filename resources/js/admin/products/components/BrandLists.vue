@@ -31,7 +31,6 @@
             <td>
               <strong>{{ item.name }}</strong>
             </td>
-            <td>{{ item.description }}</td>
             <td class="text-center">
               <v-btn tag="span" rounded>{{ item.product_count }}</v-btn>
             </td>
@@ -115,12 +114,6 @@ export default {
         {
           text: "Name",
           value: "name",
-          align: "left",
-          sortable: false
-        },
-        {
-          text: "Description",
-          value: "description",
           align: "left",
           sortable: false
         },

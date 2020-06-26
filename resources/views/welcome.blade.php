@@ -5,61 +5,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>eCommerce Store (Laravel/Vue.js)</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700,800" rel="stylesheet">
     <style>
-        html, body {
-            margin: 0;
-            background-color: #f0f0f0;
-            color: #35353e;
-        }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            font-weight: 400;
-        }
+    html, body { margin: 0; }
+    img + img { margin-left: 1em; }
 
-        img + img {
-            margin-left: 1em;
-        }
+    body {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 400;
+        background-color: #f0f0f0;
+        color: #35353e;
+    }
 
-        .full-height {
-            height: 100vh;
-        }
+    [data-pos="rel"] { position: relative; }
+    [data-pos="abs"] { position: absolute; }
 
-        .flex-center {
-            align-items: center;
-            display: flex;
-            justify-content: center;
-        }
+    .full-height { height: 100vh; }
+    .text-center { text-align: center; }
+    .top-right { right: 1rem; top: .875rem; }
 
-        [data-pos="rel"] { position: relative; }
-        [data-pos="abs"] { position: absolute; }
+    .icon-logo {
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+        max-width: 12rem;
+        max-height: 12rem;
+    }
 
-        .top-right {
-            position: absolute;
-            right: 1rem;
-            top: .875rem;
-        }
+    .btn,
+    nav > a {
+        padding: 0.375em 1.1875em;
+        font-size: 0.75em;
+        color: rgba(0, 0, 0, 0.875);
+        text-decoration: none;
+        text-transform: uppercase;
+    }
 
-        .text-center {
-            text-align: center;
-        }
-        
-        .icon-logo {
-            display: inline-block;
-            vertical-align: middle;
-            height: 100%;
-            max-width: 12rem;
-            max-height: 12rem;
-        }
+    .btn:hover {
+        color: rgba(0, 0, 0, 0.925);
+        text-decoration: none;
+    }
 
-        .btn {
-            padding: 0.375em 1.1875em;
-            font-size: 0.875em;
-            color: rgba(0, 0, 0, 0.75);
-            text-decoration: none;
-            text-transform: uppercase;
-        }
     </style>
 </head>
 <body class="no-js full-height">
@@ -68,10 +55,10 @@
         @if (Route::has('login'))
             <nav data-pos="abs" class="top-right">
                 @auth
-                    <a href="{{ route('product.lists') }}" class="btn">Dashboard</a>
+                    <a href="{{ route('admin') }}">Dashboard</a>
                 @else
-                    <a href="{{ route('login') }}" class="btn">Login</a>
-                    <a href="{{ route('register') }}" class="btn">Register</a>
+                    <a href="{{ route('login') }}">Login</a>
+                    <a href="{{ route('register') }}">Register</a>
                 @endauth
             </nav>
         @endif

@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(\App\Components\Product\Models\Category::class, function (Faker $faker) {
    return [
-      'name' => $faker->unique()->name,
-      'description' => $faker->words(rand(8, 24), true),
+      'name' => ucwords($faker->unique()->words(rand(3, 8), true)),
+      'description' => $faker->optional()->sentences(rand(1, 4), true),
    ];
 });

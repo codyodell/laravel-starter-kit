@@ -9,7 +9,7 @@
         <div class="flex-grow-1 text-right">
           <v-btn @click="showDialog('category_add')" dark class="primary lighten-1">
             New Category
-            <v-icon right>mdi-add</v-icon>
+            <v-icon right>add</v-icon>
           </v-btn>
         </div>
       </div>

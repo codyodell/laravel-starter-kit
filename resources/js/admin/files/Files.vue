@@ -1,39 +1,33 @@
 <template>
   <div class="page_wrap_vue">
     <v-tabs color="primary" v-model="active">
-      <v-tab class="white--text" key="files" href="#files" ripple>Files</v-tab>
-      <v-tab class="white--text" key="manage-groups" href="#manage-groups" ripple>Manage File Groups</v-tab>
-      <v-tab class="white--text" key="upload" href="#upload" ripple>Upload</v-tab>
-
+      <v-tab key="files" href="#files" ripple>Files</v-tab>
+      <v-tab key="manage-groups" href="#manage-groups" ripple>Manage File Groups</v-tab>
+      <v-tab key="upload" href="#upload" ripple>Upload</v-tab>
       <v-tab-item value="files">
-        <v-card flat>
-          <v-card-text>
-            <file-lists></file-lists>
-          </v-card-text>
-        </v-card>
+        <v-container>
+          <file-lists></file-lists>
+        </v-container>
       </v-tab-item>
       <v-tab-item value="manage-groups">
-        <v-card flat>
-          <v-card-text>
-            <file-group-lists></file-group-lists>
-          </v-card-text>
-        </v-card>
+        <v-content>
+          <file-group-lists></file-group-lists>
+        </v-content>
       </v-tab-item>
       <v-tab-item value="upload">
-        <v-card flat>
-          <v-card-text>
-            <file-upload></file-upload>
-          </v-card-text>
-        </v-card>
+        <v-container>
+          <file-upload></file-upload>
+        </v-container>
       </v-tab-item>
     </v-tabs>
   </div>
 </template>
 
 <script>
-import FileGroupLists from "./components/FileGroupLists.vue";
 import FileUpload from "./components/FileUpload.vue";
+import FileGroupLists from "./components/FileGroupLists.vue";
 import FileLists from "./components/FileLists.vue";
+
 export default {
   components: {
     FileUpload,
@@ -42,13 +36,8 @@ export default {
   },
   mounted() {
     console.log("pages.FileManager.vue");
-
     const self = this;
-
-    self.$store.commit("setBreadcrumbs", [{ 
-      label: "Files", 
-      name: "" 
-    }]);
+    self.update_breadcrumbs("Files");
   },
   data() {
     return {
@@ -57,10 +46,19 @@ export default {
   },
   watch: {
     active(v) {
-      console.log("active tab: " + v);
+      const self = this;
+      self.update_breadcrumbs(v, v.split('-').join(' '));
     }
   },
-  methods: {}
+  methods: {
+    update_breadcrumbs: function(strLabel, strName) {
+      console.info("Vue - Files.vue->methods->update_breadcrumbs()");
+      if (!strLabel || !strName) return false;
+      this.$store.commit("setBreadcrumbs", [
+        { label: strLabel, name: strName }
+      ]);
+    }
+  }
 };
 </script>
 

@@ -71,23 +71,23 @@
           <tr>
             <th v-for="header in headers" :key="header.value">
               <div v-if="header.value=='name'" :class="`text-${header.align}`">
-                <v-icon>mdi-person</v-icon>
+                <v-icon>person</v-icon>
                 {{header.text}}
               </div>
               <div v-else-if="header.value=='email'" :class="`text-${header.align}`">
-                <v-icon>mdi-email</v-icon>
+                <v-icon>email</v-icon>
                 {{header.text}}
               </div>
               <div v-else-if="header.value=='permissions'" :class="`text-${header.align}`">
-                <v-icon>mdi-vpn_key</v-icon>
+                <v-icon>vpn_key</v-icon>
                 {{header.text}}
               </div>
               <div v-else-if="header.value=='groups'" :class="`text-${header.align}`">
-                <v-icon>mdi-group</v-icon>
+                <v-icon>group</v-icon>
                 {{header.text}}
               </div>
               <div v-else-if="header.value=='last_login'" :class="`text-${header.align}`">
-                <v-icon>mdi-av_timer</v-icon>
+                <v-icon>av_timer</v-icon>
                 {{header.text}}
               </div>
               <div v-else :class="`text-${header.align}`">{{header.text}}</div>
@@ -101,9 +101,7 @@
             <td>
               <strong>{{ item.name }}</strong>
             </td>
-            <td>
-              {{ item.email }}
-            </td>
+            <td>{{ item.email }}</td>
             <td>
               <v-btn
                 small
@@ -194,7 +192,7 @@ export default {
   data() {
     return {
       headers: [
-        { text: "Name", value: "name", align: "left", sortable: false },
+        { text: "Name", value: "name", align: "left", sortable: true },
         { text: "Email", value: "email", align: "left", sortable: false },
         {
           text: "Permissions",
