@@ -68,7 +68,7 @@
           </v-toolbar-items>
         </v-toolbar>
         <v-card-text>
-          <!--<category-add></category-add>-->
+          <category-add></category-add>
         </v-card-text>
       </v-card>
     </v-dialog>

@@ -40,7 +40,7 @@ class Product extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'uploaded_by');
+        return $this->hasOne(User::class, 'uploaded_by');
     }
 
     public function categories()
@@ -50,6 +50,6 @@ class Product extends Model
 
     public function brand()
     {
-        return $this->belongsTo(Brand::class);
+        return $this->hasOne(Brand::class, 'brand_id');
     }
 }

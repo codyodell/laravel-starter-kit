@@ -18,8 +18,8 @@ class CreateUserGroupPivotTable extends Migration {
 		{
 			$table->engine = 'InnoDB';
 			$table->increments('id');
-			$table->unsignedInteger('user_id');
-			$table->unsignedInteger('group_id');
+			$table->unsignedInteger('user_id')->index();
+			$table->unsignedInteger('group_id')->index();
 			$table->nullableTimestamps();
 		});
 	}
@@ -31,9 +31,7 @@ class CreateUserGroupPivotTable extends Migration {
 	 */
 	public function down()
 	{
-		DB::statement('SET FOREIGN_KEY_CHECKS=0;');
 		Schema::dropIfExists('user_group_pivot_table');
-		DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 	}
 
 }

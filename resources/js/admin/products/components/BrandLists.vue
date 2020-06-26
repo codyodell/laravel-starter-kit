@@ -9,7 +9,7 @@
         <div class="flex-grow-1 text-right">
           <v-btn @click="showDialog('brand_add')" dark class="primary lighten-1">
             New Brand
-            <v-icon right>mdi-add</v-icon>
+            <v-icon right>add</v-icon>
           </v-btn>
         </div>
       </div>
@@ -22,8 +22,8 @@
       :options.sync="pagination"
       :items="items"
       :server-items-length="totalItems"
+      :disable-pagination="pagination.show"
       class="elevation-1"
-      :disable-pagination="!totalItems"
     >
       <template slot="items">
         <tbody>
@@ -146,6 +146,7 @@ export default {
       items: [],
       totalItems: 0,
       pagination: {
+        show: false,
         rowsPerPage: 10
       },
 
@@ -256,6 +257,7 @@ export default {
         self.items = response.data.data.data;
         self.totalItems = response.data.data.total;
         self.pagination.totalItems = response.data.data.total;
+        self.pagination.show = response.data.data.total > 0;
         (cb || Function)();
       });
     }

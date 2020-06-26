@@ -18,7 +18,7 @@ class CreateGroupsTable extends Migration {
 		{
 			$table->engine = 'InnoDB';
 			$table->increments('id');
-			$table->string('name')->index()->unique();
+			$table->string('name')->unique();
 			$table->text('permissions');
 			$table->timestamps();
 		});

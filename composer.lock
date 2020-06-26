@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7279c1559a479d6e2bf324887286d7ce",
+    "content-hash": "1b24b10bdd609b220deb2a0d961ee4e5",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -3578,6 +3578,52 @@
                 }
             ],
             "time": "2018-12-13T10:34:14+00:00"
+        },
+        {
+            "name": "coderello/laravel-populated-factory",
+            "version": "0.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/coderello/laravel-populated-factory.git",
+                "reference": "f078a315487db65e31eaf62ff501f97d6ebc4fee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/coderello/laravel-populated-factory/zipball/f078a315487db65e31eaf62ff501f97d6ebc4fee",
+                "reference": "f078a315487db65e31eaf62ff501f97d6ebc4fee",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^2.9",
+                "laravel/framework": "5.5.*|5.6.*|5.7.*|5.8.*|^6.0|^7.0",
+                "php": "^7.2"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Coderello\\PopulatedFactory\\Providers\\PopulatedFactoryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Coderello\\PopulatedFactory\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "An easy way to generate populated factories.",
+            "keywords": [
+                "factories",
+                "factory",
+                "laravel",
+                "populate",
+                "populated"
+            ],
+            "time": "2020-03-17T21:54:16+00:00"
         },
         {
             "name": "composer/ca-bundle",

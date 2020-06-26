@@ -2,14 +2,9 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Model;
 use Faker\Generator as Faker;
 
-use App\Components\Product\Models\Brand;
-use App\Components\Product\Models\Category;
-use Illuminate\Support\Str;
-
-$factory->define(Model::class, function (Faker $faker) {
+$factory->define(\App\Components\Product\Models\Product::class, function (Faker $faker) {
 
     $arAttributes = [];
     $nAttributes = rand(2, 6);
@@ -23,13 +18,12 @@ $factory->define(Model::class, function (Faker $faker) {
         }
     }
 
-    $arProduct = [
-        'name' => $faker->unique()->words(rand(1, 3), true),
-        'description' => $faker->words(500, true),
+    return [
+        'name' => $faker->unique()->name,
+        'description' => $faker->words(200, true),
         'attributes' => $arAttributes,
         'brand_id' => rand(1, 4),
-        'category_id' => rand(1, 8)
+        'category_id' => rand(1, 8),
+        'created_by' => 1
     ];
-
-    return $arProduct;
 });

@@ -69712,7 +69712,7 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
-              _c("v-card-text")
+              _c("v-card-text", [_c("category-add")], 1)
             ],
             1
           )

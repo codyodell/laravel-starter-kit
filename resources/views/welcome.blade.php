@@ -4,11 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laravel/Vue.js &mdash; MySQL REST Example</title>
+    <title>eCommerce Store (Laravel/Vue.js)</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
     <style>
         html, body {
-            height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
             color: #35353e;
@@ -17,6 +16,10 @@
         body {
             font-family: 'Roboto', sans-serif;
             font-weight: 400;
+        }
+
+        img + img {
+            margin-left: 1em;
         }
 
         .full-height {
@@ -29,42 +32,25 @@
             justify-content: center;
         }
 
-        .position-rel {
-            position: relative;
-        }
+        [data-pos="rel"] { position: relative; }
+        [data-pos="abs"] { position: absolute; }
 
         .top-right {
             position: absolute;
-            right: 0.625em;
-            top: 1.375em;
+            right: 1rem;
+            top: .875rem;
         }
 
-        .content {
+        .text-center {
             text-align: center;
-        }
-
-        .title {
-            font-size: 5em;
-        }
-
-        .m-b-md {
-            margin-bottom: 0.25em;
-        }
-
-        .m-b-md.title {
-            display: flex;
-            flex-direction: row;
         }
         
         .icon-logo {
             display: inline-block;
-            vertical-align: baseline;
+            vertical-align: middle;
             height: 100%;
+            max-width: 12rem;
             max-height: 12rem;
-        }
-
-        .icon-logo + .icon-logo {
-            margin-left: 1.25em;
         }
 
         .btn {
@@ -76,32 +62,35 @@
         }
     </style>
 </head>
-<body class="no-js">
-<div class="flex-center position-rel full-height">
-    @if (Route::has('login'))
-        <div class="top-right">
-            <div class="body">
+<body class="no-js full-height">
+    <div class="full-height">
+
+        @if (Route::has('login'))
+            <nav data-pos="abs" class="top-right">
                 @auth
-                    <a href="{{ url('/admin') }}" class="btn">Dashboard</a>
+                    <a href="{{ route('product.lists') }}" class="btn">Dashboard</a>
                 @else
                     <a href="{{ route('login') }}" class="btn">Login</a>
                     <a href="{{ route('register') }}" class="btn">Register</a>
                 @endauth
-            </div>
-        </div>
-    @endif
+            </nav>
+        @endif
 
-    <div class="content">
-        <div class="title m-b-md">
-            <img class="icon-logo logo-laravel" src="{{ url('img/logos/laravel.svg') }}">
-            <img class="icon-logo logo-vue" src="{{ url('img/logos/vuejs.svg') }}">
-        </div>
+        <main role="main" class="content text-center">
+            <aside>
+                <img src="{{ url('img/logos/laravel.svg') }}" class="icon-logo">
+                <img src="{{ url('img/logos/vuejs.svg') }}" class="icon-logo">
+            </aside>
+            <article>
+                <header>
+                    <h1>eCommerce Store (Laravel/Vue.js)</h1>
+                    <p class="text--secondary">Powered by Laravel, Vue.js & Material Design</p>
+                </header>
+                <!--<div class="body">
 
-        <div class="links">
-            <h1>MySQL Web App &mdash; REST API</h1>
-            <p class="text--secondary">Powered by Laravel, VueJS & Material Design</p>
-        </div>
+                </div>-->
+            </article>
+        </main>
     </div>
-</div>
 </body>
 </html>

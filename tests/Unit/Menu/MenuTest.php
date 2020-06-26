@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: darryldecode
@@ -7,7 +8,6 @@
  */
 
 namespace Tests\Unit\Menu;
-
 
 use App\Components\Core\Menu\MenuItem;
 use App\Components\Core\Menu\MenuManager;
@@ -62,11 +62,11 @@ class MenuTest extends TestCase
         $menuManager->addMenu(new MenuItem([
             'group_requirements' => [],
             'permission_requirements' => ['superuser'],
-            'label'=>'Super User Dashboard',
+            'label' => 'Super User Dashboard',
             'nav_type' => MenuItem::$NAV_TYPE_NAV,
-            'icon'=>'dashboard',
-            'route_type'=>'vue',
-            'route_name'=>'dashboard'
+            'icon' => 'dashboard',
+            'route_type' => 'vue',
+            'route_name' => 'dashboard'
         ]));
 
         $this->assertFalse($menuManager->hasMenu('Super User Dashboard'));
@@ -91,18 +91,18 @@ class MenuTest extends TestCase
             'activation_key' => (Uuid::uuid4())->toString(),
         ]);
 
-        $user->addPermission($permission,Permission::PERMISSION_ALLOW);
+        $user->addPermission($permission, Permission::PERMISSION_ALLOW);
 
         $menuManager = new MenuManager();
         $menuManager->setUser($user);
         $menuManager->addMenu(new MenuItem([
             'group_requirements' => [],
             'permission_requirements' => ['permission.1'],
-            'label'=>'Super User Dashboard',
+            'label' => 'Super User Dashboard',
             'nav_type' => MenuItem::$NAV_TYPE_NAV,
-            'icon'=>'dashboard',
-            'route_type'=>'vue',
-            'route_name'=>'dashboard'
+            'icon' => 'dashboard',
+            'route_type' => 'vue',
+            'route_name' => 'dashboard'
         ]));
 
         $this->assertTrue($menuManager->hasMenu('Super User Dashboard'));
@@ -131,11 +131,11 @@ class MenuTest extends TestCase
         $menuManager->addMenu(new MenuItem([
             'group_requirements' => [$group->name],
             'permission_requirements' => [],
-            'label'=>'Group 1 Nav',
+            'label' => 'Group 1 Nav',
             'nav_type' => MenuItem::$NAV_TYPE_NAV,
-            'icon'=>'dashboard',
-            'route_type'=>'vue',
-            'route_name'=>'dashboard'
+            'icon' => 'dashboard',
+            'route_type' => 'vue',
+            'route_name' => 'dashboard'
         ]));
 
         $this->assertFalse($menuManager->hasMenu('Group 1 Nav'));
@@ -166,11 +166,11 @@ class MenuTest extends TestCase
         $menuManager->addMenu(new MenuItem([
             'group_requirements' => [$group->name],
             'permission_requirements' => [],
-            'label'=>'Group 1 Nav',
+            'label' => 'Group 1 Nav',
             'nav_type' => MenuItem::$NAV_TYPE_NAV,
-            'icon'=>'dashboard',
-            'route_type'=>'vue',
-            'route_name'=>'dashboard'
+            'icon' => 'dashboard',
+            'route_type' => 'vue',
+            'route_name' => 'dashboard'
         ]));
 
         $this->assertTrue($menuManager->hasMenu('Group 1 Nav'));
@@ -192,7 +192,7 @@ class MenuTest extends TestCase
         ]);
 
         // add permission to group
-        $group->addPermission($permission,Permission::PERMISSION_ALLOW);
+        $group->addPermission($permission, Permission::PERMISSION_ALLOW);
 
         /** @var User $user */
         $user = $this->userRepo->create([
@@ -206,18 +206,18 @@ class MenuTest extends TestCase
 
         $user->groups()->attach($group);
 
-        $user->addPermission($permission,Permission::PERMISSION_DENY);
+        $user->addPermission($permission, Permission::PERMISSION_DENY);
 
         $menuManager = new MenuManager();
         $menuManager->setUser($user);
         $menuManager->addMenu(new MenuItem([
             'group_requirements' => [$group->name],
             'permission_requirements' => [$permission->key],
-            'label'=>'Group 1 Nav',
+            'label' => 'Group 1 Nav',
             'nav_type' => MenuItem::$NAV_TYPE_NAV,
-            'icon'=>'dashboard',
-            'route_type'=>'vue',
-            'route_name'=>'dashboard'
+            'icon' => 'dashboard',
+            'route_type' => 'vue',
+            'route_name' => 'dashboard'
         ]));
 
         $this->assertFalse($menuManager->hasMenu('Group 1 Nav'));
@@ -248,18 +248,18 @@ class MenuTest extends TestCase
             'activation_key' => (Uuid::uuid4())->toString(),
         ]);
 
-        $user->addPermission($permission,Permission::PERMISSION_ALLOW);
+        $user->addPermission($permission, Permission::PERMISSION_ALLOW);
 
         $menuManager = new MenuManager();
         $menuManager->setUser($user);
         $menuManager->addMenu(new MenuItem([
             'group_requirements' => [$group->name],
             'permission_requirements' => [$permission->key],
-            'label'=>'Group 1 Nav',
+            'label' => 'Group 1 Nav',
             'nav_type' => MenuItem::$NAV_TYPE_NAV,
-            'icon'=>'dashboard',
-            'route_type'=>'vue',
-            'route_name'=>'dashboard'
+            'icon' => 'dashboard',
+            'route_type' => 'vue',
+            'route_name' => 'dashboard'
         ]));
 
         $this->assertFalse($menuManager->hasMenu('Group 1 Nav'));
