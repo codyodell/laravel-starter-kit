@@ -454,7 +454,7 @@ a {
 }
 
 .wask_loader {
-  padding: 150px 0;
+  padding: 10rem 0;
   position: fixed;
   z-index: 501;
   border: 0;
@@ -476,13 +476,13 @@ a {
 .fade-leave-active {
   -webkit-transition-property: opacity;
   transition-property: opacity;
-  -webkit-transition-duration: .25s;
-          transition-duration: .25s;
+  -webkit-transition-duration: 0.25s;
+          transition-duration: 0.25s;
 }
 
 .fade-enter-active {
-  -webkit-transition-delay: .25s;
-          transition-delay: .25s;
+  -webkit-transition-delay: 0.25s;
+          transition-delay: 0.25s;
 }
 
 .fade-enter,
@@ -505,5 +505,9 @@ a {
 
 #admin .snack {
   z-index: 500 !important;
+}
+
+span.v-btn {
+  width: 24em;
 }
 

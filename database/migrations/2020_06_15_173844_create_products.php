@@ -15,20 +15,22 @@ class CreateProducts extends Migration
      */
     public function up()
     {
-        Schema::create('products', function(Blueprint $table){
-            $table->engine = 'InnoDB';
+        Schema::create('products', function (Blueprint $table) {
+
             $table->increments('id');
+
             $table->string('name')->unique();
             $table->text('description');
-            $table->unsignedInteger('brand_id')->index();
-            $table->unsignedInteger('category_id')->index();
             $table->json('attributes');
+            // $table->unsignedInteger('brand_id')->index();
+            // $table->unsignedInteger('category_id')->index();
             $table->unsignedInteger('created_by');
             $table->timestamps();
-            // foreign key constraintss
+
+            // foreign key constraints
+            // $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('created_by')->references('id')->on('users'); //->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('brand_id')->references('id')->on('brands'); //->onDelete('restrict')->onUpdate('cascade');
-            $table->foreign('category_id')->references('id')->on('categories'); //->onDelete('restrict')->onUpdate('cascade');
+            // $table->foreign('brand_id')->references('id')->on('brands'); //->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

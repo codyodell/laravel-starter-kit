@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: darryl
@@ -7,7 +8,6 @@
  */
 
 namespace App\Components\File\Utilities;
-
 
 class FileHelper
 {
@@ -21,8 +21,7 @@ class FileHelper
     {
         $file_type_icons_path = 'img/file-type-icons/';
 
-        switch($mimeType)
-        {
+        switch ($mimeType) {
             case 'image/jpeg':
                 $icon_file = 'jpeg.png';
                 break;
@@ -165,7 +164,7 @@ class FileHelper
                 $icon_file = 'unknown.png';
                 break;
         }
-        return $file_type_icons_path.$icon_file;
+        return $file_type_icons_path . $icon_file;
     }
 
     /**
@@ -187,7 +186,7 @@ class FileHelper
      */
     public static function isPSD($type)
     {
-        return $type==='image/vnd.adobe.photoshop';
+        return $type === 'image/vnd.adobe.photoshop';
     }
 
     /**
@@ -199,11 +198,11 @@ class FileHelper
      */
     public static function formatBytes($size, $precision = 2)
     {
-        if($size===0) return 0;
+        if ($size === 0) return 0;
 
         $base = log($size) / log(1024);
         $suffix = array("", "k", "M", "G", "T")[floor($base)];
-        return round(pow(1024, $base - floor($base)),$precision) . $suffix;
+        return round(pow(1024, $base - floor($base)), $precision) . $suffix;
     }
 
     /**
@@ -214,18 +213,18 @@ class FileHelper
      */
     public static function convertToBytes($from)
     {
-        $number=substr($from,0,-2);
-        switch(strtoupper(substr($from,-2))){
+        $number = substr($from, 0, -2);
+        switch (strtoupper(substr($from, -2))) {
             case "KB":
-                return $number*1024;
+                return $number * 1024;
             case "MB":
-                return $number*pow(1024,2);
+                return $number * pow(1024, 2);
             case "GB":
-                return $number*pow(1024,3);
+                return $number * pow(1024, 3);
             case "TB":
-                return $number*pow(1024,4);
+                return $number * pow(1024, 4);
             case "PB":
-                return $number*pow(1024,5);
+                return $number * pow(1024, 5);
             default:
                 return $from;
         }

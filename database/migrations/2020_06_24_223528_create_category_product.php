@@ -13,8 +13,8 @@ class CreateCategoryProduct extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('category_product');
         Schema::create('category_product', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->id();
             $table->unsignedInteger('category_id')->index();
             $table->unsignedInteger('product_id')->index();

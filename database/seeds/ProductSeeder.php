@@ -2,6 +2,11 @@
 
 use Illuminate\Database\Seeder;
 
+use \App\Components\Product\Models\Product;
+use \App\Components\Product\Models\Brand;
+use \App\Components\Product\Models\Category;
+// use \App\Components\User\Models\User;
+
 class ProductSeeder extends Seeder
 {
     /**
@@ -11,6 +16,13 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Components\Product\Models\Product::class, 50)->create();
+        $products = factory(Product::class, 50)
+            ->create()
+            ->each(function (Product $product) {
+                //$p->user()->attach(User::all()->random());
+                //$p->brand()->attach(Brand::all()->random());
+                $product->categories()
+                    ->save(factory(Category::class)->make());
+            });
     }
 }

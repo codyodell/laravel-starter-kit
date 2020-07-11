@@ -43,7 +43,7 @@ class FileGroupController extends AdminController
     public function store(Request $request)
     {
         $validate = validator($request->all(), [
-            'name' => 'required|unique:file_groups|max:255|string',
+            'name' => 'string|required|unique:file_groups|max:255',
             'description' => 'string',
         ]);
 
@@ -53,7 +53,7 @@ class FileGroupController extends AdminController
 
         $file = $this->fileGroupRepository->create($request->all());
 
-        if (!$file)  
+        if (!$file)
             return $this->sendResponseBadRequest("Failed to create.");
 
         return $this->sendResponseCreated($file);
@@ -69,7 +69,7 @@ class FileGroupController extends AdminController
     {
         $file = $this->fileGroupRepository->find($id);
 
-        if (!$file) 
+        if (!$file)
             return $this->sendResponseNotFound();
 
         return $this->sendResponseOk($file);
@@ -85,7 +85,7 @@ class FileGroupController extends AdminController
     public function update(Request $request, $id)
     {
         $validate = validator($request->all(), [
-            'name' => 'required|unique:file_groups|max:255|string',
+            'name' => 'string|required|unique:file_groups|max:255',
             'description' => 'string',
         ]);
 

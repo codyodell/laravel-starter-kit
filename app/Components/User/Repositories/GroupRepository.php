@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: darryl
@@ -29,11 +30,10 @@ class GroupRepository extends BaseRepository
      */
     public function index($params)
     {
-        return $this->get($params,[],function($q) use ($params)
-        {
-            $name = Arr::get($params,'name','');
+        return $this->get($params, [], function ($q) use ($params) {
+            $name = Arr::get($params, 'name', '');
 
-            $q->where('name','like',"%{$name}%");
+            $q->where('name', 'like', "%{$name}%");
 
             return $q;
         });
@@ -48,14 +48,13 @@ class GroupRepository extends BaseRepository
      */
     public function delete(int $id)
     {
-        $ids = explode(',',$id);
+        $ids = explode(',', $id);
 
-        foreach ($ids as $id)
-        {
+        foreach ($ids as $id) {
             /** @var Group $Group */
             $Group = $this->model->find($id);
 
-            if(!$Group) return false;
+            if (!$Group) return false;
 
             $Group->users()->detach();
             $Group->delete();

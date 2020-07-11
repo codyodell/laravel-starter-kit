@@ -30,7 +30,6 @@ class CategoryController extends AdminController
    public function index(Request $request)
    {
       $data = $this->categoryRepository->index($request->all());
-
       return $this->sendResponseOk($data);
    }
 
@@ -52,10 +51,9 @@ class CategoryController extends AdminController
 
       $category = $this->categoryRepository->create($request->all());
 
-      if (!$category)
-         return $this->sendResponseBadRequest("Failed to create.");
-
-      return $this->sendResponseCreated($category);
+      return $category ?
+         $this->sendResponseBadRequest("Failed to create.") :
+         $this->sendResponseCreated($category);
    }
 
    /**
@@ -64,14 +62,12 @@ class CategoryController extends AdminController
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
-   public function show($id)
+   public function show(int $id)
    {
       $category = $this->categoryRepository->find($id);
-
-      if (!$category)
-         return $this->sendResponseNotFound();
-
-      return $this->sendResponseOk($category);
+      return $category ?
+         $this->sendResponseOk($category) :
+         $this->sendResponseNotFound();
    }
 
    /**
@@ -81,20 +77,18 @@ class CategoryController extends AdminController
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
-   public function update(Request $request, $id)
+   public function update(Request $request, int $id)
    {
       $validate = validator($request->all(), [
          'name' => 'required|string|unique:categories|max:255',
          'description' => 'string',
       ]);
-
-      if ($validate->fails()) return $this->sendResponseBadRequest($validate->errors()->first());
-
+      if ($validate->fails()) 
+         return $this->sendResponseBadRequest($validate->errors()->first());
       $updated = $this->categoryRepository->update($id, $request->all());
-
-      if (!$updated) return $this->sendResponseBadRequest("Failed to update");
-
-      return $this->sendResponseOk([], "Updated.");
+      return $updated ?
+         $this->sendResponseOk([], "Updated.") :
+         $this->sendResponseBadRequest("Failed to update");
    }
 
    /**
@@ -103,7 +97,7 @@ class CategoryController extends AdminController
     * @param  int  $id
     * @return \Illuminate\Http\Response
     */
-   public function destroy($id)
+   public function destroy(int $id)
    {
       $this->categoryRepository->delete($id);
 

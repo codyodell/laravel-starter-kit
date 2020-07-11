@@ -1,17 +1,25 @@
 <template>
    <div class="component-wrap">
-      <v-card dark>
-         <v-form v-model="valid" ref="brandFormEdit" lazy-validation>
+      <v-card>
+         <v-card-title>Test</v-card-title>
+         <v-form v-model="valid" ref="productFormAdd" lazy-validation>
             <v-container grid-list-md>
                <v-layout row wrap>
                   <v-flex xs12>
-                     <div class="body-2 white--text">Brand Details</div>
+                     <div class="body-2 white--text">Product Details</div>
                   </v-flex>
                   <v-flex xs12>
-                     <v-text-field dark label="Name" v-model="name" :rules="nameRules"></v-text-field>
+                     <v-text-field label="Name" v-model="name" :rules="nameRules"></v-text-field>
                   </v-flex>
                   <v-flex xs12>
-                     <v-btn @click="save()" :disabled="!valid" color="primary" dark>Update</v-btn>
+                     <v-textarea
+                        label="Description"
+                        v-model="description"
+                        :rules="descriptionRules"
+                     ></v-textarea>
+                  </v-flex>
+                  <v-flex xs12>
+                     <v-btn @click="save()" :disabled="!valid" color="primary">Save</v-btn>
                   </v-flex>
                </v-layout>
             </v-container>
@@ -22,41 +30,34 @@
 
 <script>
 export default {
-   props: {
-      propBrandId: {
-         required: true
-      }
-   },
    data() {
       return {
          valid: false,
          isLoading: false,
          name: "",
-         nameRules: [v => !!v || "Name is required"]
+         nameRules: [v => !!v || "Name is required"],
+         description: "",
+         descriptionRules: [v => !!v || "Description is required"]
       };
    },
    mounted() {
-      console.log("pages.products.components.BrandEdit.vue");
+      console.log("pages.products.components.ProductAdd.vue");
 
       const self = this;
-   },
-   watch: {
-      propBrandId(v) {
-         if (v) this.loadBrand(() => {});
-      }
    },
    methods: {
       save() {
          const self = this;
 
          let payload = {
-            name: self.name
+            name: self.name,
+            description: self.description
          };
 
          self.isLoading = true;
 
          axios
-            .put("/admin/brand/" + self.propBrandId, payload)
+            .post("/admin/product", payload)
             .then(function(response) {
                self.$store.commit("showSnackbar", {
                   message: response.data.message,
@@ -65,7 +66,10 @@ export default {
                });
 
                self.isLoading = false;
-               self.$eventBus.$emit("CATEGORY_UPDATED");
+               self.$eventBus.$emit("PRODUCT_ADDED");
+
+               // reset
+               self.$refs.productFormAdd.reset();
             })
             .catch(function(error) {
                self.isLoading = false;
@@ -80,17 +84,6 @@ export default {
                } else {
                   console.log("Error", error.message);
                }
-            });
-      },
-      loadBrand(cb) {
-         const self = this;
-
-         axios
-            .get("/admin/brands/" + self.propBrandId)
-            .then(function(response) {
-               let Brand = response.data.data;
-               self.name = Brand.name;
-               cb();
             });
       }
    }

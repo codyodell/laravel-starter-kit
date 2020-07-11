@@ -16,6 +16,8 @@ import Vue from 'vue';
 import Vuetify from 'vuetify';
 import VueProgressBar from 'vue-progressbar';
 
+Vue.use(require('vue-moment'));
+
 // this is the vuetify theming options
 // you can change colors here based on your needs
 // and please dont forget to recompile scripts
@@ -74,7 +76,7 @@ const admin = new Vue({
     router,
     store,
     data: () => ({
-        drawer: true,
+        drawer: true
     }),
     mounted() {
         const self = this;
@@ -86,8 +88,22 @@ const admin = new Vue({
         });
     },
     computed: {
+        getTopMenuItems() {
+            return [
+                {
+                    title: 'Profile',
+                    route: '/admin/users/1'
+                }, {
+                    title: 'Settings',
+                    route: route('settings')
+                }, {
+                    title: 'Logout',
+                    route: route('logout')
+                }
+            ];
+        },
         getBreadcrumbs() {
-            return store.getters.getBreadcrumbs
+            return store.getters.getBreadcrumbs;
         },
         showLoader() {
             return store.getters.showLoader;

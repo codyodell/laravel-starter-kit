@@ -2,11 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-// use App\Components\Core\Result;
-// use Illuminate\Http\Request;
-
-use App\Components\Core\Utilities\Helpers;
-use App\Components\Product\Models\Product;
 use App\Components\Product\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 
@@ -48,21 +43,23 @@ class ProductController extends AdminController
     public function store(Request $request)
     {
         $validate = validator($request->all(), [
-            'name' => 'required|string|unique:products|max:255',
+            'name' => 'string|required|unique:products|max:255',
             'description' => 'required',
             'attributes' => 'json',
             'categories' => 'array',
-            'brands' => 'array',
+            'brand_id' => 'integer',
         ]);
 
         if ($validate->fails())
             return $this->sendResponseBadRequest($validate->errors()->first());
-        /** @var Product $product */
+
         $product = $this->productRepository->create($request->all());
+
         if (!$product)
-            return $this->sendResponseBadRequest("Failed create.");
-        // attach to category
-        if ($categories = $request->get('categories', [])) {
+            return $this->sendResponseBadRequest("Failed to create product.");
+
+        $categories = $request->get('categories', []);
+        if (count($categories)) {
             foreach ($categories as $categoryId => $shouldAttach) {
                 if ($shouldAttach)
                     $product->categories()->attach($categoryId);
@@ -78,10 +75,13 @@ class ProductController extends AdminController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id = null)
+    public function show($id)
     {
-        $product = $this->productRepository->listProducts(['categories']);
-        return $product ?
+        $result = false;
+        if (is_int($id)) {
+            $result = $this->productRepository->getProduct($id);
+        }
+        return $result ?
             $this->sendResponseOk($product) :
             $this->sendResponseNotFound();
     }
@@ -96,22 +96,17 @@ class ProductController extends AdminController
     public function update(Request $request, $id)
     {
         $validate = validator($request->all(), [
-            'name' => 'required|unique:products|max:255',
+            'name' => 'string|required|unique:products|max:255',
             'description' => 'required',
             'attributes' => 'json',
             'categories' => 'array',
-            'brand' => 'array'
+            'brand_id' => 'integer'
         ]);
 
         if ($validate->fails())
             return $this->sendResponseBadRequest($validate->errors()->first());
 
         $payload = $request->all();
-
-        // if password field is present but has empty value or null value
-        // we will remove it to avoid updating password with unexpected value
-        if (!Helpers::hasValue($payload['password']))
-            unset($payload['password']);
 
         $updated = $this->productRepository->update($id, $payload);
 
@@ -121,18 +116,18 @@ class ProductController extends AdminController
         // re-sync categories
 
         /** @var Product $product */
-        $product = $this->productRepository->find($id);
+        $product = $this->productRepository->find($id, ['categories']);
 
         $categoryIds = [];
+        $categories = $request->get('categories', []);
 
-        if ($categories = $request->get('categories', [])) {
+        if (count($categories)) {
             foreach ($categories as $categoryId => $shouldAttach) {
                 if ($shouldAttach)
-                    $categoryIds[] = $categoryId;
+                    $product->categories()->attach($categoryId);
             }
+            $product->categories()->sync($categoryIds);
         }
-
-        $product->categories()->sync($categoryIds);
 
         return $this->sendResponseUpdated();
     }
@@ -153,47 +148,4 @@ class ProductController extends AdminController
 
         return $this->sendResponseDeleted();
     }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    /*
-    public function store(Request $request)
-    {
-        $validate = validator($request->all(),[
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'key' => 'required|string|unique:permissions',
-        ]);
-
-        if($validate->fails()) return $this->sendResponseBadRequest($validate->errors()->first());
-
-        $permission = $this->permissionRepository->create($request->all());
-
-        if(!$permission) return $this->sendResponseBadRequest("Failed to create");
-
-        return $this->sendResponseCreated($permission);
-    }
-    */
-    // creates product in database
-    // using form fields
-    /*     public function store(Request $request){
-        // create object and set properties
-        $camera = new \App\Product();
-        $camera->name = $request->name;
-        $camera->brand_id = $request->brand_id;
-        $camera->category_id = $request->category_id;
-        $camera->attributes = json_encode([
-            'processor' => $request->processor,
-            'sensor_type' => $request->sensor_type,
-            'monitor_type' => $request->monitor_type,
-            'scanning_system' => $request->scanning_system,
-        ]);
-        // save to database
-        $camera->save();
-        // show the created camera
-        return view('product.camera.show', ['camera' => $camera]);
-    } */
 }

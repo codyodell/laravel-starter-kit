@@ -64,7 +64,7 @@ class UserSeeder extends Seeder
         $AdminUser = User::create([
             'name' => 'John Doe',
             'email' => 'admin@gmail.com',
-            'password' => '12345678',
+            'password' => '12345678', 
             'remember_token' => Str::random(10),
             'permissions' => [],
             'last_login' => \Carbon\Carbon::now(),

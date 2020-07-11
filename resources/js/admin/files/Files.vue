@@ -10,9 +10,9 @@
         </v-container>
       </v-tab-item>
       <v-tab-item value="manage-groups">
-        <v-content>
+        <v-container>
           <file-group-lists></file-group-lists>
-        </v-content>
+        </v-container>
       </v-tab-item>
       <v-tab-item value="upload">
         <v-container>
@@ -35,9 +35,9 @@ export default {
     FileLists
   },
   mounted() {
-    console.log("pages.FileManager.vue");
+    console.info("pages.FileManager.vue");
     const self = this;
-    self.update_breadcrumbs("Files");
+    self.update_breadcrumbs("Files", "files");
   },
   data() {
     return {
@@ -47,16 +47,16 @@ export default {
   watch: {
     active(v) {
       const self = this;
-      self.update_breadcrumbs(v, v.split('-').join(' '));
+      self.update_breadcrumbs(v, v.split("-").join(" "));
     }
   },
   methods: {
     update_breadcrumbs: function(strLabel, strName) {
-      console.info("Vue - Files.vue->methods->update_breadcrumbs()");
-      if (!strLabel || !strName) return false;
-      this.$store.commit("setBreadcrumbs", [
-        { label: strLabel, name: strName }
-      ]);
+      if (strName || strLabel) {
+        this.$store.commit("setBreadcrumbs", [
+          { label: strLabel, name: strName }
+        ]);
+      }
     }
   }
 };

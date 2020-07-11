@@ -31,9 +31,8 @@ class FileGroupRepository extends BaseRepository
     {
         return $this->get($params, [], function ($q) use ($params) {
             $name = Arr::get($params, 'name', null);
-
-            if ($name) $q = $q->where('name', 'like', "%{$name}%");
-
+            if ($name) 
+                $q = $q->where('name', 'like', "%{$name}%");
             return $q;
         });
     }

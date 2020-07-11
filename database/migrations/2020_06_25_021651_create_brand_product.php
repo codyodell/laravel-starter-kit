@@ -13,8 +13,8 @@ class CreateBrandProduct extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('brand_product');
         Schema::create('brand_product', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
             $table->id();
             $table->unsignedInteger('brand_id')->index();
             $table->unsignedInteger('product_id')->index();

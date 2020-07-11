@@ -19,22 +19,22 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 /* Products */
-Route::get('products', 'ProductController@getAllProducts');
-Route::get('products/{id}', 'ProductController@getProduct');
-// Route::post('products', 'ProductController@store');
-// Route::put('products/{id}', 'ProductController@update');
-// Route::delete('products/{id}', 'ProductController@delete');
+Route::get('/products', 'ProductController@index');
+Route::get('/products/{id}', 'ProductController@show');
+Route::post('/products', 'ProductController@store');
+Route::put('/products/{id}', 'ProductController@update');
+Route::delete('/products/{id}', 'ProductController@delete');
 
 /* Categories */
-Route::get('categories', 'CategoryController@index');
-Route::get('categories/{id}', 'CategoryController@show');
-Route::post('categories', 'CategoryController@store');
-Route::put('categories/{id}', 'CategoryController@update');
-Route::delete('categories/{id}', 'CategoryController@delete');
+Route::get('/categories', 'CategoryController@index');
+Route::get('/categories/{id}', 'CategoryController@show');
+Route::post('/categories', 'CategoryController@store');
+Route::put('/categories/{id}', 'CategoryController@update');
+Route::delete('/categories/{id}', 'CategoryController@delete');
 
 /* Brands */
-Route::get('brand', 'BrandController@index');
-Route::get('brand/{id}', 'BrandController@show');
-Route::post('brand', 'BrandController@store');
-Route::put('brand/{id}', 'BrandController@update');
-Route::delete('brand/{id}', 'BrandController@delete');
+Route::get('/brands', 'BrandController@index');
+Route::get('/brands/{id}', 'BrandController@show');
+Route::post('/brands', 'BrandController@store');
+Route::put('/brands/{id}', 'BrandController@update');
+Route::delete('/brands/{id}', 'BrandController@delete');

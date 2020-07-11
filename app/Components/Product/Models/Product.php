@@ -2,11 +2,10 @@
 
 namespace App\Components\Product\Models;
 
-// use App\Components\User\Models\Brand;
-// use App\Components\User\Models\User;
-// use Carbon\Carbon;
-// use Firebase\JWT\JWT;
 use Illuminate\Database\Eloquent\Model;
+
+use App\Components\User\Models\User;
+use App\Components\Product\Models\Category;
 
 /**
  * Class File
@@ -16,8 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $description
  * @property json $attributes
- * @property int $brand_id
- * @property int $category_id
+ * @property timestamp $created_by
  */
 class Product extends Model
 {
@@ -32,10 +30,13 @@ class Product extends Model
         'name',
         'description',
         'attributes',
-        'brand_id',
-        'created_by',
-        'uploaded_by',
+        'brand_id'
     ];
+
+    public static $rules = array(
+        'name' => 'required',
+        'attributes' => 'array',
+    );
 
     public function user()
     {
@@ -44,7 +45,7 @@ class Product extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'category_product', 'product_id');
     }
 
     public function brand()

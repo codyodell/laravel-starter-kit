@@ -29,7 +29,7 @@ class BrandRepository extends BaseRepository
     public function index($params)
     {
         return $this->get($params, [], function ($q) use ($params) {
-            $name = Arr::get($params, 'name', null);
+            $name = Arr::get($params, 'name', '');
             if ($name)
                 $q = $q->where('name', 'like', "%{$name}%");
             return $q;

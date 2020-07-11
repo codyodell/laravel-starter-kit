@@ -152,7 +152,7 @@ class Helpers
      */
     public static function stringContains($subject,$charOrWord)
     {
-        if (strpos($subject,$charOrWord) !== false) {
+        if (strpos($subject, $charOrWord) !== false) {
             return true;
         }
         return false;

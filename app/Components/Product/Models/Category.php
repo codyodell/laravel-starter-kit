@@ -36,7 +36,7 @@ class Category extends Model
    }
 
    /**
-    * the categories on this group
+    * the products on this category
     *
     * @return \Illuminate\Database\Eloquent\Relations\HasMany
     */

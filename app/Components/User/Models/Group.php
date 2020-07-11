@@ -99,7 +99,7 @@ class Group extends Model
      */
     public function users()
     {
-        return $this->belongsToMany(User::class,'user_group_pivot_table','group_id');
+        return $this->belongsToMany(User::class, 'user_group_pivot_table', 'group_id');
     }
 
     /**
@@ -115,26 +115,22 @@ class Group extends Model
         $updateOnly = false;
 
         // maybe a permission ID
-        if(is_int($permission))
-        {
+        if (is_int($permission)) {
             $Permission = Permission::find($permission);
 
-            if(!$Permission) return false;
+            if (!$Permission) return false;
 
             // loop through current permissions if already exist,
             // if so, we will just update the value
-            foreach ($userCurrentPermissions as $index => $p)
-            {
-                if($p['key'] == $Permission->key)
-                {
+            foreach ($userCurrentPermissions as $index => $p) {
+                if ($p['key'] == $Permission->key) {
                     $updateOnly = true;
                     $userCurrentPermissions[$index]['value'] = $value;
                 }
             }
 
             // if not found yet, lets add it
-            if(!$updateOnly)
-            {
+            if (!$updateOnly) {
                 $userCurrentPermissions[] = [
                     'key' => $Permission->key,
                     'title' => $Permission->title,
@@ -145,22 +141,18 @@ class Group extends Model
         }
 
         // maybe a permission object
-        elseif ($permission instanceof Permission)
-        {
+        elseif ($permission instanceof Permission) {
             // loop through current permissions if already exist,
             // if so, we will just update the value
-            foreach ($userCurrentPermissions as $index => $p)
-            {
-                if($p['key'] == $permission->key)
-                {
+            foreach ($userCurrentPermissions as $index => $p) {
+                if ($p['key'] == $permission->key) {
                     $updateOnly = true;
                     $userCurrentPermissions[$index]['value'] = $value;
                 }
             }
 
             // if not found yet, lets add it
-            if(!$updateOnly)
-            {
+            if (!$updateOnly) {
                 $userCurrentPermissions[] = [
                     'key' => $permission->key,
                     'title' => $permission->title,
@@ -171,8 +163,7 @@ class Group extends Model
         }
 
         // invalid
-        else
-        {
+        else {
             return false;
         }
 
@@ -190,28 +181,19 @@ class Group extends Model
     {
         $userCurrentPermissions = $this->permissions;
 
-        if(is_int($permission))
-        {
+        if (is_int($permission)) {
             $Permission = Permission::find($permission);
 
-            if(!$Permission) return false;
+            if (!$Permission) return false;
 
-            foreach ($userCurrentPermissions as $index => $p)
-            {
-                if($p['key'] == $Permission->key) unset($userCurrentPermissions[$index]);
+            foreach ($userCurrentPermissions as $index => $p) {
+                if ($p['key'] == $Permission->key) unset($userCurrentPermissions[$index]);
             }
-        }
-
-        elseif ($permission instanceof Permission)
-        {
-            foreach ($userCurrentPermissions as $index => $p)
-            {
-                if($p['key'] == $permission->key) unset($userCurrentPermissions[$index]);
+        } elseif ($permission instanceof Permission) {
+            foreach ($userCurrentPermissions as $index => $p) {
+                if ($p['key'] == $permission->key) unset($userCurrentPermissions[$index]);
             }
-        }
-
-        else
-        {
+        } else {
             return false;
         }
 
@@ -234,9 +216,8 @@ class Group extends Model
     {
         $has = false;
 
-        foreach ($this->permissions as $index => $p)
-        {
-            if($p['key'] == $permissionKey && $p['value'] == Permission::PERMISSION_ALLOW) $has = true;
+        foreach ($this->permissions as $index => $p) {
+            if ($p['key'] == $permissionKey && $p['value'] == Permission::PERMISSION_ALLOW) $has = true;
         }
 
         return $has;

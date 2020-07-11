@@ -9,16 +9,8 @@
 
 namespace App\Components\Product\Repositories;
 
-
 use App\Components\Core\BaseRepository;
-use App\Components\Core\Utilities\Helpers;
-
 use App\Components\Product\Models\Product;
-use App\Components\Product\Models\Brand;
-use App\Components\Product\Models\Category;
-
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Storage;
 
 class ProductRepository extends BaseRepository
 {
@@ -33,20 +25,29 @@ class ProductRepository extends BaseRepository
      * @param array $params
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model[]|mixed[]
      */
-    public function listProducts($params)
+    public function index($params)
     {
         return $this->get($params, ['categories'], function ($q) use ($params) {
-            $name           = Arr::get($params, 'name', null);
-            $categoryIds    = explode(',', Arr::get($params, 'categories', ''));
-            // $brandIds       = explode(',', Arr::get($params, 'brands', ''));
-            if (!empty($name))
-                $q = $q->where('name', 'like', "%{$name}%");
-            if (count($categoryIds) > 0 && !empty($categoryIds[0]))
-                $q->ofGroups($categoryIds);
-            // if (count($brandIds) > 0 && !empty($brandIds[0]))
-            //     $q->ofGroups($brandIds);
+            $bFilterActive_Name     = array_key_exists('name', $params);
+            $bFilterActive_Category = array_key_exists('categories', $params) && (strpos($params['categories'], ',') !==
+            -1);
+            $strName                = $bFilterActive_Name ? $params['name'] : false;
+            $arCategoryIds          = $bFilterActive_Category ? explode(',', $params['categories']) : [];
+
+            if ($bFilterActive_Name) {
+                $q->where('name', 'like', "%{$strName}%");
+            }
+            if ($bFilterActive_Category) {
+                $q->whereIn('categories', function ($q) use ($arCategoryIds) {
+                    return $q->whereIn('categories.id', $arCategoryIds);
+                });
+            }
             return $q;
         });
+    }
+
+    function getProduct (int $id ) {
+        return $id ? $this->model->find($id, ['categories']) : false;
     }
 
     /**
@@ -58,33 +59,13 @@ class ProductRepository extends BaseRepository
      * @return bool
      * @throws \Exception
      */
-    /*public function deleteRecordAndProduct($id)
-    {
-        $productRecord = $this->model->find($id);
-        Storage::delete($productRecord->path);
-        $productRecord->delete();
-        return true;
-    }*/
 
-    /**
-     * list resource
-     *
-     * @param array $params
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model[]|mixed[]
-     */
-    public function index($params)
+    public function delete($id)
     {
-        return $this->get($params, ['categories'], function ($q) use ($params) {
-            $name           = Arr::get($params, 'name', null);
-            $categoryIds    = explode(',', Arr::get($params, 'categories', ''));
-            // $brandIds       = explode(',', Arr::get($params, 'brands', ''));
-            if ($name)
-                $q = $q->where('name', 'like', "%{$name}%");
-            if (count($categoryIds) > 0 && !empty($categoryIds[0]))
-                $q->whereIn('category_id', $categoryIds);
-            // if (count($brandIds) > 0 && !empty($brandIds[0]))
-            //     $q->whereIn('brand_id', $brandIds);
-            return $q;
-        });
+        $Product = $this->model->find($id);
+        if ($Product) {
+            $Product->categories()->detach();
+            return $Product->delete();
+        }
     }
 }

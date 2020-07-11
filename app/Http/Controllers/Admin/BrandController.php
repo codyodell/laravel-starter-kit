@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Components\Product\Repositories\BrandRepository;
 use Illuminate\Http\Request;
+use App\Components\Product\Repositories\BrandRepository;
 
 class BrandController extends AdminController
 {
@@ -30,7 +30,6 @@ class BrandController extends AdminController
    public function index(Request $request)
    {
       $data = $this->brandRepository->index($request->all());
-
       return $this->sendResponseOk($data);
    }
 
@@ -43,19 +42,17 @@ class BrandController extends AdminController
    public function store(Request $request)
    {
       $validate = validator($request->all(), [
-         'name' => 'required|string|unique:brands|max:255'
+         'name' => 'string|required|unique:brands|max:255'
       ]);
 
-      if ($validate->fails()) {
+      if ($validate->fails())
          return $this->sendResponseBadRequest($validate->errors()->first());
-      }
 
       $brand = $this->brandRepository->create($request->all());
 
-      if (!$brand) 
-         return $this->sendResponseBadRequest("Failed to create.");
-
-      return $this->sendResponseCreated($brand);
+      return $brand ?
+         $this->sendResponseCreated($brand) :
+         $this->sendResponseBadRequest("Failed to create brand.");
    }
 
    /**
@@ -67,9 +64,10 @@ class BrandController extends AdminController
    public function show($id)
    {
       $brand = $this->brandRepository->find($id);
-      if (!$brand)
-         return $this->sendResponseNotFound();
-      return $this->sendResponseOk($brand);
+
+      return $brand ? 
+         $this->sendResponseOk($brand) :
+         $this->sendResponseNotFound();
    }
 
    /**
@@ -82,7 +80,7 @@ class BrandController extends AdminController
    public function update(Request $request, $id)
    {
       $validate = validator($request->all(), [
-         'name' => 'required|string|unique:brands|max:255'
+         'name' => 'string|required|unique:brands|max:255'
       ]);
 
       if ($validate->fails())
@@ -90,10 +88,9 @@ class BrandController extends AdminController
 
       $updated = $this->brandRepository->update($id, $request->all());
 
-      if (!$updated)
-         return $this->sendResponseBadRequest("Failed to update");
-
-      return $this->sendResponseOk([], "Updated.");
+      return $updated ?
+         $this->sendResponseOk([], "Brand Updated") :
+         $this->sendResponseBadRequest("Failed to Update Brand");
    }
 
    /**
@@ -105,7 +102,6 @@ class BrandController extends AdminController
    public function destroy($id)
    {
       $this->brandRepository->delete($id);
-
-      return $this->sendResponseOk([], "Deleted.");
+      return $this->sendResponseOk([], "Brand Deleted");
    }
 }

@@ -58,12 +58,14 @@ class UserController extends AdminController
             'groups' => 'array',
         ]);
 
-        if ($validate->fails()) return $this->sendResponseBadRequest($validate->errors()->first());
+        if ($validate->fails()) 
+            return $this->sendResponseBadRequest($validate->errors()->first());
 
         /** @var User $user */
         $user = $this->userRepository->create($request->all());
 
-        if (!$user) return $this->sendResponseBadRequest("Failed create.");
+        if (!$user) 
+            return $this->sendResponseBadRequest("Failed create.");
 
         // attach to group
         if ($groups = $request->get('groups', [])) {
@@ -145,7 +147,8 @@ class UserController extends AdminController
     public function destroy($id)
     {
         // do not delete self
-        if ($id == auth()->user()->id) return $this->sendResponseForbidden();
+        if ($id == auth()->user()->id)
+            return $this->sendResponseForbidden();
 
         try {
             $this->userRepository->delete($id);

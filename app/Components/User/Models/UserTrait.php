@@ -61,6 +61,15 @@ trait UserTrait
     }
 
     /**
+     * returns the products of the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function products()
+    {
+        return $this->belongsTo(Product::class, 'products', 'created_by');
+    }
+    /**
      * the users meta
      *
      * @return mixed
@@ -425,12 +434,14 @@ trait UserTrait
 
         return $query->where('name', 'LIKE', "%{$name}%");
     }
+
     public function scopeOfEmail($query, $email)
     {
         if ($email === null || $email === '') return false;
 
         return $query->where('email', '=', $email);
     }
+    
     public function scopeOfGroups($q, $v)
     {
         if ($v === false || $v === '' || count($v) == 0 || $v[0] == '') return $q;

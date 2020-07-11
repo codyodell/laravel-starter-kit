@@ -9,7 +9,6 @@
 
 namespace App\Components\User\Repositories;
 
-
 use App\Components\Core\BaseRepository;
 use App\Components\User\Models\User;
 use App\Components\Core\Utilities\Helpers;
@@ -51,11 +50,8 @@ class UserRepository extends BaseRepository
         foreach ($ids as $id) {
             /** @var User $User */
             $User = $this->model->find($id);
-
-            if (!$User) {
+            if (!$User) 
                 return false;
-            };
-
             $User->groups()->detach();
             $User->delete();
         }

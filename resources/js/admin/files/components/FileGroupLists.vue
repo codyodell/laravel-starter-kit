@@ -18,19 +18,17 @@
 
     <!-- groups table -->
     <v-data-table
-      v-bind:headers="headers"
-      :options.sync="pagination"
       :items="items"
+      v-bind:headers="headers"
       :server-items-length="totalItems"
+      :disable-pagination="disable_pagination"
+      :options.sync="pagination"
       class="elevation-1"
-      :disable-pagination="!totalItems"
     >
       <template slot="items" slot-scope="props">
         <tbody>
           <tr v-for="item in items" :key="item.id">
-            <td>
-              <strong>{{ item.name }}</strong>
-            </td>
+            <td><strong>{{ item.name }}</strong></td>
             <td>{{ item.description }}</td>
             <td>{{ item.file_count }}</td>
             <td>{{ $appFormatters.formatDate(item.created_at) }}</td>
@@ -255,11 +253,8 @@ export default {
           self.items = response.data.data.data;
           self.totalItems = response.data.data.total;
           self.pagination.totalItems = response.data.data.total;
+          self.disable_pagination = self.totalItems > 0;
           (cb || Function)();
-        })
-        .always(function(response) {
-           console.log(`/admin/file-groups/ - GET->Always->response: `);
-           console.log(response);
         });
     }
   }
