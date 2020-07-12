@@ -33,7 +33,7 @@ $factory->define(\App\Components\Product\Models\Product::class, function (Faker 
         'name' => ucwords($faker->unique()->words(rand(3, 8), true)),
         'description' => $faker->paragraphs(2, true),
         'attributes' => $arAttributes,
-        // 'brand_id' => $faker->randomElement($brands),
+        'brand_id' => $faker->randomElement($brands),
         // 'category_id' => $faker->randomElement($categories),
         'created_by' => $faker->randomElement($users),
         'created_at' => Carbon::now()->add($nDateRandom_Created, 'day'),

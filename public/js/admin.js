@@ -64250,7 +64250,7 @@ if (false) {
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["default"]);
 
 var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["default"]({
-    mode: 'history',
+    base: '/admin',
     routes: [{
         path: '/',
         redirect: '/dashboard'
@@ -64316,9 +64316,8 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["default"]({
         path: '/files',
         component: __webpack_require__(244)
     }, {
-        // name: 'products',
+        name: 'products',
         path: '/products',
-        redirect: '/admin/products',
         component: __webpack_require__(268),
         children: [{
             name: 'product.lists',
@@ -73643,7 +73642,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -74466,11 +74464,6 @@ var render = function() {
                 _c(
                   "td",
                   [
-                    _vm._v(
-                      "\n               " +
-                        _vm._s(_vm.debug(item.categories)) +
-                        "\n               "
-                    ),
                     _vm._l(item.categories, function(category) {
                       return [
                         _c(
@@ -74500,11 +74493,7 @@ var render = function() {
                 _c("td", [
                   _c("time", [
                     _vm._v(
-                      _vm._s(
-                        _vm.$appFormatters.formatDate(
-                          _vm.strtotime(item.created_at)
-                        )
-                      )
+                      _vm._s(_vm.$appFormatters.formatDate(item.created_at))
                     )
                   ])
                 ]),
@@ -75487,8 +75476,7 @@ var render = function() {
               _c(
                 "v-btn",
                 {
-                  staticClass: "primary lighten-1",
-                  attrs: { dark: "" },
+                  attrs: { icon: _vm.add, fab: true, primary: "" },
                   on: {
                     click: function($event) {
                       return _vm.showDialog("category_add")

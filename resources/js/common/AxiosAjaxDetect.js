@@ -1,6 +1,6 @@
 class AxiosAjaxDetect {
 
-    init (startCb, endCb) {
+    init(startCb, endCb) {
 
         let count = 0;
 
@@ -8,7 +8,7 @@ class AxiosAjaxDetect {
         window.axios.interceptors.request.use(function (config) {
             count++;
 
-            if(count === 1) startCb();
+            if (count === 1) startCb();
 
             return config;
         }, function (error) {

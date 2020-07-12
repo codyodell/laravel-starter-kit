@@ -7,7 +7,7 @@
                <v-text-field prepend-icon="search" label="Filter By Name" v-model="filters.name"></v-text-field>
             </div>
             <div class="flex-grow-1 text-right">
-               <v-btn @click="showDialog('category_add')" dark class="primary lighten-1">
+               <v-btn @click="showDialog('category_add')" :icon="add" :fab="true" primary>
                   New Category
                   <v-icon right>add</v-icon>
                </v-btn>

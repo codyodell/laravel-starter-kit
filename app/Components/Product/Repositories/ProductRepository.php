@@ -28,20 +28,19 @@ class ProductRepository extends BaseRepository
     public function index($params)
     {
         return $this->get($params, ['categories'], function ($q) use ($params) {
-            $bFilterActive_Name     = array_key_exists('name', $params);
-            $bFilterActive_Category = array_key_exists('categories', $params) && (strpos($params['categories'], ',') !==
-            -1);
-            $strName                = $bFilterActive_Name ? $params['name'] : false;
+            $bFilterActive_Name     = isset($params['name']) && (strlen($params['name']) > 2);
+            $bFilterActive_Category = isset($params['categories']) && !empty($params['categories']);
+            $strName                = $bFilterActive_Name ? $params['name'] : '';
             $arCategoryIds          = $bFilterActive_Category ? explode(',', $params['categories']) : [];
 
             if ($bFilterActive_Name) {
                 $q->where('name', 'like', "%{$strName}%");
             }
-            if ($bFilterActive_Category) {
+            /*if ($bFilterActive_Category) {
                 $q->whereIn('categories', function ($q) use ($arCategoryIds) {
-                    return $q->whereIn('categories.id', $arCategoryIds);
+                    return $q->whereIn('category_id', 'categories.id', $arCategoryIds);
                 });
-            }
+            }*/
             return $q;
         });
     }

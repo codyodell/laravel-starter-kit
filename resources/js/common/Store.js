@@ -24,14 +24,19 @@ export default new Vuex.Store({
         dialogTitle: '',
         dialogMessage: '',
         dialogIcon: null,
-        dialogOkCb: ()=>{},
-        dialogCancelCb: ()=>{},
+        dialogOkCb: () => { },
+        dialogCancelCb: () => { },
     },
     mutations: {
 
         // breadcrumbs
         setBreadcrumbs(state, items) {
-            items.unshift({label:'Home',to:{name:'dashboard'}});
+            items.unshift({
+                label: 'Home',
+                to: {
+                    name: 'dashboard'
+                }
+            });
             state.breadcrumbs = items;
         },
 
@@ -60,8 +65,8 @@ export default new Vuex.Store({
             state.dialogTitle = data.title;
             state.dialogMessage = data.message;
             state.dialogIcon = data.icon || null;
-            state.dialogOkCb = data.okCb || function(){};
-            state.dialogCancelCb = data.cancelCb || function(){};
+            state.dialogOkCb = data.okCb || function () { };
+            state.dialogCancelCb = data.cancelCb || function () { };
             state.dialogShow = true;
         },
         hideDialog(state) {

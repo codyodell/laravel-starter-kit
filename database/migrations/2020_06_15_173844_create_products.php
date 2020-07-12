@@ -22,7 +22,7 @@ class CreateProducts extends Migration
             $table->string('name')->unique();
             $table->text('description');
             $table->json('attributes');
-            // $table->unsignedInteger('brand_id')->index();
+            $table->unsignedInteger('brand_id')->index();
             // $table->unsignedInteger('category_id')->index();
             $table->unsignedInteger('created_by');
             $table->timestamps();

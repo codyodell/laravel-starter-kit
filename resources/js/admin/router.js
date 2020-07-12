@@ -5,18 +5,16 @@ import store from '../common/Store';
 Vue.use(Router);
 
 const router = new Router({
-    mode: 'history',
+    base: '/admin',
     routes: [
         {
             path: '/',
             redirect: '/dashboard',
-        },
-        {
+        }, {
             name: 'dashboard',
             path: '/dashboard',
             component: require('./dashboard/Admin'),
-        },
-        {
+        }, {
             path: '/users',
             component: require('./users/Users'),
             children: [
@@ -24,47 +22,39 @@ const router = new Router({
                     path: '/',
                     name: 'users.list',
                     component: require('./users/components/UserLists')
-                },
-                {
+                }, {
                     path: 'create',
                     name: 'users.create',
                     component: require('./users/components/UserFormAdd')
-                },
-                {
+                }, {
                     path: 'edit/:id',
                     name: 'users.edit',
                     component: require('./users/components/UserFormEdit'),
                     props: (route) => ({ propUserId: route.params.id }),
-                },
-                {
+                }, {
                     path: 'groups',
                     name: 'users.groups.list',
                     component: require('./users/components/GroupLists')
-                },
-                {
+                }, {
                     path: 'groups/create',
                     name: 'users.groups.create',
                     component: require('./users/components/GroupFromAdd')
-                },
-                {
+                }, {
                     path: 'groups/edit/:id',
                     name: 'users.groups.edit',
                     component: require('./users/components/GroupFromEdit'),
                     props: (route) => ({
                         propGroupId: route.params.id
                     }),
-                },
-                {
+                }, {
                     path: 'permissions',
                     name: 'users.permissions.list',
                     component: require('./users/components/PermissionLists')
-                },
-                {
+                }, {
                     path: 'permissions/create',
                     name: 'users.permissions.create',
                     component: require('./users/components/PermissionFormAdd')
-                },
-                {
+                }, {
                     path: 'permissions/edit/:id',
                     name: 'users.permissions.edit',
                     component: require('./users/components/PermissionFormEdit'),
@@ -73,15 +63,13 @@ const router = new Router({
                     }),
                 },
             ]
-        },
-        {
+        }, {
             name: 'files',
             path: '/files',
             component: require('./files/Files'),
         }, {
-            // name: 'products',
+            name: 'products',
             path: '/products',
-            redirect: '/admin/products',
             component: require('./products/Products'),
             children: [
                 {
@@ -125,8 +113,7 @@ const router = new Router({
                     props: (route) => ({ propCategoryId: route.params.id }),
                 }
             ]
-        },
-        {
+        }, {
             name: 'settings',
             path: '/settings',
             component: require('./settings/Settings'),

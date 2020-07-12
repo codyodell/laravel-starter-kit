@@ -50,7 +50,6 @@
                   <strong @click="showDialog('product_details', item)">{{ item.name }}</strong>
                </td>
                <td>
-                  {{ debug(item.categories) }}
                   <template v-for="category in item.categories">
                      <v-chip small outlined color="grey" :key="category.id">{{ category.name }}</v-chip>
                   </template>
@@ -59,7 +58,7 @@
                   <v-btn small outlined>{{ item.brand_id }}</v-btn>
                </td>
                <td>
-                  <time>{{ $appFormatters.formatDate(strtotime(item.created_at)) }}</time>
+                  <time>{{ $appFormatters.formatDate(item.created_at) }}</time>
                </td>
                <td class="align-right">
                   <v-btn @click="trash(item)" color="red" text icon small>

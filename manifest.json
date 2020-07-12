@@ -1,0 +1,54 @@
+{
+   "name": "CMWD",
+   "short_name": "CMWD",
+   "description": "CMWD is a design project that stands for eCommerce, Marketing, Web Development & Design",
+   "prefer_related_applications": true,
+   "start_url": "/?source=pwa",
+   "icons": [
+      {
+         "src": "/favicon.ico",
+         "type": "image/x-icon",
+         "sizes": "32x32"
+      },
+      {
+         "src": "/images/logo-50.svg",
+         "type": "image/svg+xml",
+         "sizes": "50x50"
+      },
+      {
+         "src": "/images/email-logo.png",
+         "type": "image/png",
+         "sizes": "120x120"
+      },
+      {
+         "src": "/images/logo-192.png",
+         "type": "image/png",
+         "sizes": "192x192"
+      },
+      {
+         "src": "/images/notification-logo.png",
+         "type": "image/png",
+         "sizes": "200x200"
+      },
+      {
+         "src": "/images/logo-large-old.png",
+         "type": "image/png",
+         "sizes": "250x250"
+      },
+      {
+         "src": "/images/logo-300.png",
+         "type": "image/png",
+         "sizes": "300x300"
+      },
+      {
+         "src": "/images/logo-512.png",
+         "type": "image/png",
+         "sizes": "512x512"
+      },
+      {
+         "src": "/images/bookmark_logo.png",
+         "type": "image/png",
+         "sizes": "1025x1025"
+      }
+   ]
+}
