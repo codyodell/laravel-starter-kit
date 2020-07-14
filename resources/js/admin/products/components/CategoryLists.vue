@@ -1,15 +1,19 @@
 <template>
    <div class="component-wrap">
       <!-- search -->
-      <v-card>
+      <v-card flat>
          <div class="d-flex flex-row">
             <div class="flex-grow-1">
                <v-text-field prepend-icon="search" label="Filter By Name" v-model="filters.name"></v-text-field>
             </div>
             <div class="flex-grow-1 text-right">
-               <v-btn @click="showDialog('category_add')" :icon="add" :fab="true" primary>
-                  New Category
-                  <v-icon right>add</v-icon>
+               <v-btn
+                  icon
+                  color="primary"
+                  aria-label="New Category"
+                  @click="showDialog('category_add')"
+               >
+                  <v-icon>add</v-icon>
                </v-btn>
             </div>
          </div>
@@ -117,13 +121,12 @@ export default {
             {
                text: "Name",
                value: "name",
-               align: "left",
+               align: "start",
                sortable: false
             },
             {
                text: "Description",
                value: "description",
-               align: "left",
                sortable: false
             },
             {
@@ -135,13 +138,11 @@ export default {
             {
                text: "Date Created",
                value: "created_at",
-               align: "left",
                sortable: false
             },
             {
                text: " ",
                value: false,
-               align: "right",
                sortable: false
             }
          ],
@@ -150,11 +151,9 @@ export default {
          pagination: {
             rowsPerPage: 10
          },
-
          filters: {
             name: ""
          },
-
          dialogs: {
             edit: {
                category: {},
@@ -167,13 +166,14 @@ export default {
       };
    },
    mounted() {
-      console.log("Products.Components.CategoryLists");
       const self = this;
+      self.$store.commit("setBreadcrumbs", [
+         { label: "Products", to: { name: "product.lists" } },
+         { label: "Categories", to: { name: "product.categories" } }
+      ]);
       self.$eventBus.$on(
          ["CATEGORY_ADDED", "CATEGORY_UPDATED", "CATEGORY_DELETED"],
-         () => {
-            self.loadCategories(() => {});
-         }
+         () => self.loadCategories(() => {})
       );
    },
    watch: {
@@ -222,21 +222,20 @@ export default {
                   });
             },
             cancelCb: () => {
-               console.log("CANCEL");
+               console.info("CANCEL");
             }
          });
       },
       showDialog(dialog, data) {
          const self = this;
-
          switch (dialog) {
-            case "category_edit":
+            case "edit":
                self.dialogs.edit.category = data;
                setTimeout(() => {
                   self.dialogs.edit.show = true;
                }, 500);
                break;
-            case "category_add":
+            case "add":
                setTimeout(() => {
                   self.dialogs.add.show = true;
                }, 500);
@@ -255,6 +254,7 @@ export default {
          axios
             .get("/admin/categories", { params: params })
             .then(function(response) {
+               console.dir(response);
                self.items = response.data.data.data;
                self.totalItems = response.data.data.total;
                self.pagination.totalItems = response.data.data.total;
@@ -266,7 +266,5 @@ export default {
 </script>
 
 <style scoped>
-span.btn {
-   width: 2.25rem;
-}
+/* span.btn { width: 2.25rem; } */
 </style>

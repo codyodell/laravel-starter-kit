@@ -3,7 +3,7 @@
       <v-tabs color="accent" v-model="active">
          <v-tab key="product.lists" href="#product.lists" ripple>Products</v-tab>
          <v-tab key="product.categories" href="#product.categories" ripple>Categories</v-tab>
-         <v-tab key="product.brands" href="#product.brands" ripple>Brands</v-tab>
+         <v-tab key="product.brnands" href="#product.brands" ripple>Brands</v-tab>
          <v-tab-item value="product.lists">
             <product-lists></product-lists>
          </v-tab-item>
@@ -29,7 +29,7 @@ export default {
    },
    data() {
       return {
-         active: "product.lists"
+         active: ""
       };
    },
    mounted() {
@@ -38,7 +38,7 @@ export default {
    },
    watch: {
       active(v) {
-         console.log("active tab: " + v);
+         // console.log("active tab: " + v);
       }
    }
 };

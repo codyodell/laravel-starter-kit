@@ -47,7 +47,7 @@ export default {
       };
    },
    mounted() {
-      console.log("pages.products.components.CategoryEdit.vue");
+      console.info("pages.products.components.CategoryEdit.vue");
 
       const self = this;
    },

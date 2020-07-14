@@ -1,6 +1,6 @@
 <template>
    <div class="component-wrap">
-      <v-card dark>
+      <v-card flat>
          <v-form v-model="valid" ref="brandFormEdit" lazy-validation>
             <v-container grid-list-md>
                <v-layout row wrap>

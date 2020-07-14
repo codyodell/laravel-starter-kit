@@ -9,7 +9,7 @@ const router = new Router({
     routes: [
         {
             path: '/',
-            redirect: '/dashboard',
+            redirect: { name: 'dashboard' },
         }, {
             name: 'dashboard',
             path: '/dashboard',

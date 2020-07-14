@@ -17,8 +17,7 @@ use App\Components\Product\Models\Category;
  * @property json $attributes
  * @property timestamp $created_by
  */
-class Product extends Model
-{
+class Product extends Model {
     protected $table = 'products';
 
     // Cast attributes JSON to array

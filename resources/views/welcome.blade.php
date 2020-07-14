@@ -4,10 +4,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>eCommerce Store (Laravel/Vue.js)</title>
-  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">    <style>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">    
+    <style>
 
     html, body { margin: 0; }
     img + img { margin-left: 1em; }
@@ -18,8 +19,14 @@
         background-color: #f0f0f0;
         color: #35353e;
     }
+
+    code, pre, kbd {
+        font-family: 'Roboto Mono';
+    }
     
-    h1 { font-weight: 900; }
+    h1 { 
+        font-weight: 900; 
+    }
 
     [data-pos="rel"] { position: relative; }
     [data-pos="abs"] { position: absolute; }

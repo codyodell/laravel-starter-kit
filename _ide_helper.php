@@ -14864,6 +14864,3 @@ namespace  {
     class Debugbar extends \Barryvdh\Debugbar\Facade {}
  
 }
-
-
-

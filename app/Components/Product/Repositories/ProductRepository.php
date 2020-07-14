@@ -25,8 +25,7 @@ class ProductRepository extends BaseRepository
      * @param array $params
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model[]|mixed[]
      */
-    public function index($params)
-    {
+    public function index($params) {
         return $this->get($params, ['categories'], function ($q) use ($params) {
             $bFilterActive_Name     = isset($params['name']) && (strlen($params['name']) > 2);
             $bFilterActive_Category = isset($params['categories']) && !empty($params['categories']);

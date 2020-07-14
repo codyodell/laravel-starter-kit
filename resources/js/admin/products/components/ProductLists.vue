@@ -1,118 +1,115 @@
 <template>
-   <v-container class="component-wrap" fluid>
-      <v-form>
-         <v-card flat>
-            <v-card-title>
-               <v-icon left>filter</v-icon>
-               <h5>Filters</h5>
-               <v-spacer></v-spacer>
-               <v-btn :to="{name: 'product.add'}" rounded>
-                  <v-icon>add</v-icon>
-               </v-btn>
-            </v-card-title>
-            <v-card-text>
-               <v-container>
-                  <v-row>
-                     <v-col cols="4" sm="4" xs="12">
+   <v-sheet class="component-wrap">
+      <v-toolbar dense>
+         <v-toolbar-title>{{ title }}</v-toolbar-title>
+         <v-spacer></v-spacer>
+         <v-btn icon fab>
+            <v-icon>filters-alt</v-icon>
+         </v-btn>
+         <v-btn icon fab :to="{ name: 'product.add' }" title="Add a Product">
+            <v-icon>plus-circle</v-icon>
+         </v-btn>
+      </v-toolbar>
+      <v-expansion-panels>
+         <v-expansion-panel>
+            <v-expansion-panel-header>
+               <v-icon>filters_alt</v-icon>Filters
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+               <v-form>
+                  <v-row justify="space-around">
+                     <v-col cols="12">
                         <v-text-field v-model="filters.name" label="Name"></v-text-field>
                      </v-col>
-                     <v-col cols="4" sm="4" xs="12">
-                        <v-text-field v-model="filters.ASIN" label="ASIN #"></v-text-field>
+                     <v-col cols="6" md="6" sm="12">
+                        <v-text-field v-model="filters.asin" label="ASIN #"></v-text-field>
                      </v-col>
-                     <v-col cols="4" sm="4" xs="12">
+                     <v-col cols="6" md="6" sm="12">
                         <v-select
-                           label="Category"
+                           label="Categories"
                            v-model="filters.category"
                            :items="filters.categories"
                         ></v-select>
                      </v-col>
+                     <v-col cols="12">
+                        <v-btn small color="grey">Cancel</v-btn>
+                        <v-btn small color="primary">
+                           Apply Filters
+                           <v-icon right>arrow_right</v-icon>
+                        </v-btn>
+                     </v-col>
                   </v-row>
-               </v-container>
-            </v-card-text>
-            <v-card-actions>
-               <v-spacer></v-spacer>
-               <v-btn color="blue darken-1" large>Submit</v-btn>
-            </v-card-actions>
-         </v-card>
-      </v-form>
+               </v-form>
+            </v-expansion-panel-content>
+         </v-expansion-panel>
+      </v-expansion-panels>
+
       <!-- products table -->
       <v-data-table
          v-bind:headers="headers"
          :items="items"
          :options.sync="pagination"
          :server-items-length="totalItems"
-         :disable-pagination="totalItems === 0"
-         class="elevation-4"
       >
-         <tbody>
-            <tr v-for="item in items" :key="item.id">
-               <td>
-                  <strong @click="showDialog('product_details', item)">{{ item.name }}</strong>
-               </td>
-               <td>
+         <tr slot="items" v-for="item in items" :key="item.id">
+            <td>
+               <v-btn text large @click="showDialog('product_details', item)">{{ item.name }}</v-btn>
+            </td>
+            <td>
+               <v-chip-group v-if="!!item.categories.length">
                   <template v-for="category in item.categories">
-                     <v-chip small outlined color="grey" :key="category.id">{{ category.name }}</v-chip>
+                     <v-chip
+                        small
+                        outlined
+                        color="grey"
+                        :key="category.id"
+                        v-if="!!category.name.length"
+                     >{{ category.name }}</v-chip>
                   </template>
-               </td>
-               <td>
-                  <v-btn small outlined>{{ item.brand_id }}</v-btn>
-               </td>
-               <td>
-                  <time>{{ $appFormatters.formatDate(item.created_at) }}</time>
-               </td>
-               <td class="align-right">
-                  <v-btn @click="trash(item)" color="red" text icon small>
-                     <v-icon>delete</v-icon>
-                  </v-btn>
-               </td>
-            </tr>
-         </tbody>
+               </v-chip-group>
+            </td>
+            <td>
+               <v-chip dark v-if="item.brand_id">
+                  <span>{{ item.brand_id }}</span>
+               </v-chip>
+            </td>
+            <td>
+               <time>{{ item.created_at }}</time>
+            </td>
+            <td class="text-right">
+               <v-btn @click="trash(item)" color="red" icon small>
+                  <v-icon>delete</v-icon>
+               </v-btn>
+            </td>
+         </tr>
       </v-data-table>
       <!-- /products table -->
 
       <!-- view product dialog -->
-      <v-dialog
-         fullscreen
-         :laze="false"
-         v-model="dialogs.view.show"
-         transition="dialog-bottom-transition"
-         :overlay="false"
-      >
-         <v-card>
-            <v-card-title class="white--text orange darken-4">
-               {{ dialogs.view.product.name }}
+      <v-dialog :laze="false" v-model="dialogs.view.show" transition="dialog-bottom-transition">
+         <v-card flat>
+            <v-card-title class="white--text orange darken-4">{{ dialogs.view.product.name }}</v-card-title>
+            <v-card-actions>
                <v-spacer></v-spacer>
-               <v-btn dark fab small @click.native="dialogs.view.show = false" title="Close">
-                  <v-icon>delete</v-icon>
+               <v-btn dark small @click.native="dialogs.view.show = false" title="Close">
+                  <v-icon aria-hidden="true">delete</v-icon>
                </v-btn>
-            </v-card-title>
-            <v-card-text>
-               <p>Test</p>
-            </v-card-text>
+            </v-card-actions>
          </v-card>
       </v-dialog>
 
-      <v-dialog
-         fullscreen
-         :laze="false"
-         v-model="dialogs.edit.show"
-         transition="dialog-bottom-transition"
-         :overlay="false"
-      >
+      <v-dialog :laze="false" v-model="dialogs.edit.show" transition="dialog-bottom-transition">
          <v-card>
-            <v-card-title class="white--text orange darken-4">
-               {{ dialogs.edit.product.name }}
+            <v-card-title class="white--text orange darken-4">{{ dialogs.edit.product.name }}</v-card-title>
+            <v-card-actions>
                <v-spacer></v-spacer>
                <v-btn dark fab small @click.native="dialogs.edit.show = false" title="Close">
                   <v-icon>delete</v-icon>
                </v-btn>
-            </v-card-title>
-            <v-card-text>
-               <p>Test</p>
-            </v-card-text>
+            </v-card-actions>
          </v-card>
       </v-dialog>
-   </v-container>
+   </v-sheet>
 </template>
 
 <script>
@@ -126,36 +123,33 @@ export default {
    },
    data() {
       return {
-         active: "product.lists",
+         title: "Products",
+         loading: true,
          headers: [
             {
                text: "Name",
                value: "name",
-               align: "left",
+               align: "start",
                sortable: false
             },
             {
-               text: "Category",
+               text: "Categories",
                value: "categories",
-               align: "left",
                sortable: false
             },
             {
                text: "Brand",
                value: "brand",
-               align: "left",
                sortable: false
             },
             {
                text: "Date Created",
                value: "created_at",
-               align: "left",
                sortable: false
             },
             {
                text: " ",
                value: false,
-               align: "right",
                sortable: false
             }
          ],
@@ -164,13 +158,12 @@ export default {
          pagination: {
             rowsPerPage: 10
          },
-
          filters: {
             name: "",
-            ASIN: "",
-            selectedCategoryIds: "",
-            category: [],
-            categories: []
+            asin: "",
+            category: "", // Model
+            categories: [],
+            categories_selected: []
          },
 
          dialogs: {
@@ -187,14 +180,16 @@ export default {
    },
    mounted() {
       const self = this;
-      self.loadCategories(() => {});
+      self.$store.commit("setBreadcrumbs", [
+         { label: "Products", to: { name: "product.lists" } }
+      ]);
       self.$eventBus.$on(
          ["PRODUCT_ADDED", "PRODUCT_MODIFIED", "PRODUCT_DELETED"],
-         function() {
-            self.loadCategories(() => {});
-            self.loadProducts(() => {});
-         }
+         () => self.loadProducts(() => {})
       );
+
+      self.loadProducts(() => {});
+      self.loadCategories(() => {});
    },
    watch: {
       "pagination.page": function() {
@@ -202,12 +197,21 @@ export default {
       },
       "pagination.rowsPerPage": function() {
          this.loadProducts(() => {});
-      }
+      },
+      "filters.categories": _.debounce(function() {
+         this.loadProducts(() => {});
+      }, 700)
    },
    methods: {
       showDialog(dialog, data) {
          const self = this;
          switch (dialog) {
+            case "product_details":
+               self.dialogs.view.product = data;
+               setTimeout(() => {
+                  self.dialogs.view.show = true;
+               }, 500);
+               break;
             case "product_show":
                self.dialogs.view.product = data;
                setTimeout(() => {
@@ -218,7 +222,6 @@ export default {
       },
       trash(product) {
          const self = this;
-
          self.$store.commit("showDialog", {
             type: "confirm",
             title: "Confirm Deletion",
@@ -226,9 +229,9 @@ export default {
             okCb: () => {
                axios
                   .delete("/admin/products/" + product.id)
-                  .then(function(response) {
+                  .then(function(resp) {
                      self.$store.commit("showSnackbar", {
-                        message: response.data.message,
+                        message: resp.data.message,
                         color: "success",
                         duration: 3000
                      });
@@ -238,9 +241,9 @@ export default {
                      self.dialogs.view.show = false;
                   })
                   .catch(function(error) {
-                     if (error.response) {
+                     if (error.resp) {
                         self.$store.commit("showSnackbar", {
-                           message: error.response.data.message,
+                           message: error.resp.data.message,
                            color: "error",
                            duration: 3000
                         });
@@ -258,59 +261,60 @@ export default {
       },
       loadProducts(cb) {
          const self = this;
-
          let params = {
             name: self.filters.name,
-            categories: self.filters.selectedCategoryIds,
+            categories: self.filters.categories_selected.join(","),
             page: self.pagination.page,
             per_page: self.pagination.rowsPerPage
          };
 
-         axios
-            .get("/admin/products", { params: params })
-            .then(function(response) {
-               self.items = response.data.data.data;
-               self.totalItems = response.data.data.total;
-               self.pagination.totalItems = response.data.data.total;
-               (cb || Function)();
-            });
+         axios.get("/admin/products", { params: params }).then(function(resp) {
+            self.items = resp.data.data.data;
+            self.totalItems = resp.data.data.total;
+            self.pagination.totalItems = resp.data.data.total;
+            (cb || Function)();
+         });
       },
       loadCategories(cb, params) {
+         params = params || { paginate: "no" };
          const self = this;
-         if (!params) {
-            params = {
-               name: self.filters.name,
-               ASIN: self.filters.ASIN,
-               categories: self.filters.selectedCategoryIds,
-               page: self.pagination.page,
-               per_page: self.pagination.rowsPerPage
-            };
-         }
-         axios
-            .get("/admin/categories", { params: params })
-            .then(function(response) {
-               self.filters.nCategoryID = 0;
-               self.filters.categories = [];
-               self.filters.selectedCategoryIds = [];
-               response.data.data.data.entries(category => {
-                  console.log(`Categories: ${category}`);
-                  self.filters.categories[category.id] = category.name;
-               });
-               self.totalItems = response.data.data.total;
-               self.pagination.totalItems = response.data.data.total;
-               (cb || Function)();
+         axios.get("/admin/categories", { params: params }).then(resp => {
+            let items = resp.data.data.data;
+            let hasItems = typeof items === "Object" && items.length === 0;
+            if (!hasItems) return false;
+            console.info("Response");
+            console.log(typeof items, items);
+            self.filter.categories = items.map(category => {
+               console.log(category);
+               return !!category.name.length ? category.name : false;
             });
+            (cb || Function)();
+         });
       }
    }
 };
+/*loadResource(url, method, data, callback) {
+         callback = callback || Function;
+         data = data | [];
+         let params = { params: data };
+         const request = axios.call(method.toLowerCase(), url, method, params);
+
+         switch (method.toUpperCase()) {
+            case "GET":
+               break;
+            case "POST":
+               break;
+            case "PUT":
+               break;
+            case "DELETE":
+               break;
+         }
+         callback();
+      }*/
 </script>
 
 <style scoped>
 .product_view_popup {
    min-width: 30rem;
-   text-align: center;
-}
-.finder_wrap {
-   padding: 0 1.25em;
 }
 </style>

@@ -1,0 +1,8 @@
+{
+   "name": "eCommerce PWA",
+   "short_name": "eCommerce PWA",
+   "description": "Laravel/Vue.js",
+   "theme_color": "#dbdbdb",
+   "background_color": "#1c1e22",
+   "display": "browser"
+}

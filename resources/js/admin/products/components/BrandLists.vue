@@ -7,9 +7,13 @@
                <v-text-field prepend-icon="search" label="Filter By Name" v-model="filters.name"></v-text-field>
             </div>
             <div class="flex-grow-1 text-right">
-               <v-btn @click="showDialog('brand_add')" dark class="primary lighten-1">
-                  New Brand
-                  <v-icon right>add</v-icon>
+               <v-btn
+                  @click="showDialog('brand_add')"
+                  dark
+                  class="primary lighten-1"
+                  aria-label="New Brand"
+               >
+                  <v-icon>add</v-icon>
                </v-btn>
             </div>
          </div>
@@ -114,8 +118,8 @@ export default {
             {
                text: "Name",
                value: "name",
-               align: "left",
-               sortable: true
+               align: "start",
+               sortable: false
             },
             {
                text: "Total Products",
@@ -126,13 +130,12 @@ export default {
             {
                text: "Created",
                value: "created_at",
-               align: "left",
                sortable: false
             },
             {
                text: "_",
                value: "_",
-               align: "right",
+               align: "end",
                sortable: false
             }
          ],
@@ -158,16 +161,17 @@ export default {
       };
    },
    mounted() {
-      console.log("pages.products.components.BrandLists.vue");
-
       const self = this;
-
       self.$eventBus.$on(
          ["BRAND_ADDED", "BRAND_UPDATED", "BRAND_DELETED"],
          () => {
             self.loadBrands(() => {});
          }
       );
+      self.$store.commit("setBreadcrumbs", [
+         { label: "Products", to: { name: "product.lists" } },
+         { label: "Brands", to: { name: "product.brands" } }
+      ]);
    },
    watch: {
       "filters.name": _.debounce(function(v) {
@@ -243,13 +247,11 @@ export default {
       },
       loadBrands(cb) {
          const self = this;
-
          let params = {
             name: self.filters.name,
             page: self.pagination.page,
             per_page: self.pagination.rowsPerPage
          };
-
          axios
             .get("/admin/brands", { params: params })
             .then(function(response) {

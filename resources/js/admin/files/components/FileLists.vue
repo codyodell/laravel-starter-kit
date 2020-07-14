@@ -32,8 +32,8 @@
             <tbody>
                <tr v-for="item in items" :key="item.id">
                   <td>
-                     <v-avatar tile :size="'50px'" class="grey lighten-4">
-                        <img :src="getFullUrl(item, 50, 'fit')" />
+                     <v-avatar tile size="50px" class="grey lighten-4">
+                        <v-img :src="getFullUrl(item, 50, 'fit')" />
                      </v-avatar>
                   </td>
                   <td>

@@ -2,53 +2,55 @@
    "name": "CMWD",
    "short_name": "CMWD",
    "description": "CMWD is a design project that stands for eCommerce, Marketing, Web Development & Design",
-   "prefer_related_applications": true,
-   "start_url": "/?source=pwa",
+   "display": "standalone",
+   "start_url": "http://laravel-starter-kit.local/?source=pwa",
+   "background_color": "#1c1e22",
+   "theme_color": "#50ffca",
    "icons": [
       {
-         "src": "/favicon.ico",
+         "src": "/img/favicons/16.ico",
          "type": "image/x-icon",
+         "sizes": "16x16"
+      },
+      {
+         "src": "/img/favicons/32.svg",
+         "type": "image/svg+xml",
          "sizes": "32x32"
       },
       {
-         "src": "/images/logo-50.svg",
+         "src": "/img/favicons/64.svg",
          "type": "image/svg+xml",
-         "sizes": "50x50"
+         "sizes": "64x64"
       },
       {
-         "src": "/images/email-logo.png",
+         "src": "/img/favicons/128.svg",
+         "type": "image/svg+xml",
+         "sizes": "128x128"
+      },
+      {
+         "src": "/img/favicons/144.png",
          "type": "image/png",
-         "sizes": "120x120"
+         "sizes": "144x144"
       },
       {
-         "src": "/images/logo-192.png",
+         "src": "/img/favicons/192.png",
          "type": "image/png",
          "sizes": "192x192"
       },
       {
-         "src": "/images/notification-logo.png",
+         "src": "/img/favicons/256.png",
          "type": "image/png",
-         "sizes": "200x200"
+         "sizes": "256x256"
       },
       {
-         "src": "/images/logo-large-old.png",
-         "type": "image/png",
-         "sizes": "250x250"
-      },
-      {
-         "src": "/images/logo-300.png",
-         "type": "image/png",
-         "sizes": "300x300"
-      },
-      {
-         "src": "/images/logo-512.png",
+         "src": "/img/favicons/512.png",
          "type": "image/png",
          "sizes": "512x512"
       },
       {
-         "src": "/images/bookmark_logo.png",
+         "src": "/img/favicons/1024.png",
          "type": "image/png",
-         "sizes": "1025x1025"
+         "sizes": "1024x1024"
       }
    ]
 }
