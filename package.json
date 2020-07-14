@@ -3,14 +3,27 @@
   "scripts": {
     "dev": "npm run development",
     "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch-poll": "npm run watch -- --watch-poll",
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "npm run production",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch-poll": "npm run watch -- --watch-poll"
+  },
+  "dependencies": {
+    "dropzone": "^5.7.1",
+    "moment": "^2.27.0",
+    "register-service-worker": "^1.7.1",
+    "vue-moment": "^4.1.0",
+    "vue-progressbar": "^0.7.5",
+    "vue-router": "^3.3.4",
+    "vue-spinner": "^1.0.2",
+    "vue-template-compiler": "^2.6.11",
+    "vuetify": "^2.3.2",
+    "vuex": "^3.4.0"
   },
   "devDependencies": {
     "@mdi/font": "^4.9.95",
+    "@vue/cli-plugin-pwa": "~4.4.0",
     "axios": "^0.18.1",
     "bootstrap-sass": "^3.3.7",
     "cross-env": "^5.2.1",
@@ -20,16 +33,5 @@
     "lodash": "^4.17.4",
     "sass": "^1.26.9",
     "vue": "^2.6.11"
-  },
-  "dependencies": {
-    "dropzone": "^5.7.1",
-    "moment": "^2.27.0",
-    "vue-moment": "^4.1.0",
-    "vue-progressbar": "^0.7.5",
-    "vue-router": "^3.3.4",
-    "vue-spinner": "^1.0.2",
-    "vue-template-compiler": "^2.6.11",
-    "vuetify": "^2.3.2",
-    "vuex": "^3.4.0"
   }
 }
