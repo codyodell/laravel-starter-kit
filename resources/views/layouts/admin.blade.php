@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ config('app.name', 'Laravel/Vue — MySQL Project') }}</title>
+    <title>{{ config('app.name') }}</title>
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,900|Roboto+Mono|Material+Icons" rel="stylesheet">
     <script type="application/javascript">
@@ -27,7 +27,7 @@
                 <v-list dense>
                     @foreach($nav as $n)
                         @if($n->navType==\App\Components\Core\Menu\MenuItem::$NAV_TYPE_NAV && $n->visible)
-                            <v-list-item :to="{name: '{{ $n->routeName }}'}" :exact="false">
+                            <v-list-item :to="{ name: '{{ $n->routeName }}' }" :exact="false">
                                 <v-list-item-action>
                                     <v-icon>{{ $n->icon }}</v-icon>
                                 </v-list-item-action>
@@ -41,28 +41,38 @@
                             <v-divider></v-divider>
                         @endif
                     @endforeach
-                    <v-list-item @click="clickLogout('{{route('logout')}}','{{url('/')}}')">
-                        <v-list-item-action>
-                            <v-icon>directions_walk</v-icon>
-                        </v-list-item-action>
-                        <v-list-item-content>
-                            <v-list-item-title>Logout</v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
                 </v-list>
             </v-navigation-drawer>
             <v-app-bar app clipped-left>
                 <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
                 <v-toolbar-title>{{ config('app.name') }}</v-toolbar-title>
                 <v-spacer></v-spacer>
-
+                <v-list>
+                    <v-list-item>
+                        <v-list-item-action>
+                            <v-menu offset-x>
+                                <v-btn slot="activator" color="primary" dark>
+                                    <v-avatar size="72px" dark>
+                                        <img src="" alt="Profile Photo" />
+                                    </v-avatar>
+                                </v-btn>
+                                <v-list>
+                                    <v-list-tile @click="clickLogout('{{route('logout')}}','{{url('/')}}')">
+                                        <v-list-tile-title>Logout</v-list-tile-title>
+                                    </v-list-tile>
+                                </v-list>
+                            </v-menu>
+                        </v-list-item-action>
+                    </v-list-item>
+                </v-list>
             </v-app-bar>
             <v-main>
-                <v-container>
+                <v-container fluid>
                     <v-breadcrumbs :items="getBreadcrumbs">
                         <template v-slot:item="props">
                             <v-breadcrumbs-item 
-                                :to="props.item.to" exact
+                                :to="props.item.to" 
+                                exact
                                 :key="props.item.label"
                                 :disabled="props.item.disabled"
                             >
