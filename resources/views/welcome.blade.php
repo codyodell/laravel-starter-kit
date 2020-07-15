@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" dir="ltr">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,19 +9,24 @@
     <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">    
     <style>
+    
+    $font-family-body: 'Roboto', sans-serif;
+    $font-family-mono: 'Roboto Mono', monospace;
+
+    $fw-normal: 400;
 
     html, body { margin: 0; }
     img + img { margin-left: 1em; }
 
     body {
-        font-family: 'Roboto', sans-serif;
-        font-weight: 400;
-        background-color: #f0f0f0;
-        color: #35353e;
+        font-family: $font-family-body;
+        font-weight: $fw-normal;
+        background-color: #e3e3e3;
+        color: #252430;
     }
 
     code, pre, kbd {
-        font-family: 'Roboto Mono';
+        font-family: $font-family-mono;
     }
     
     h1 { 

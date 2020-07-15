@@ -22,11 +22,6 @@ class ProductController extends AdminController
         $this->productRepository = $productRepository;
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
         $results = $this->productRepository->index($request->all());
@@ -34,73 +29,46 @@ class ProductController extends AdminController
         return $this->sendResponseOk($results);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $validate = validator($request->all(), [
             'name' => 'string|required|unique:products|max:255',
             'description' => 'required',
             'attributes' => 'json',
-            'categories' => 'array',
             'brand_id' => 'integer',
         ]);
-
         if ($validate->fails())
             return $this->sendResponseBadRequest($validate->errors()->first());
-
         $product = $this->productRepository->create($request->all());
-
         if (!$product)
             return $this->sendResponseBadRequest("Failed to create product.");
-
-        $categories = $request->get('categories', []);
+        $categories = $request->get('categories');
         if (count($categories)) {
             foreach ($categories as $categoryId => $shouldAttach) {
                 if ($shouldAttach)
                     $product->categories()->attach($categoryId);
             }
         }
-
         return $this->sendResponseCreated($product);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(int $id)
     {
         $result = false;
-        if (is_int($id)) {
-            $result = $this->productRepository->getProduct($id);
-        }
+        $result = $this->productRepository->getProduct($id);
         return $result ?
             $this->sendResponseOk($product) :
             $this->sendResponseNotFound();
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $validate = validator($request->all(), [
-            'name' => 'string|required|unique:products|max:255',
-            'description' => 'required',
-            'attributes' => 'json',
-            'categories' => 'array',
-            'brand_id' => 'integer'
+            'name'          => 'string|required|unique:products|max:255',
+            'description'   => 'required',
+            'attributes'    => 'json',
+            'categories'    => 'array',
+            'brand_id'      => 'integer'
         ]);
 
         if ($validate->fails())
@@ -108,24 +76,21 @@ class ProductController extends AdminController
 
         $payload = $request->all();
 
-        $updated = $this->productRepository->update($id, $payload);
+        if (!$this->productRepository->update($id, $payload))
+            return $this->sendResponseBadRequest("Failed to Update Product");
 
-        if (!$updated)
-            return $this->sendResponseBadRequest("Failed update");
-
-        // re-sync categories
-
-        /** @var Product $product */
-        $product = $this->productRepository->find($id, ['categories']);
-
+        $product = $this->productRepository->find($id, ['categories', 'brand']);
         $categoryIds = [];
-        $categories = $request->get('categories', []);
+        $categories = $request->get('categories');
 
-        if (count($categories)) {
-            foreach ($categories as $categoryId => $shouldAttach) {
-                if ($shouldAttach)
-                    $product->categories()->attach($categoryId);
+        foreach ($categories as $categoryId => $shouldAttach) {
+            if ($shouldAttach) {
+                $categoryIds[] = $categoryId;
+                $product->categories()->attach($categoryId);
             }
+        }
+        
+        if (count($categoryIds)) {
             $product->categories()->sync($categoryIds);
         }
 

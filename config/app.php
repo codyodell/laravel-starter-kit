@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'eCommerce App &mdash; Vue/Laravel/MySQL'),
+    'name' => env('APP_NAME', 'eCommerce PWA - A Laravel/Vue.js Project'),
 
     /*
     |--------------------------------------------------------------------------

@@ -1,89 +1,85 @@
 <template>
-   <v-sheet class="component-wrap">
-      <v-toolbar dense>
-         <v-toolbar-title>{{ title }}</v-toolbar-title>
-         <v-spacer></v-spacer>
-         <v-btn icon fab>
-            <v-icon>filters-alt</v-icon>
-         </v-btn>
-         <v-btn icon fab :to="{ name: 'product.add' }" title="Add a Product">
-            <v-icon>plus-circle</v-icon>
-         </v-btn>
-      </v-toolbar>
-      <v-expansion-panels>
-         <v-expansion-panel>
-            <v-expansion-panel-header>
-               <v-icon>filters_alt</v-icon>Filters
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-               <v-form>
-                  <v-row justify="space-around">
-                     <v-col cols="12">
-                        <v-text-field v-model="filters.name" label="Name"></v-text-field>
-                     </v-col>
-                     <v-col cols="6" md="6" sm="12">
-                        <v-text-field v-model="filters.asin" label="ASIN #"></v-text-field>
-                     </v-col>
-                     <v-col cols="6" md="6" sm="12">
-                        <v-select
-                           label="Categories"
-                           v-model="filters.category"
-                           :items="filters.categories"
-                        ></v-select>
-                     </v-col>
-                     <v-col cols="12">
-                        <v-btn small color="grey">Cancel</v-btn>
-                        <v-btn small color="primary">
-                           Apply Filters
-                           <v-icon right>arrow_right</v-icon>
-                        </v-btn>
-                     </v-col>
-                  </v-row>
-               </v-form>
-            </v-expansion-panel-content>
-         </v-expansion-panel>
-      </v-expansion-panels>
-
-      <!-- products table -->
-      <v-data-table
-         v-bind:headers="headers"
-         :items="items"
-         :options.sync="pagination"
-         :server-items-length="totalItems"
-      >
-         <tr slot="items" v-for="item in items" :key="item.id">
-            <td>
-               <v-btn text large @click="showDialog('product_details', item)">{{ item.name }}</v-btn>
-            </td>
-            <td>
-               <v-chip-group v-if="!!item.categories.length">
-                  <template v-for="category in item.categories">
-                     <v-chip
-                        small
-                        outlined
-                        color="grey"
-                        :key="category.id"
-                        v-if="!!category.name.length"
-                     >{{ category.name }}</v-chip>
-                  </template>
-               </v-chip-group>
-            </td>
-            <td>
-               <v-chip dark v-if="item.brand_id">
-                  <span>{{ item.brand_id }}</span>
-               </v-chip>
-            </td>
-            <td>
-               <time>{{ item.created_at }}</time>
-            </td>
-            <td class="text-right">
-               <v-btn @click="trash(item)" color="red" icon small>
-                  <v-icon>delete</v-icon>
+   <div class="component-wrap">
+      <v-sheet>
+         <v-card flat>
+            <v-card-title>
+               {{ title }}
+               <v-spacer></v-spacer>
+               <v-btn icon title="Filter Results">
+                  <v-icon>filter_alt</v-icon>
                </v-btn>
-            </td>
-         </tr>
-      </v-data-table>
-      <!-- /products table -->
+               <v-btn icon :to="{ name: 'product.add' }" title="Add a Product">
+                  <v-icon>plus-circle</v-icon>
+               </v-btn>
+            </v-card-title>
+         </v-card>
+
+         <v-form>
+            <v-card>
+               <v-card-title>
+                  <v-icon left>filters_alt</v-icon>Filters
+               </v-card-title>
+
+               <v-row justify="space-around">
+                  <v-col cols="7" md="12" sm="12">
+                     <v-text-field v-model="filter_name" label="Name"></v-text-field>
+                  </v-col>
+                  <v-col cols="2" md="6" sm="6">
+                     <v-text-field v-model="filter_asin" label="ASIN #"></v-text-field>
+                  </v-col>
+                  <v-col cols="3" md="6" sm="6">
+                     <v-select
+                        multiple
+                        label="Categories"
+                        v-model="filter_categories"
+                        :items="categories"
+                     ></v-select>
+                  </v-col>
+                  <v-col cols="12">
+                     <v-btn small color="grey">Cancel</v-btn>
+                     <v-btn small color="success">
+                        Apply Filters
+                        <v-icon right>arrow_right</v-icon>
+                     </v-btn>
+                  </v-col>
+               </v-row>
+            </v-card>
+         </v-form>
+
+         <!-- products table -->
+         <v-data-table
+            :headers="headers"
+            :items="items"
+            :options.sync="pagination"
+            :server-items-length="totalItems"
+            class="elevation-1"
+         >
+            <template v-slot:body="{items}">
+               <tr v-for="item in items" :key="item.id">
+                  <td>
+                     <v-btn
+                        text
+                        large
+                        @click="showDialog('product_details', item)"
+                        :label="item.name"
+                     ></v-btn>
+                  </td>
+                  <td></td>
+                  <td>
+                     <v-chip
+                        v-for="category in item.categories"
+                        :key="category.name"
+                     >{{ item.brand_id }}</v-chip>
+                  </td>
+                  <td>
+                     <v-btn @click="trash(item)" color="red" icon small>
+                        <v-icon>delete</v-icon>
+                     </v-btn>
+                  </td>
+               </tr>
+            </template>
+         </v-data-table>
+      </v-sheet>
 
       <!-- view product dialog -->
       <v-dialog :laze="false" v-model="dialogs.view.show" transition="dialog-bottom-transition">
@@ -109,7 +105,7 @@
             </v-card-actions>
          </v-card>
       </v-dialog>
-   </v-sheet>
+   </div>
 </template>
 
 <script>
@@ -121,75 +117,64 @@ export default {
       ProductAdd,
       ProductEdit
    },
-   data() {
-      return {
-         title: "Products",
-         loading: true,
-         headers: [
+   data: () => ({
+      title: "Products",
+      loading: true,
+      items: [],
+      categories: [],
+      categories_selected: [],
+      totalItems: 0,
+      pagination: {
+         rowsPerPage: 10
+      },
+      filter_name: "",
+      filter_asin: "",
+      filter_categories: [],
+      dialogs: {
+         view: {
+            product: {},
+            show: false
+         },
+         edit: {
+            product: {},
+            show: false
+         }
+      }
+   }),
+   computed: {
+      headers() {
+         return [
             {
                text: "Name",
                value: "name",
-               align: "start",
-               sortable: false
+               sortable: true,
+               filter: filter_name
             },
             {
                text: "Categories",
-               value: "categories",
-               sortable: false
+               value: "categories.id",
+               filter: filter_categories
             },
-            {
-               text: "Brand",
-               value: "brand",
-               sortable: false
-            },
-            {
-               text: "Date Created",
-               value: "created_at",
-               sortable: false
-            },
-            {
-               text: " ",
-               value: false,
-               sortable: false
-            }
-         ],
-         items: [],
-         totalItems: 0,
-         pagination: {
-            rowsPerPage: 10
-         },
-         filters: {
-            name: "",
-            asin: "",
-            category: "", // Model
-            categories: [],
-            categories_selected: []
-         },
-
-         dialogs: {
-            view: {
-               product: {},
-               show: false
-            },
-            edit: {
-               product: {},
-               show: false
-            }
-         }
-      };
+            { text: "Brand", value: "brand_id" },
+            { text: "Date Created", value: "created_at" },
+            { text: null, value: "controls" }
+         ];
+      }
    },
    mounted() {
       const self = this;
+
       self.$store.commit("setBreadcrumbs", [
          { label: "Products", to: { name: "product.lists" } }
       ]);
+
+      self.loadProducts(() => {});
+      self.loadCategories(() => {});
+
       self.$eventBus.$on(
          ["PRODUCT_ADDED", "PRODUCT_MODIFIED", "PRODUCT_DELETED"],
          () => self.loadProducts(() => {})
       );
-
-      self.loadProducts(() => {});
-      self.loadCategories(() => {});
    },
    watch: {
       "pagination.page": function() {
@@ -198,8 +183,9 @@ export default {
       "pagination.rowsPerPage": function() {
          this.loadProducts(() => {});
       },
-      "filters.categories": _.debounce(function() {
-         this.loadProducts(() => {});
+      filter_categories: _.debounce(function(resp) {
+         console.log(resp);
+         // this.loadProducts(() => {});
       }, 700)
    },
    methods: {
@@ -261,35 +247,46 @@ export default {
       },
       loadProducts(cb) {
          const self = this;
-         let params = {
-            name: self.filters.name,
-            categories: self.filters.categories_selected.join(","),
-            page: self.pagination.page,
-            per_page: self.pagination.rowsPerPage
-         };
-
-         axios.get("/admin/products", { params: params }).then(function(resp) {
-            self.items = resp.data.data.data;
-            self.totalItems = resp.data.data.total;
-            self.pagination.totalItems = resp.data.data.total;
-            (cb || Function)();
-         });
+         axios
+            .get("/admin/products", {
+               params: {
+                  name: self.filter_name,
+                  categories: self.categories_selected.join(","),
+                  page: self.pagination.page,
+                  per_page: self.pagination.rowsPerPage
+               }
+            })
+            .then(function(resp) {
+               self.totalItems = resp.data.data.total;
+               self.pagination.totalItems = resp.data.data.total;
+               self.items = resp.data.data.data;
+               resp.data.data.data.forEach(function(row) {
+                  row.categories.forEach(function(category) {
+                     console.info(category.name + ": " + category.id);
+                  });
+               });
+               (cb || Function)();
+            });
       },
       loadCategories(cb, params) {
-         params = params || { paginate: "no" };
          const self = this;
-         axios.get("/admin/categories", { params: params }).then(resp => {
-            let items = resp.data.data.data;
-            let hasItems = typeof items === "Object" && items.length === 0;
-            if (!hasItems) return false;
-            console.info("Response");
-            console.log(typeof items, items);
-            self.filter.categories = items.map(category => {
-               console.log(category);
-               return !!category.name.length ? category.name : false;
+         params = params || { paginate: "no" };
+         axios
+            .get("/admin/categories", { params: params })
+            .then(function(resp) {
+               let items = resp.data.data;
+               console.log(items instanceof Array);
+               items.forEach(function(category, i) {
+                  self.categories.push({
+                     id: category.id,
+                     name: category.name
+                  });
+               });
+               (cb || Function)();
             });
-            (cb || Function)();
-         });
+      },
+      getProductCategories(row) {
+         return row.name;
       }
    }
 };

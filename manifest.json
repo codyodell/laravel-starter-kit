@@ -1,56 +1,26 @@
 {
-   "name": "CMWD",
-   "short_name": "CMWD",
-   "description": "CMWD is a design project that stands for eCommerce, Marketing, Web Development & Design",
-   "display": "standalone",
-   "start_url": "http://laravel-starter-kit.local/?source=pwa",
+   "name": "eCommerce PWA - Laravel/Vue.js Project",
+   "short_name": "eCommerce PWA",
+   "description": "eCommerce PWA is a project that stands for eCommerce, Marketing, Web Development & Design",
+   "display": "browser",
+   "start_url": "/?source=pwa",
    "background_color": "#1c1e22",
    "theme_color": "#50ffca",
    "icons": [
       {
-         "src": "/img/favicons/16.ico",
-         "type": "image/x-icon",
-         "sizes": "16x16"
-      },
-      {
-         "src": "/img/favicons/32.svg",
-         "type": "image/svg+xml",
+         "src": "/img/favicons/32.png",
+         "type": "image/png",
          "sizes": "32x32"
       },
       {
-         "src": "/img/favicons/64.svg",
-         "type": "image/svg+xml",
-         "sizes": "64x64"
-      },
-      {
-         "src": "/img/favicons/128.svg",
-         "type": "image/svg+xml",
-         "sizes": "128x128"
-      },
-      {
-         "src": "/img/favicons/144.png",
+         "src": "/img/favicons/64.png",
          "type": "image/png",
-         "sizes": "144x144"
+         "sizes": "64x64"
       },
       {
          "src": "/img/favicons/192.png",
          "type": "image/png",
          "sizes": "192x192"
-      },
-      {
-         "src": "/img/favicons/256.png",
-         "type": "image/png",
-         "sizes": "256x256"
-      },
-      {
-         "src": "/img/favicons/512.png",
-         "type": "image/png",
-         "sizes": "512x512"
-      },
-      {
-         "src": "/img/favicons/1024.png",
-         "type": "image/png",
-         "sizes": "1024x1024"
       }
    ]
 }

@@ -64,7 +64,7 @@ class MenuTest extends TestCase
             'permission_requirements' => ['superuser'],
             'label' => 'Super User Dashboard',
             'nav_type' => MenuItem::$NAV_TYPE_NAV,
-            'icon' => 'dashboard',
+            'icon' => 'view-dashboard',
             'route_type' => 'vue',
             'route_name' => 'dashboard'
         ]));

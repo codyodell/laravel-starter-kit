@@ -18,9 +18,9 @@ class CreateProducts extends Migration
         Schema::create('products', function (Blueprint $table) {
 
             $table->increments('id');
-
             $table->string('name')->unique();
             $table->text('description');
+            $table->text('price');
             $table->json('attributes');
             $table->unsignedInteger('brand_id')->index();
             // $table->unsignedInteger('category_id')->index();
@@ -30,7 +30,7 @@ class CreateProducts extends Migration
             // foreign key constraints
             // $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('created_by')->references('id')->on('users'); //->onDelete('restrict')->onUpdate('cascade');
-            // $table->foreign('brand_id')->references('id')->on('brands'); //->onDelete('restrict')->onUpdate('cascade');
+            $table->foreign('brand_id')->references('id')->on('brands'); //->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

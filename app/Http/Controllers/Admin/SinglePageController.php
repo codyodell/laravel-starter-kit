@@ -9,7 +9,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-
 use App\Components\Core\Menu\MenuItem;
 use App\Components\Core\Menu\MenuManager;
 use App\Components\User\Models\User;

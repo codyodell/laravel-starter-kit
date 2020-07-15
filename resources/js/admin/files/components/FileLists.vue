@@ -184,13 +184,13 @@ export default {
 
          return (
             // "http://" +
-            // LSK_APP.APP_URL +
+            // CMWD_APP.APP_URL +
             `/files/` + file.id + `/preview?w=` + w + `&action=` + act
          );
       },
       downloadFile(file) {
          window.open(
-            LSK_APP.APP_URL +
+            CMWD_APP.APP_URL +
                "/files/" +
                file.id +
                "/download?file_token=" +

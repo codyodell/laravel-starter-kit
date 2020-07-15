@@ -105,7 +105,7 @@
                   <td>
                      <v-btn
                         small
-                        @click="showDialog('user_permissions',item.permissions)"
+                        @click="showDialog('user_permissions', item.permissions)"
                         outlined
                         rounded
                         color="grey"
@@ -124,7 +124,7 @@
                   <td>{{ $appFormatters.formatDate(item.last_login) }}</td>
                   <td class="text-center">
                      <v-avatar outlined>
-                        <v-icon v-if="item.active!=null" class="green--text">check_circle</v-icon>
+                        <v-icon v-if="item.active != null" class="green--text">check_circle</v-icon>
                         <v-icon class="grey--text" v-else>error_outline</v-icon>
                      </v-avatar>
                   </td>
@@ -133,7 +133,7 @@
                         class="ml-n1 my-1 d-flex justify-space-between align-content-space-around flex-wrap"
                      >
                         <v-btn
-                           @click="$router.push({name:'users.edit',params:{id: item.id}})"
+                           @click="$router.push({ name:'users.edit', params:{ id: item.id } })"
                            class="ma-1"
                            small
                            outlined

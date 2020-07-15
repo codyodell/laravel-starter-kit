@@ -20,12 +20,6 @@ class CategoryRepository extends BaseRepository
         parent::__construct($model);
     }
 
-    /**
-     * list resource
-     *
-     * @param array $params
-     * @return CategoryRepository[]|\Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model[]|mixed[]
-     */
     public function index($params)
     {
         return $this->get($params, [], function ($q) use ($params) {

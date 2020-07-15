@@ -7,17 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Components\User\Models\User;
 use App\Components\Product\Models\Category;
 
-/**
- * Class File
- * @package App\Components\File\Models
- *
- * @property int $id
- * @property string $name
- * @property string $description
- * @property json $attributes
- * @property timestamp $created_by
- */
 class Product extends Model {
+
     protected $table = 'products';
 
     // Cast attributes JSON to array
@@ -28,8 +19,11 @@ class Product extends Model {
     protected $fillable = [
         'name',
         'description',
+        'price',
         'attributes',
-        'brand_id'
+        'brand_id',
+        'category_id',
+        'attributes',
     ];
 
     public static $rules = array(

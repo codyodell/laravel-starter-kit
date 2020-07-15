@@ -52,6 +52,7 @@ class UserSeeder extends Seeder
                 ]
             ]
         ]);
+        
         $groupSuperUser->addPermission($permissionSuperUser, Permission::PERMISSION_ALLOW);
 
         // create normal user

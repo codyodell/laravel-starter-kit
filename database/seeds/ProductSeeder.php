@@ -9,20 +9,13 @@ use \App\Components\Product\Models\Category;
 
 class ProductSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
-        $products = factory(Product::class, 50)
+        $products = factory(Product::class, rand(35, 75))
             ->create()
             ->each(function (Product $product) {
-                //$p->user()->attach(User::all()->random());
-                //$p->brand()->attach(Brand::all()->random());
-                $product->categories()
-                    ->save(factory(Category::class)->make());
+                $product->categories()->save(factory(Category::class)->make());
+                $product->categories()->save(factory(Brand::class)->make());
             });
     }
 }
