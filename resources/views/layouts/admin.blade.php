@@ -10,6 +10,8 @@
     <meta name="description" content="{{ config('app.description') }}">
     <meta name="generator" content="VS Code">
     <meta name="author" content="{{ config('app.author') }}">
+    <!-- @TODO Preconnect to 3rd Parties -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,900|Roboto+Mono|Material+Icons&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" content="{{ asset('img/favicons/192.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('img/favicons/192.png') }}">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
@@ -19,9 +21,6 @@
     </script>
 </head>
 <body>
-
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,900|Roboto+Mono|Material+Icons&display=swap" rel="stylesheet">
-    
     <div id="admin">
         <template>
             <v-app id="inspire">

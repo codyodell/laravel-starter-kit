@@ -27,11 +27,9 @@ export default {
       CategoryLists,
       BrandLists
    },
-   data() {
-      return {
-         active: ""
-      };
-   },
+   data: () => ({
+      active: ""
+   }),
    mounted() {
       console.info("Admin > Products");
       const self = this;

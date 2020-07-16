@@ -30,18 +30,16 @@
 
 <script>
 export default {
-   data() {
-      return {
-         valid: false,
-         isLoading: false,
-         name: "",
-         nameRules: [v => !!v || "Name is required"],
-         description: "",
-         descriptionRules: [v => !!v || "Description is required"]
-      };
-   },
+   data: () => ({
+      valid: false,
+      isLoading: false,
+      name: "",
+      nameRules: [v => !!v || "Name is required"],
+      description: "",
+      descriptionRules: [v => !!v || "Description is required"]
+   }),
    mounted() {
-      console.log("pages.products.components.ProductAdd.vue");
+      console.info("pages.products.components.ProductAdd.vue");
 
       const self = this;
    },

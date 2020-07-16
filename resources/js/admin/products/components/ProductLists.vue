@@ -1,94 +1,117 @@
 <template>
    <div class="component-wrap">
-      <v-sheet>
-         <v-card flat>
-            <v-card-title>
-               {{ title }}
-               <v-spacer></v-spacer>
-               <v-btn icon title="Filter Results">
-                  <v-icon>filter_alt</v-icon>
-               </v-btn>
-               <v-btn icon :to="{ name: 'product.add' }" title="Add a Product">
-                  <v-icon>plus-circle</v-icon>
-               </v-btn>
-            </v-card-title>
-         </v-card>
-
-         <v-form>
-            <v-card>
-               <v-card-title>
-                  <v-icon left>filters_alt</v-icon>Filters
-               </v-card-title>
-
-               <v-row justify="space-around">
-                  <v-col cols="7" md="12" sm="12">
-                     <v-text-field v-model="filter_name" label="Name"></v-text-field>
-                  </v-col>
-                  <v-col cols="2" md="6" sm="6">
-                     <v-text-field v-model="filter_asin" label="ASIN #"></v-text-field>
-                  </v-col>
-                  <v-col cols="3" md="6" sm="6">
-                     <v-select
-                        multiple
-                        label="Categories"
-                        v-model="filter_categories"
-                        :items="categories"
-                     ></v-select>
-                  </v-col>
-                  <v-col cols="12">
-                     <v-btn small color="grey">Cancel</v-btn>
-                     <v-btn small color="success">
-                        Apply Filters
-                        <v-icon right>arrow_right</v-icon>
-                     </v-btn>
-                  </v-col>
-               </v-row>
-            </v-card>
-         </v-form>
-
-         <!-- products table -->
-         <v-data-table
-            :headers="headers"
-            :items="items"
-            :options.sync="pagination"
-            :server-items-length="totalItems"
-            class="elevation-1"
-         >
-            <template v-slot:body="{items}">
-               <tr v-for="item in items" :key="item.id">
+      <v-card flat>
+         <v-card-title>
+            {{ title }}
+            <v-spacer></v-spacer>
+            <v-btn icon title="Show Filters" color="grey">
+               <v-icon>filter_alt</v-icon>
+            </v-btn>
+            <v-btn
+               icon
+               :to="{ name: 'product.add', data: { id: 1 } }"
+               title="Add a Product"
+               color="success"
+            >
+               <v-icon>add</v-icon>
+            </v-btn>
+         </v-card-title>
+         <v-spacer></v-spacer>
+         <v-card-text>
+            <!--
+      <v-btn small text color="grey">
+         <v-icon left>cancel</v-icon>Cancel
+      </v-btn>
+            -->
+            <!-- products table -->
+            <v-data-table
+               :headers="headers"
+               :items="items"
+               :options.sync="pagination"
+               :server-items-length="totalItems"
+            >
+               <template slot="top">
+                  <v-form>
+                     <v-subheader>Filters</v-subheader>
+                     <v-toolbar pa-1>
+                        <v-toolbar-items>
+                           <v-text-field v-model="filters.name" label="Name"></v-text-field>
+                           <v-text-field v-model="filters.asin" label="ASIN #"></v-text-field>
+                           <v-select
+                              multiple
+                              label="Categories"
+                              :items="categories"
+                              v-model="filters.categories"
+                           ></v-select>
+                           <v-btn small right color="success">
+                              Apply Filters
+                              <v-icon right>arrow_right</v-icon>
+                           </v-btn>
+                        </v-toolbar-items>
+                     </v-toolbar>
+                  </v-form>
+               </template>
+               <!--<template slot="body">-->
+               <template slot="items" slot-scope="props">
                   <td>
-                     <v-btn
-                        text
-                        large
-                        @click="showDialog('product_details', item)"
-                        :label="item.name"
-                     ></v-btn>
+                     <h4>
+                        <a
+                           @click="showDialog('product_details', props.item)"
+                           title="View product details"
+                        >{{ props.item.name }}</a>
+                     </h4>
                   </td>
-                  <td></td>
                   <td>
                      <v-chip
-                        v-for="category in item.categories"
-                        :key="category.name"
-                     >{{ item.brand_id }}</v-chip>
+                        small
+                        outlined
+                        v-for="category in props.item.categories"
+                        :key="category.id"
+                     >{{ category.name }}</v-chip>
                   </td>
                   <td>
-                     <v-btn @click="trash(item)" color="red" icon small>
+                     <v-chip small>{{ props.item.brand_id }}</v-chip>
+                  </td>
+                  <td>
+                     <timeago :datetime="props.item.created_at"></timeago>
+                     <span>
+                        by
+                        <router-link :to="{ name: 'users.view' }">{{ props.item.created_by }}</router-link>
+                     </span>
+                  </td>
+                  <td class="text-right">
+                     <v-btn
+                        icon
+                        color="grey"
+                        title="Edit this product"
+                        :to="{ name: 'product.edit', data: { id: props.item.id }}"
+                     >
+                        <v-icon>edit</v-icon>
+                     </v-btn>
+                     <!--
+                     <v-btn
+                        @click="trash(props.item)"
+                        title="Delete this product"
+                        color="error"
+                        icon
+                     >
                         <v-icon>delete</v-icon>
                      </v-btn>
+                     -->
                   </td>
-               </tr>
-            </template>
-         </v-data-table>
-      </v-sheet>
+               </template>
+            </v-data-table>
+         </v-card-text>
+      </v-card>
 
       <!-- view product dialog -->
       <v-dialog :laze="false" v-model="dialogs.view.show" transition="dialog-bottom-transition">
          <v-card flat>
-            <v-card-title class="white--text orange darken-4">{{ dialogs.view.product.name }}</v-card-title>
+            <v-card-title class="white--text primary darken-4">{{ dialogs.view.product.name }}</v-card-title>
             <v-card-actions>
                <v-spacer></v-spacer>
-               <v-btn dark small @click.native="dialogs.view.show = false" title="Close">
-                  <v-icon aria-hidden="true">delete</v-icon>
+               <v-btn dark @click.native="dialogs.view.show = false" title="Close">
+                  <v-icon>delete</v-icon>
                </v-btn>
             </v-card-actions>
          </v-card>
@@ -96,10 +119,10 @@
 
       <v-dialog :laze="false" v-model="dialogs.edit.show" transition="dialog-bottom-transition">
          <v-card>
-            <v-card-title class="white--text orange darken-4">{{ dialogs.edit.product.name }}</v-card-title>
+            <v-card-title class="white--text primary darken-4">{{ dialogs.edit.product.name }}</v-card-title>
             <v-card-actions>
                <v-spacer></v-spacer>
-               <v-btn dark fab small @click.native="dialogs.edit.show = false" title="Close">
+               <v-btn dark @click.native="dialogs.edit.show = false" title="Close">
                   <v-icon>delete</v-icon>
                </v-btn>
             </v-card-actions>
@@ -118,18 +141,18 @@ export default {
       ProductEdit
    },
    data: () => ({
-      title: "Products",
+      title: "Mange Products",
       loading: true,
       items: [],
       categories: [],
       categories_selected: [],
       totalItems: 0,
-      pagination: {
-         rowsPerPage: 10
+      pagination: { rowsPerPage: 10 },
+      filters: {
+         name: "",
+         asin: "",
+         categories: []
       },
-      filter_name: "",
-      filter_asin: "",
-      filter_categories: [],
       dialogs: {
          view: {
             product: {},
@@ -143,20 +166,21 @@ export default {
    }),
    computed: {
       headers() {
+         const self = this;
          return [
             {
                text: "Name",
                value: "name",
-               sortable: true,
-               filter: filter_name
+               sortable: false,
+               filter: self.filters.name
             },
             {
                text: "Categories",
                value: "categories.id",
-               filter: filter_categories
+               sortable: false
             },
             { text: "Brand", value: "brand_id" },
-            { text: "Date Created", value: "created_at" },
+            { text: "Created", value: "created" },
             { text: null, value: "controls" }
          ];
       }
@@ -183,10 +207,10 @@ export default {
       "pagination.rowsPerPage": function() {
          this.loadProducts(() => {});
       },
-      filter_categories: _.debounce(function(resp) {
-         console.log(resp);
-         // this.loadProducts(() => {});
-      }, 700)
+      filters: {
+         handler: resp => console.log(resp),
+         deep: true
+      }
    },
    methods: {
       showDialog(dialog, data) {
@@ -250,21 +274,16 @@ export default {
          axios
             .get("/admin/products", {
                params: {
-                  name: self.filter_name,
+                  name: self.filters.name,
                   categories: self.categories_selected.join(","),
                   page: self.pagination.page,
                   per_page: self.pagination.rowsPerPage
                }
             })
             .then(function(resp) {
+               self.items = resp.data.data.data;
                self.totalItems = resp.data.data.total;
                self.pagination.totalItems = resp.data.data.total;
-               self.items = resp.data.data.data;
-               resp.data.data.data.forEach(function(row) {
-                  row.categories.forEach(function(category) {
-                     console.info(category.name + ": " + category.id);
-                  });
-               });
                (cb || Function)();
             });
       },
@@ -284,9 +303,6 @@ export default {
                });
                (cb || Function)();
             });
-      },
-      getProductCategories(row) {
-         return row.name;
       }
    }
 };
@@ -313,5 +329,10 @@ export default {
 <style scoped>
 .product_view_popup {
    min-width: 30rem;
+}
+tbody > tr > td {
+   vertical-align: baseline;
+   padding: 0.25rem;
+   white-space: nowrap;
 }
 </style>

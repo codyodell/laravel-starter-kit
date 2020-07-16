@@ -127,23 +127,19 @@ export default {
             {
                text: "Description",
                value: "description",
-               sortable: false
             },
             {
                text: "Total Products",
                value: "product_count",
                align: "center",
-               sortable: false
             },
             {
                text: "Date Created",
                value: "created_at",
-               sortable: false
             },
             {
-               text: " ",
-               value: false,
-               sortable: false
+               text: null,
+               value: 'controls',
             }
          ],
          items: [],
