@@ -22,7 +22,7 @@ class Product extends Model {
         'price',
         'attributes',
         'brand_id',
-        'category_id',
+        'categories',
         'attributes',
     ];
 

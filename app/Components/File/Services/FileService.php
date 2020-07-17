@@ -92,8 +92,10 @@ class FileService extends BaseService
         // if file is not found, we will return a not found image
         if (!$File) {
             $img = Image::make(Storage::disk('public')->path(FileHelper::getIconPath('not-found')))->resize($w, $h, function ($constraint) use ($aspectRatio, $upSize) {
-                if ($aspectRatio) $constraint->aspectRatio();
-                if ($upSize) $constraint->upsize();
+                if ($aspectRatio) 
+                    $constraint->aspectRatio();
+                if ($upSize) 
+                    $constraint->upsize();
             });
             $img = $img->response();
 

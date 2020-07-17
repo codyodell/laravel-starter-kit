@@ -6,35 +6,37 @@ use App\Components\Core\BaseRepository;
 use App\Components\Product\Models\Product;
 use App\Components\Core\Utilities\Helpers;
 
+use Illuminate\Support\Arr;
 
 class ProductRepository extends BaseRepository
 {
+    // private MIN_SEARCH_QUERY_LENGTH = 3;
+
     public function __construct(Product $model)
     {
         parent::__construct($model);
     }
 
-    public function index($params) {
-
+    public function index($params)
+    {
         return $this->get($params, ['categories', 'brand', 'user'], function ($q) use ($params) {
-            $bFilterActive_Name     = isset($params['name']) && (strlen($params['name']) > 2);
-            $bFilterActive_Category = isset($params['categories']) && !empty($params['categories']);
-            $strName                = $bFilterActive_Name ? $params['name'] : '';
-            $arCategoryIds          = $bFilterActive_Category ? explode(',', $params['categories']) : [];
-            if ($bFilterActive_Name) {
-                $q->where('name', 'like', "%{ $strName }%");
+            $name           = Arr::get($params, 'name', '');
+            $categories     = Arr::get($params, 'categories', '');
+            $arCategoryIds = Helpers::commasToArray($categories);
+            if (strlen($name) > 3) {
+                $q->where('name', 'like', "%{ $name }%");
             }
-            /*if ($bFilterActive_Category) {
+            if (@count($arCategoryIds) > 0) {
                 $q->whereIn('categories', function ($q) use ($arCategoryIds) {
                     return $q->whereIn('category_id', 'categories.id', $arCategoryIds);
                 });
-            }*/
+            }
             return $q;
         });
     }
 
     /**
-    * list all users
+    * list all products
     *
     * @param array $params
     * @return
@@ -42,17 +44,11 @@ class ProductRepository extends BaseRepository
     */
     public function listProducts($params)
     {
-        return $this->get($params, ['categories', 'brand', 'user'], function ($q) use ($params) {
+        return $this->get($params, ['categories', 'brand', 'created_by'], function ($q) use ($params) {
             $q->ofName($params['name'] ?? '');
-            $q->ofCategories(Helpers::commasToArray($params['category_id'] ?? ''));
+            $q->ofCategories(Helpers::commasToArray(Arr::get($params, 'categories', '')));
             return $q;
         });
-    }
-
-    function getProduct (int $id = 0) {
-        return $id ? 
-            $this->find($id, ['categories', 'brand', 'user']) : 
-            false;
     }
 
     /**
@@ -64,14 +60,14 @@ class ProductRepository extends BaseRepository
      * @throws \Exception
      */
 
-    public function delete(int $id = 0)
+    public function delete(int $id)
     {
         $Product = $this->model->find($id);
-        if ($id && $Product) {
-            $Product->categories()->detach();
-            $Product->brand()->detach();
-            $Product->user()->detach();
-            return $Product->delete();
-        }
+        if (!$Product) 
+            return false;
+        $Product->categories()->detach();
+        $Product->brand()->detach();
+        $Product->user()->detach();
+        return $Product->delete();
     }
 }

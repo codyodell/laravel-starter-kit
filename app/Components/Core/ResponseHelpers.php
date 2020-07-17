@@ -27,7 +27,7 @@ Trait ResponseHelpers
             'data' => $data
         ];
 
-        return response($d,$statusCode,$headers);
+        return response($d, $statusCode, $headers);
     }
 
     /**
@@ -40,7 +40,7 @@ Trait ResponseHelpers
      */
     public function sendResponseOk($data = [],string $message = "Resource found.", array $headers = [])
     {
-        return $this->sendResponse($data,$message,200,$headers);
+        return $this->sendResponse($data, $message, 200, $headers);
     }
 
     /**

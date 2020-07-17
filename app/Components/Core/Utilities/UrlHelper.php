@@ -32,7 +32,7 @@ class UrlHelper
     {
         $this->url = $url;
 
-        $this->urlSegmented =  explode('/',$this->removeProtocols($this->url));
+        $this->urlSegmented =  explode('/', $this->removeProtocols($this->url));
     }
 
     public function getSegment($segment = 1, $beautify = false)

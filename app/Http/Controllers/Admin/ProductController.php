@@ -25,7 +25,6 @@ class ProductController extends AdminController
     public function index(Request $request)
     {
         $results = $this->productRepository->index($request->all());
-
         return $this->sendResponseOk($results);
     }
 
@@ -54,10 +53,9 @@ class ProductController extends AdminController
 
     public function show(int $id)
     {
-        $result = false;
-        $result = $this->productRepository->getProduct($id);
+        $result = $this->productRepository->find($id);
         return $result ?
-            $this->sendResponseOk($product) :
+            $this->sendResponseOk($result) :
             $this->sendResponseNotFound();
     }
 
@@ -66,6 +64,7 @@ class ProductController extends AdminController
         $validate = validator($request->all(), [
             'name'          => 'string|required|unique:products|max:255',
             'description'   => 'required',
+            'price' => '',
             'attributes'    => 'json',
             'categories'    => 'array',
             'brand_id'      => 'integer'
