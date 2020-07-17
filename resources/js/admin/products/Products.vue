@@ -1,5 +1,5 @@
 <template>
-   <div class="page_wrap_vue">
+   <div class="page_wrap_vue pa-3">
       <v-tabs color="accent" v-model="active">
          <v-tab key="product.lists" href="#product.lists" ripple>Products</v-tab>
          <v-tab key="product.categories" href="#product.categories" ripple>Categories</v-tab>

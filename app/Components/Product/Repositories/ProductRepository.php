@@ -4,6 +4,8 @@ namespace App\Components\Product\Repositories;
 
 use App\Components\Core\BaseRepository;
 use App\Components\Product\Models\Product;
+use App\Components\Core\Utilities\Helpers;
+
 
 class ProductRepository extends BaseRepository
 {
@@ -14,12 +16,11 @@ class ProductRepository extends BaseRepository
 
     public function index($params) {
 
-        return $this->get($params, ['categories', 'brand'], function ($q) use ($params) {
+        return $this->get($params, ['categories', 'brand', 'user'], function ($q) use ($params) {
             $bFilterActive_Name     = isset($params['name']) && (strlen($params['name']) > 2);
             $bFilterActive_Category = isset($params['categories']) && !empty($params['categories']);
             $strName                = $bFilterActive_Name ? $params['name'] : '';
             $arCategoryIds          = $bFilterActive_Category ? explode(',', $params['categories']) : [];
-
             if ($bFilterActive_Name) {
                 $q->where('name', 'like', "%{ $strName }%");
             }
@@ -32,9 +33,25 @@ class ProductRepository extends BaseRepository
         });
     }
 
+    /**
+    * list all users
+    *
+    * @param array $params
+    * @return
+    \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model[]|mixed[]
+    */
+    public function listProducts($params)
+    {
+        return $this->get($params, ['categories', 'brand', 'user'], function ($q) use ($params) {
+            $q->ofName($params['name'] ?? '');
+            $q->ofCategories(Helpers::commasToArray($params['category_id'] ?? ''));
+            return $q;
+        });
+    }
+
     function getProduct (int $id = 0) {
         return $id ? 
-            $this->model->find($id, ['categories']) : 
+            $this->find($id, ['categories', 'brand', 'user']) : 
             false;
     }
 
@@ -50,8 +67,10 @@ class ProductRepository extends BaseRepository
     public function delete(int $id = 0)
     {
         $Product = $this->model->find($id);
-        if ($Product) {
+        if ($id && $Product) {
             $Product->categories()->detach();
+            $Product->brand()->detach();
+            $Product->user()->detach();
             return $Product->delete();
         }
     }

@@ -1,8 +1,26 @@
 {
-   "name": "eCommerce PWA",
-   "short_name": "eCommerce PWA",
-   "description": "Laravel/Vue.js",
-   "theme_color": "#dbdbdb",
+   "name": "PWA Shop - A Laravel/Vue.js Project",
+   "short_name": "PWA Shop",
+   "description": "PWA Shop is an eCommerce project for Developers and Online Store Owners",
+   "display": "browser",
+   "start_url": "/?source=pwa",
    "background_color": "#1c1e22",
-   "display": "browser"
+   "theme_color": "#50ffca",
+   "icons": [
+      {
+         "src": "img/favicons/32.png",
+         "type": "image/png",
+         "sizes": "32x32"
+      },
+      {
+         "src": "img/favicons/64.png",
+         "type": "image/png",
+         "sizes": "64x64"
+      },
+      {
+         "src": "img/favicons/192.png",
+         "type": "image/png",
+         "sizes": "192x192"
+      }
+   ]
 }

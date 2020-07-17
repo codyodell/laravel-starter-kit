@@ -20,7 +20,7 @@ class CreateProducts extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->text('description');
-            $table->text('price');
+            $table->unsignedDecimal('price', 8, 2);
             $table->json('attributes');
             $table->unsignedInteger('brand_id')->index();
             // $table->unsignedInteger('category_id')->index();
