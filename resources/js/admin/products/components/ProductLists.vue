@@ -9,8 +9,11 @@
                   <v-btn :to="{ name: 'product.lists' }" title="View All">
                      <v-icon left>view_list</v-icon>View All
                   </v-btn>
-                  <v-btn :to="{ name: 'product.add', params: { id: 1 } }" title="Add a Product">
-                     <v-icon>add</v-icon>Add a Product
+                  <v-btn
+                     @click="$router.push({ name: 'product.add', params: { id: 1 }})"
+                     title="Add a Product"
+                  >
+                     <v-icon left>add</v-icon>Add a Product
                   </v-btn>
                </v-btn-toggle>
 
@@ -47,19 +50,16 @@
                         </td>
                         <td>
                            <router-link
-                              :to="{ name: 'users.view', params: { id: item.created_by } }"
+                              @click="$router.push({ name: 'users.view', params: { id: item.created_by } })"
                            >{{ item.created_by }}</router-link>
                         </td>
                         <td class="text-right">
                            <v-btn
                               tile
-                              :to="{ name: 'product.edit', data: { id: item.id }}"
+                              @click="$router.push({ name: 'product.edit', params: { id: item.id } })"
                               title="Edit this product"
                            >
-                              <v-icon>edit</v-icon>
-                              <v-subheader>
-                                 <v-icon left>pencil</v-icon>Edit
-                              </v-subheader>
+                              <v-icon left>pencil</v-icon>Edit
                            </v-btn>
                            <!--   
                            <v-btn
@@ -93,6 +93,7 @@
                               label="Name"
                            ></v-text-field>
                         </v-col>
+                        <!--
                         <v-col cols="12">
                            <v-text-field
                               flat
@@ -102,6 +103,7 @@
                               label="ASIN #"
                            ></v-text-field>
                         </v-col>
+                        -->
                         <v-col cols="12">
                            <v-select
                               multiple

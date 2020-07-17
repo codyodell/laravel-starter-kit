@@ -29,28 +29,29 @@
             </div>
          </div>
          <!--
-            <div class="d-flex flex-lg-row flex-sm-column">
-                <div class="flex-grow-1 pa-2">
-                    <v-text-field filled prepend-icon="search" label="Filter By Name" v-model="filters.name"></v-text-field>
-                </div>
-                <div class="flex-grow-1 pa-2">
-                    <v-text-field filled prepend-icon="search" label="Filter By Email" v-model="filters.email"></v-text-field>
-                </div>
-                <div class="flex-grow-1 pa-2">
-                    <v-autocomplete filled
-                                    multiple
-                                    chips
-                                    deletable-chips
-                                    clearable
-                                    prepend-icon="filter_list"
-                                    label="Filter By Groups"
-                                    :items="filters.groupOptions"
-                                    item-text="name"
-                                    item-value="id"
-                                    v-model="filters.groupId"
-                    ></v-autocomplete>
-                </div>
-            </div>
+         <div class="d-flex flex-lg-row flex-sm-column">
+               <div class="flex-grow-1 pa-2">
+                  <v-text-field filled prepend-icon="search" label="Filter By Name" v-model="filters.name"></v-text-field>
+               </div>
+               <div class="flex-grow-1 pa-2">
+                  <v-text-field filled prepend-icon="search" label="Filter By Email" v-model="filters.email"></v-text-field>
+               </div>
+               <div class="flex-grow-1 pa-2">
+                  <v-autocomplete 
+                  filled
+                  multiple
+                  chips
+                  deletable-chips
+                  clearable
+                  prepend-icon="filter_list"
+                  label="Filter By Groups"
+                  :items="filters.groupOptions"
+                  item-text="name"
+                  item-value="id"
+                  v-model="filters.groupId"
+                  ></v-autocomplete>
+               </div>
+         </div>
          -->
       </v-card>
       <!-- /search -->
