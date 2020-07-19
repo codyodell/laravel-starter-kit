@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}" dir="ltr">
 <head>
-<!-- @_include('html-head') -->
+<!-- @include('html-head') -->
 <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name') }}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="google" content="notranslate">
     <meta name="description" content="{{ config('app.description') }}">
     <meta name="generator" content="VS Code">
     <meta name="author" content="{{ config('app.author') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+    <
     <!-- @TODO Preconnect to 3rd Parties -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,900|Roboto+Mono|Material+Icons&display=swap"
-        rel="stylesheet">
+    <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,900|Roboto+Mono|Material+Icons&display=swap">
     <link rel="icon" type="image/png" content="{{ asset('img/favicons/192.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('img/favicons/192.png') }}">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
@@ -28,10 +28,10 @@
         <template>
             <v-app id="inspire">
                 <v-navigation-drawer
-                    v-model="drawer"
                     app
-                    clipped
                     left
+                    clipped
+                    v-model="drawer"
                 >
                     <v-list dense>
                         @foreach($nav as $n)
@@ -59,15 +59,16 @@
                     <v-menu offset-y>
                         <v-menu-item>
                             <template v-slot:activator="{ on, attrs }">
-                                <v-avatar dark size="36px" color="primary" v-on="on" v-bind="attrs">
-                                    <img src="{{ asset('img/icons/user-male.svg') }}" alt="No Profile Photo" />
+                                <v-avatar size="36px" color="grey lighten-3" v-on="on" v-bind="attrs" dark>
+                                    <v-icon>face</v-icon>
+                                    {{-- <img src="{{ asset('img/icons/user-male.svg') }}" alt="No Profile Photo" /> --}}
                                 </v-avatar>
-                                <v-list>
-                                    <v-list-item @click="clickLogout('{{ route('logout') }}','{{ url('/') }}')">
-                                        <v-list-item-title>Logout</v-list-item-title>
-                                    </v-list-item>
-                                </v-list>
                             </template>
+                            <v-list>
+                                <v-list-item @click="clickLogout('{{ route('logout') }}','{{ url('/') }}')">
+                                    <v-list-item-title>Logout</v-list-item-title>
+                                </v-list-item>
+                            </v-list>
                         </v-menu-item>
                     </v-menu>
                 </v-app-bar>

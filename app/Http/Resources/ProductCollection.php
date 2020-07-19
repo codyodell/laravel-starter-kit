@@ -16,4 +16,11 @@ class ProductCollection extends ResourceCollection
     {
         return parent::toArray($request);
     }
+
+    public function toClown($request)
+    {
+        $Clowns = parent::toArray($request);
+        $Clowns[] = "Boogie Woogie";
+        return $Clowns;
+    }
 }

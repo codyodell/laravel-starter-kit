@@ -123,7 +123,7 @@ class MenuItem
      */
     public function groupRequirementsHas(string $groupName):bool
     {
-        return Arr::get($this->groupRequirements,$groupName);
+        return Arr::get($this->groupRequirements, $groupName);
     }
 
     /**
@@ -134,7 +134,7 @@ class MenuItem
      */
     public function permissionRequirementsHas(string $permissionKey):bool
     {
-        return Arr::get($this->permissionRequirements,$permissionKey);
+        return Arr::get($this->permissionRequirements, $permissionKey);
     }
 
     /**

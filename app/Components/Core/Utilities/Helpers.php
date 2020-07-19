@@ -20,7 +20,7 @@ class Helpers
      * @param string|null $default
      * @return string
      */
-    public static function hasValue(&$var,$default = null)
+    public static function hasValue(&$var, $default = null)
     {
         try {
 
@@ -47,9 +47,9 @@ class Helpers
      * @param string $key
      * @param bool $highestFirst
      */
-    public static function sort(&$array,$key = 'sort',$highestFirst = true)
+    public static function sort(&$array, $key = 'sort', $highestFirst = true)
     {
-        usort($array, function($a, $b) use ($key,$highestFirst) {
+        usort($array, function($a, $b) use ($key, $highestFirst) {
             return ($highestFirst) ? $b[$key] - $a[$key] : $a[$key] - $b[$key];
         });
     }
@@ -62,9 +62,9 @@ class Helpers
      * @param string $default
      * @return string
      */
-    public static function propertySafe(&$class,$propertyName,$default = '')
+    public static function propertySafe(&$class, $propertyName, $default = '')
     {
-        return property_exists($class,$propertyName) ? $class->{$propertyName} : $default;
+        return property_exists($class, $propertyName) ? $class->{$propertyName} : $default;
     }
 
     /**
@@ -75,7 +75,7 @@ class Helpers
      * @param string $default
      * @return string
      */
-    public static function arraySafe(&$array,$key,$default = '')
+    public static function arraySafe(&$array, $key, $default = '')
     {
         return isset($array['$key']) ? $array[$key] : $default;
     }
@@ -87,7 +87,7 @@ class Helpers
      * @param string $default
      * @return string
      */
-    public static function trySafe(&$var,$default = '')
+    public static function trySafe(&$var, $default = '')
     {
         try {
             return $var;
@@ -104,13 +104,13 @@ class Helpers
      * @param int $decimal
      * @return string
      */
-    public static function formatMillisecondsToSeconds($duration,$decimal = 5)
+    public static function formatMillisecondsToSeconds($duration, $decimal = 5)
     {
         $hours = (int)($duration / 60 / 60);
         $minutes = (int)($duration / 60) - $hours * 60;
         $seconds = (float)$duration - $hours * 60 * 60 - $minutes * 60;
 
-        return number_format($seconds,$decimal);
+        return number_format($seconds, $decimal);
     }
 
     /**
@@ -120,7 +120,7 @@ class Helpers
      * @param string $separator
      * @return string
      */
-    public static function camel2snake($string,$separator = '_') {
+    public static function camel2snake($string, $separator = '_') {
         return strtolower(preg_replace('/([a-zA-Z])(?=[A-Z])/', "$1{$separator}", $string));
     }
 
@@ -150,7 +150,7 @@ class Helpers
      * @param string $charOrWord
      * @return bool
      */
-    public static function stringContains($subject,$charOrWord)
+    public static function stringContains($subject, $charOrWord)
     {
         if (strpos($subject, $charOrWord) !== false) {
             return true;
@@ -194,7 +194,7 @@ class Helpers
      */
     public static function stringToSlug(string $string, $sep = '-'): string
     {
-        return strtolower(str_replace(['-'],$sep,static::cleanString($string)));
+        return strtolower(str_replace(['-'], $sep,static::cleanString($string)));
     }
 
     /**
@@ -224,7 +224,7 @@ class Helpers
     public static function normalizeToArray($input): array
     {
         if(is_array($input)) return $input;
-        if(is_string($input)) return explode(',',$input);
+        if(is_string($input)) return explode(',', $input);
         if(is_object($input)) return (array)$input;
         return [];
     }

@@ -56,7 +56,7 @@ class UrlHelper
         return $formatted;
     }
 
-    public function returnActiveIf($match,$segment)
+    public function returnActiveIf($match, $segment)
     {
         $segmented = $this->urlSegmented;
 
@@ -69,6 +69,6 @@ class UrlHelper
 
     protected function removeProtocols($url)
     {
-        return str_replace(['http://','https://'],'',$url);
+        return str_replace(['http://','https://'],'', $url);
     }
 }

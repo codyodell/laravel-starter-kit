@@ -11,7 +11,7 @@
                   @click="showDialog('brand_add')"
                   dark
                   class="primary lighten-1"
-                  aria-label="New Brand"
+                  aria-label="Add a Brand"
                >
                   <v-icon>add</v-icon>
                </v-btn>
@@ -37,16 +37,13 @@
                <td class="align-center">
                   <v-btn tag="span" rounded>{{ item.product_count }}</v-btn>
                </td>
-               <td>{{ $appFormatters.formatDate(item.created_at) }}</td>
+               <td>
+                  <timeago :datetime="item.created_at"></timeago>
+               </td>
                <td class="align-right">
                   <v-btn @click="showDialog('brand_edit', item)" icon small>
                      <v-icon class="blue--text">edit</v-icon>
                   </v-btn>
-                  <!--
-              <v-btn @click="trash(props.item)" icon small>
-                <v-icon class="red--text">delete</v-icon>
-              </v-btn>
-                  -->
                </td>
             </tr>
          </tbody>
@@ -112,54 +109,50 @@ export default {
       BrandAdd,
       BrandEdit
    },
-   data() {
-      return {
-         headers: [
-            {
-               text: "Name",
-               value: "name",
-               align: "start",
-               sortable: false
-            },
-            {
-               text: "Total Products",
-               value: "product_count",
-               align: "center",
-               sortable: false
-            },
-            {
-               text: "Created",
-               value: "created_at",
-               sortable: false
-            },
-            {
-               text: "_",
-               value: "_",
-               align: "end",
-               sortable: false
-            }
-         ],
-         items: [],
-         totalItems: 0,
-         pagination: {
-            rowsPerPage: 10
+   data: () => ({
+      headers: [
+         {
+            text: "Name",
+            value: "name",
+            align: "start",
+            sortable: false
          },
-
-         filters: {
-            name: ""
+         {
+            text: "Total Products",
+            value: "product_count",
+            align: "center",
+            sortable: false
          },
-
-         dialogs: {
-            edit: {
-               brand: {},
-               show: false
-            },
-            add: {
-               show: false
-            }
+         {
+            text: "Created",
+            value: "created_at",
+            sortable: false
+         },
+         {
+            text: "",
+            value: "controls",
+            align: "end",
+            sortable: false
          }
-      };
-   },
+      ],
+      items: [],
+      totalItems: 0,
+      pagination: {
+         rowsPerPage: 10
+      },
+      filters: {
+         name: ""
+      },
+      dialogs: {
+         edit: {
+            brand: {},
+            show: false
+         },
+         add: {
+            show: false
+         }
+      }
+   }),
    mounted() {
       const self = this;
       self.$eventBus.$on(

@@ -135,7 +135,7 @@ class MenuManager
         $found = false;
         $menus = $this->filter();
 
-        $menus->each(function(MenuItem $menuItem) use (&$found,$menuLabel)
+        $menus->each(function(MenuItem $menuItem) use (&$found, $menuLabel)
         {
             if($menuItem->label === $menuLabel) $found = true;
         });

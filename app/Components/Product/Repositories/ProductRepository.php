@@ -20,13 +20,13 @@ class ProductRepository extends BaseRepository
     public function index($params)
     {
         return $this->get($params, ['categories', 'brand', 'user'], function ($q) use ($params) {
-            $name           = Arr::get($params, 'name', '');
-            $categories     = Arr::get($params, 'categories', '');
-            $arCategoryIds = Helpers::commasToArray($categories);
+            $name = Arr::get($params, 'name', '');
+            $categories = Arr::get($params, 'categories', '');
             if (strlen($name) > 3) {
                 $q->where('name', 'like', "%{ $name }%");
             }
-            if (@count($arCategoryIds) > 0) {
+            if (strlen($categories)) {
+                $arCategoryIds = Helpers::commasToArray($categories);
                 $q->whereIn('categories', function ($q) use ($arCategoryIds) {
                     return $q->whereIn('category_id', 'categories.id', $arCategoryIds);
                 });

@@ -20,7 +20,7 @@ Trait ResponseHelpers
      * @param array $headers
      * @return \Illuminate\Http\Response
      */
-    public function sendResponse($data = null, $message = '', $statusCode = 200,$headers = [])
+    public function sendResponse($data = null, $message = '', $statusCode = 200, $headers = [])
     {
         $d = [
             'message' => $message,
@@ -52,7 +52,7 @@ Trait ResponseHelpers
      */
     public function sendResponseNotFound(string $message = "Resource not found.", array $headers = [])
     {
-        return $this->sendResponse([],$message,404,$headers);
+        return $this->sendResponse([], $message,404, $headers);
     }
 
     /**
@@ -64,7 +64,7 @@ Trait ResponseHelpers
      */
     public function sendResponseBadRequest(string $message = "Bad Request.", array $headers = [])
     {
-        return $this->sendResponse([],$message,400,$headers);
+        return $this->sendResponse([], $message,400, $headers);
     }
 
     /**
@@ -77,7 +77,7 @@ Trait ResponseHelpers
      */
     public function sendResponseCreated($data = [], string $message = "Resource created.", array $headers = [])
     {
-        return $this->sendResponse($data,$message,201,$headers);
+        return $this->sendResponse($data, $message,201, $headers);
     }
 
     /**
@@ -90,7 +90,7 @@ Trait ResponseHelpers
      */
     public function sendResponseUpdated($data = [],string $message = "Resource updated.", array $headers = [])
     {
-        return $this->sendResponse($data,$message,200,$headers);
+        return $this->sendResponse($data, $message,200, $headers);
     }
 
     /**
@@ -102,7 +102,7 @@ Trait ResponseHelpers
      */
     public function sendResponseDeleted(string $message = "Resource deleted.",array $headers = [])
     {
-        return $this->sendResponse([],$message,200,$headers);
+        return $this->sendResponse([], $message,200, $headers);
     }
 
     /**
@@ -114,7 +114,7 @@ Trait ResponseHelpers
      */
     public function sendResponseForbidden(string $message = "Action forbidden.",array $headers = [])
     {
-        return $this->sendResponse([],$message,403,$headers);
+        return $this->sendResponse([], $message,403, $headers);
     }
 
     /**

@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name') }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="description" content="{{ config('app.description') }}">
     <meta name="author" content="{{ config('app.author') }}">
     <link href="{{ asset('css/front.css') }}" rel="stylesheet">
@@ -32,11 +32,6 @@
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <li><a href="{{ route('login') }}">Login</a></li>

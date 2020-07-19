@@ -61,7 +61,7 @@ class SearchReplace extends Command
             {
                 $tbl = $table->{$prop};
 
-                if(in_array($tbl,$excludeTables)) continue;
+                if(in_array($tbl, $excludeTables)) continue;
 
                 $columns = Schema::getColumnListing($tbl);
 

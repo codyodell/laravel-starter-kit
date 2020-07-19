@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', true),
+    'debug' => env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://laravel-starter-kit.local:80'),
+    'url' => env('APP_URL', 'http://pwashop.laravel.local'),
 
     /*
     |--------------------------------------------------------------------------

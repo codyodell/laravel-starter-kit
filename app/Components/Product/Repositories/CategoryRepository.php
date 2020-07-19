@@ -23,8 +23,8 @@ class CategoryRepository extends BaseRepository
     public function index($params)
     {
         return $this->get($params, [], function ($q) use ($params) {
-            $name = Arr::get($params, 'name', null);
-            if ($name)
+            $name = Arr::get($params, 'name', '');
+            if (strlen($name))
                 $q = $q->where('name', 'like', "%{$name}%");
             return $q;
         });

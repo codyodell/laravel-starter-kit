@@ -43,7 +43,7 @@ class FileController extends FrontController
      * @param int $id
      * @return mixed
      */
-    public function filePreview(Request $request,$id)
+    public function filePreview(Request $request, $id)
     {
         $file = $this->fileService->previewFile([
             'id' => $id,
@@ -68,7 +68,7 @@ class FileController extends FrontController
     {
         $token = $request->get('file_token');
 
-        $res = $this->fileService->downloadFile($id,$token);
+        $res = $this->fileService->downloadFile($id, $token);
 
         if($res) return $res;
 

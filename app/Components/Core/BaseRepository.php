@@ -113,6 +113,6 @@ abstract class BaseRepository
      */
     public function findBy($field, $value)
     {
-        return $this->model->where($field,$value)->first();
+        return $this->model->where($field, $value)->first();
     }
 }

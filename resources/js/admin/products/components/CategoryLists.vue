@@ -10,7 +10,7 @@
                <v-btn
                   icon
                   color="primary"
-                  aria-label="New Category"
+                  aria-label="Add a Category"
                   @click="showDialog('category_add')"
                >
                   <v-icon>add</v-icon>
@@ -25,34 +25,38 @@
          v-bind:headers="headers"
          :options.sync="pagination"
          :items="items"
+         :item-key="items.name"
          :server-items-length="totalItems"
-         class="elevation-4"
-         :disable-pagination="totalItems === 0"
       >
-         <tbody>
-            <tr v-for="item in items" :key="item.id">
+         <template v-slot:item="{ item }">
+            <tr>
                <td>
-                  <strong>{{ item.name }}</strong>
+                  <a
+                     @click="$router.push({name: 'category.edit', params: {id: item.id}})"
+                     title="Edit Category"
+                  >{{ item.name }}</a>
                </td>
                <td>
                   <p>{{ item.description }}</p>
                </td>
                <td class="align-center">
-                  <v-btn tag="span" rounded>{{ item.product_count }}</v-btn>
+                  <v-chip>{{ item.product_count }}</v-chip>
                </td>
-               <td>{{ $appFormatters.formatDate(item.created_at) }}</td>
+               <td>
+                  <timeago :datetime="item.created_at"></timeago>
+               </td>
                <td class="align-right">
-                  <v-btn @click="showDialog('category_edit', item)" icon small>
+                  <v-btn @click="showDialog('category_edit', item)" tile small>
                      <v-icon class="blue--text">edit</v-icon>
                   </v-btn>
                   <!--
-              <v-btn @click="trash(props.item)" icon small>
-                <v-icon class="red--text">delete</v-icon>
-              </v-btn>
+                  <v-btn @click="trash(props.item)" icon small>
+                     <v-icon class="red--text">delete</v-icon>
+                  </v-btn>
                   -->
                </td>
             </tr>
-         </tbody>
+         </template>
       </v-data-table>
 
       <!-- add category -->
@@ -126,20 +130,20 @@ export default {
             },
             {
                text: "Description",
-               value: "description",
+               value: "description"
             },
             {
                text: "Total Products",
                value: "product_count",
-               align: "center",
+               align: "center"
             },
             {
                text: "Date Created",
-               value: "created_at",
+               value: "created_at"
             },
             {
                text: null,
-               value: 'controls',
+               value: "controls"
             }
          ],
          items: [],
@@ -165,7 +169,7 @@ export default {
       const self = this;
       self.$store.commit("setBreadcrumbs", [
          { label: "Products", to: { name: "product.lists" } },
-         { label: "Categories", to: { name: "product.categories" } }
+         { label: "Categories", name: "" }
       ]);
       self.$eventBus.$on(
          ["CATEGORY_ADDED", "CATEGORY_UPDATED", "CATEGORY_DELETED"],

@@ -64,7 +64,7 @@ class ProductController extends AdminController
         $validate = validator($request->all(), [
             'name'          => 'string|required|unique:products|max:255',
             'description'   => 'required',
-            'price' => '',
+            'price'         => 'float',
             'attributes'    => 'json',
             'categories'    => 'array',
             'brand_id'      => 'integer'

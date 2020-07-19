@@ -27,6 +27,6 @@ class MenuHelper
 
         $menus = $menuManager->getFiltered();
 
-        view()->share('nav',$menus);
+        view()->share('nav', $menus);
     }
 }
