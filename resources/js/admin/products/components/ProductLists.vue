@@ -35,7 +35,7 @@
                         @click="
                           $router.push({
                             name: 'category.lists',
-                            params: { id: item.id },
+                            params: { id: item.id }
                           })
                         "
                         >{{ category.name }}</v-chip
@@ -50,7 +50,7 @@
                     @click="
                       $router.push({
                         name: 'brand.edit',
-                        params: { id: item.brand_id },
+                        params: { id: item.brand_id }
                       })
                     "
                     >{{ item.brand.name }}</v-chip
@@ -65,7 +65,7 @@
                     @click="
                       $router.push({
                         name: 'users.view',
-                        params: { id: item.created_by },
+                        params: { id: item.created_by }
                       })
                     "
                     >{{ item.created_by }}</v-btn
@@ -77,7 +77,7 @@
                     @click="
                       $router.push({
                         name: 'product.edit',
-                        params: { id: item.id },
+                        params: { id: item.id }
                       })
                     "
                     title="Edit this product"
@@ -107,7 +107,7 @@
                     v-model="filters.name"
                     prepend-icon="search"
                     placeholder="Filter by Name, SKU or ASIN"
-                    :rules="[(v) => !!v || 'Search query is required']"
+                    :rules="[v => !!v || 'Search query is required']"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12">
@@ -120,7 +120,7 @@
                     v-model="filters.categories"
                     :items="categories"
                     :loading="isLoadingCategories"
-                    :rules="[(v) => !!v || 'Category is required']"
+                    :rules="[v => !!v || 'Category is required']"
                   ></v-select>
                 </v-col>
               </v-row>
@@ -191,7 +191,7 @@ import ProductEdit from "./ProductEdit.vue";
 export default {
   components: {
     ProductAdd,
-    ProductEdit,
+    ProductEdit
   },
   data: () => ({
     title: "Manage Products",
@@ -204,28 +204,28 @@ export default {
     categories_selected: [],
     totalItems: 0,
     pagination: {
-      rowsPerPage: 10,
+      rowsPerPage: 10
     },
     filters: {
       name: "",
       asin: "",
-      categories: [],
+      categories: []
     },
     dialogs: {
       view: {
         product: {},
-        show: false,
+        show: false
       },
       edit: {
         product: {},
-        show: false,
-      },
+        show: false
+      }
     },
     nameRules: [
-      (v) => !!v || "Name is required",
-      (v) => (v && v.length <= 10) || "Name must be less than 10 characters",
+      v => !!v || "Name is required",
+      v => (v && v.length <= 10) || "Name must be less than 10 characters"
     ],
-    categoryRules: [],
+    categoryRules: []
   }),
   computed: {
     headers() {
@@ -235,28 +235,28 @@ export default {
           text: "Name",
           value: "name",
           sortable: false,
-          filter: self.filters.name,
+          filter: self.filters.name
         },
         {
           text: "Categories",
           value: "categories",
-          sortable: false,
+          sortable: false
         },
         { text: "Brand", value: "brand_id" },
         { text: "Created", value: "created_by" },
-        { text: "", value: "controls" },
+        { text: "", value: "controls" }
       ];
     },
     products() {
       const self = this;
-    },
+    }
   },
   mounted() {
     const self = this;
 
     self.$store.commit("setBreadcrumbs", [{ label: "Products", name: "" }]);
-    self.loadProducts(() => {});
     self.loadCategories(() => {});
+    self.loadProducts(() => {});
     self.$eventBus.$on(
       ["PRODUCT_ADDED", "PRODUCT_MODIFIED", "PRODUCT_DELETED"],
       () => self.loadProducts(() => {})
@@ -269,12 +269,14 @@ export default {
     "pagination.rowsPerPage": function() {
       this.loadProducts(() => {});
     },
+    "filters.categories": function(test) {
+      console.info(`Products -> Watch() -> Categories: ${test}`);
+    }
   },
   methods: {
     submit() {
-      if (this.$refs.form.validate()) {
-        // Request
-      }
+      let is_valid = this.$refs.form.validate();
+      console.info(`Is valid? ${is_valid}`);
     },
     showDialog(dialog, data) {
       const self = this;
@@ -283,19 +285,19 @@ export default {
           self.dialogs.view.product = data;
           setTimeout(() => {
             self.dialogs.view.show = true;
-          }, 500);
+          }, 1000);
           break;
         case "product_edit":
           self.dialogs.edit.product = data;
           setTimeout(() => {
             self.dialogs.edit.show = true;
-          }, 500);
+          }, 1000);
           break;
         case "product_delete":
           self.dialogs.delete.product = data;
           setTimeout(() => {
             self.dialogs.delete.show = true;
-          }, 500);
+          }, 1000);
           break;
       }
     },
@@ -312,7 +314,7 @@ export default {
               self.$store.commit("showSnackbar", {
                 message: resp.data.message,
                 color: "success",
-                duration: 3000,
+                duration: 3000
               });
               self.$eventBus.$emit("PRODUCT_DELETED");
               self.dialogs.view.show = false;
@@ -322,7 +324,7 @@ export default {
                 self.$store.commit("showSnackbar", {
                   message: error.resp.data.message,
                   color: "error",
-                  duration: 3000,
+                  duration: 3000
                 });
               } else if (error.request) {
                 console.log(error.request);
@@ -333,12 +335,12 @@ export default {
         },
         cancelCb: () => {
           console.info("CANCEL");
-        },
+        }
       });
     },
     loadProducts(cb) {
       const self = this;
-      this.isLoadingProducts = true;
+      self.isLoadingProducts = true;
       axios
         .get(
           "/admin/products",
@@ -346,14 +348,14 @@ export default {
             name: self.filters.name,
             categories: self.categories_selected.join(","),
             page: self.pagination.page,
-            per_page: self.pagination.rowsPerPage,
+            per_page: self.pagination.rowsPerPage
           })
         )
         .then(function(resp) {
           self.isLoadingProducts = false;
           self.items = resp.data.data.data;
           console.info("loadProducts().then()");
-          console.table(self.items);
+          console.dir(self.items);
           self.totalItems = resp.data.data.total;
           self.pagination.totalItems = resp.data.data.total;
           (cb || Function)();
@@ -364,7 +366,7 @@ export default {
             self.$store.commit("showSnackbar", {
               message: error.response.data.message,
               color: "error",
-              duration: 3000,
+              duration: 3000
             });
           } else if (error.request) {
             console.log(error.request);
@@ -376,20 +378,20 @@ export default {
     loadCategories(cb, params) {
       params = params || { paginate: "no" };
       const self = this;
-      this.isLoadingCategories = true;
+      self.isLoadingCategories = true;
       axios
         .get("/admin/categories", self.requestParams(params))
         .then(function(resp) {
-          this.isLoadingCategories = false;
+          self.isLoadingCategories = false;
           const items = resp.data.data;
           console.info("loadCategories().then()");
-          console.table(items);
+          console.dir(items);
           self.categories = items;
           (cb || Function)();
         });
     },
-    requestParams: (params) => ({ params: params }),
-  },
+    requestParams: params => ({ params: params })
+  }
 };
 </script>
 

@@ -9,6 +9,7 @@
     <meta name="description" content="{{ config('app.description') }}">
     <meta name="author" content="{{ config('app.author') }}">
     <link href="{{ asset('css/front.css') }}" rel="stylesheet">
+    <!--https://unpkg.com/vuetify@2.3.4/dist/vuetify.js-->
 </head>
 <body>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">

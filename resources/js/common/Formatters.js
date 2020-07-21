@@ -1,7 +1,7 @@
 export default {
     install(Vue, options) {
         Vue.prototype.$appFormatters = {
-            formatDate: function (value, format) {
+            formatDate: function(value, format) {
                 if (!value) return false;
                 let m = moment(value);
                 if (!m.isValid()) return false;
