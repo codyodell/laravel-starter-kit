@@ -1,7 +1,7 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
@@ -11,6 +11,9 @@ export default new Vuex.Store({
 
         // loader
         showLoader: false,
+
+        // Drawer
+        showDrawer: true,
 
         // snackbar
         showSnackbar: false,
@@ -24,8 +27,8 @@ export default new Vuex.Store({
         dialogTitle: '',
         dialogMessage: '',
         dialogIcon: null,
-        dialogOkCb: () => { },
-        dialogCancelCb: () => { },
+        dialogOkCb: () => {},
+        dialogCancelCb: () => {},
     },
     mutations: {
 
@@ -34,8 +37,8 @@ export default new Vuex.Store({
             items.unshift({
                 label: 'Home',
                 to: { name: 'dashboard' }
-            });
-            state.breadcrumbs = items;
+            })
+            state.breadcrumbs = items
         },
 
         // loader
@@ -46,37 +49,45 @@ export default new Vuex.Store({
             state.showLoader = false
         },
 
+        // darwer
+        showDrawer(state, data) {
+            state.showDrawer = true
+        },
+        hideDrawer(state) {
+            state.showDrawer = false
+        },
+
         // snackbar
         showSnackbar(state, data) {
-            state.snackbarDuration = data.duration || 3000;
-            state.snackbarMessage = data.message || 'No message.';
-            state.snackbarColor = data.color || 'info';
-            state.showSnackbar = true;
+            state.snackbarDuration = data.duration || 3000
+            state.snackbarMessage = data.message || 'No message.'
+            state.snackbarColor = data.color || 'info'
+            state.showSnackbar = true
         },
         hideSnackbar(state) {
-            state.showSnackbar = false;
+            state.showSnackbar = false
         },
 
         // dialog
         showDialog(state, data) {
-            state.dialogType = data.type || 'confirm';
-            state.dialogTitle = data.title;
-            state.dialogMessage = data.message;
-            state.dialogIcon = data.icon || null;
-            state.dialogOkCb = data.okCb || function () { };
-            state.dialogCancelCb = data.cancelCb || function () { };
-            state.dialogShow = true;
+            state.dialogType = data.type || 'confirm'
+            state.dialogTitle = data.title
+            state.dialogMessage = data.message
+            state.dialogIcon = data.icon || null
+            state.dialogOkCb = data.okCb || function() {}
+            state.dialogCancelCb = data.cancelCb || function() {}
+            state.dialogShow = true
         },
         hideDialog(state) {
-            state.dialogShow = false;
+            state.dialogShow = false
         },
         dialogOk(state) {
-            state.dialogOkCb();
-            state.dialogShow = false;
+            state.dialogOkCb()
+            state.dialogShow = false
         },
         dialogCancel(state) {
-            state.dialogCancelCb();
-            state.dialogShow = false;
+            state.dialogCancelCb()
+            state.dialogShow = false
         }
     },
     getters: {
@@ -105,6 +116,11 @@ export default new Vuex.Store({
             return state.snackbarDuration
         },
 
+        // Drawer
+        showDrawer: state => {
+            return state.showDrawer
+        },
+
         // dialog
         showDialog: state => {
             return state.dialogShow
@@ -122,4 +138,4 @@ export default new Vuex.Store({
             return state.dialogIcon
         },
     }
-});
+})

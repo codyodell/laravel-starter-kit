@@ -21,3 +21,5 @@ storage/
 storage/
 yarn-error.log
 .old/
+*.pem
+*.sql

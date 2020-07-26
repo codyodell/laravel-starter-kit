@@ -2,7 +2,7 @@
 
 ## PWA Shop
 
-- [Local URL](http://pwashop.laravel.local:7000/)
+- [Local URL](https://pwashop.laravel.local/)
 - [GitLab Repo](https://gitlab.com/codyodell/pwashop-laravel/)
 
 <img src="https://assets.darrylfernandez.com/wp-content/uploads/2018/04/Screenshot_2.png"></p>

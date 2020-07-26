@@ -1,5 +1,14 @@
+@php
+$config = [
+'lang' => app()->getLocale(),
+'app_name' => config('app.name', 'PWA Shop'),
+'app_url' => config('app.url'),
+'app_description' => config('app.description'),
+];
+@endphp
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,130 +17,161 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ $config['app_name'] }}</title>
 
     <!-- Styles -->
-    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons|Material+Icons+Sharp'
+          rel="stylesheet">
 
     <!-- admin.css here -->
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 
     <!-- app js values -->
     <script type="application/javascript">
-        var LSK_APP = {};
-        LSK_APP.APP_URL = '{{env('APP_URL')}}';
+        window.config = @json($config);
     </script>
 </head>
+
 <body>
-<div id="admin">
+    <div id="admin">
 
-    <template>
-        <v-app id="inspire">
+        <template>
+            <v-app id="inspire">
 
-            <v-navigation-drawer
-                    v-model="drawer"
-                    app
-                    clipped
-                    left>
-                <v-list dense>
-                    @foreach($nav as $n)
+                <v-navigation-drawer v-model="showDrawer"
+                                     app
+                                     clipped
+                                     left>
+                    <v-list dense>
+                        @foreach($nav as $n)
                         @if($n->navType==\App\Components\Core\Menu\MenuItem::$NAV_TYPE_NAV && $n->visible)
-                            <v-list-item :to="{name: '{{$n->routeName}}'}" :exact="false">
-                                <v-list-item-action>
-                                    <v-icon>{{$n->icon}}</v-icon>
-                                </v-list-item-action>
-                                <v-list-item-content>
-                                    <v-list-item-title>
-                                        {{$n->label}}
-                                    </v-list-item-title>
-                                </v-list-item-content>
-                            </v-list-item>
+                        <v-list-item :to="{name: '{{$n->routeName}}'}" :exact="false">
+                            <v-list-item-action>
+                                <v-icon>{{$n->icon}}</v-icon>
+                            </v-list-item-action>
+                            <v-list-item-content>
+                                <v-list-item-title>
+                                    {{$n->label}}
+                                </v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
                         @else
-                            <v-divider></v-divider>
+                        <v-divider></v-divider>
                         @endif
-                    @endforeach
+                        @endforeach
 
-                    <v-list-item @click="clickLogout('{{route('logout')}}','{{url('/')}}')">
-                        <v-list-item-action>
-                            <v-icon>directions_walk</v-icon>
-                        </v-list-item-action>
-                        <v-list-item-content>
-                            <v-list-item-title>Logout</v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
+                        <v-list-item @click="clickLogout('{{ route('logout') }}', '{{ url('/') }}')">
+                            <v-list-item-action>
+                                <v-icon>directions_walk</v-icon>
+                            </v-list-item-action>
+                            <v-list-item-content>
+                                <v-list-item-title>Logout</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
 
-                </v-list>
-            </v-navigation-drawer>
+                    </v-list>
+                </v-navigation-drawer>
 
-            <v-app-bar app clipped-left>
-                <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-                <v-toolbar-title>{{config('app.name')}}</v-toolbar-title>
-            </v-app-bar>
-
-            <v-content>
-                <div>
-                    <v-breadcrumbs :items="getBreadcrumbs">
-                        <template v-slot:item="props">
-                            <v-breadcrumbs-item :to="props.item.to" exact
-                                                :key="props.item.label"
-                                                :disabled="props.item.disabled">
-                                <template v-slot:divider>
-                                    <v-icon>mdi-forward</v-icon>
-                                </template>
-                                @{{ props.item.label }}
-                            </v-breadcrumbs-item>
-                        </template>
-                    </v-breadcrumbs>
-                </div>
-                <v-divider></v-divider>
-                <transition name="fade">
-                    <router-view></router-view>
-                </transition>
-            </v-content>
-            <v-footer fixed>
-                <span>&copy; {{ date('Y') }}</span>
-            </v-footer>
-        </v-app>
-
-        <!-- loader -->
-        <div v-if="showLoader" class="wask_loader bg_half_transparent">
-            <moon-loader color="red"></moon-loader>
-        </div>
-
-        <!-- snackbar -->
-        <v-snackbar
-                :timeout="snackbarDuration"
-                :color="snackbarColor"
-                top
-                v-model="showSnackbar">
-            @{{ snackbarMessage }}
-        </v-snackbar>
-
-        <!-- dialog confirm -->
-        <v-dialog v-show="showDialog" v-model="showDialog" absolute max-width="450px">
-            <v-card>
-                <v-card-title>
-                    <div class="headline"><v-icon v-if="dialogIcon">@{{dialogIcon}}</v-icon> @{{ dialogTitle }}</div>
-                </v-card-title>
-                <v-card-text>@{{ dialogMessage }}</v-card-text>
-                <v-card-actions v-if="dialogType=='confirm'">
+                <v-app-bar app clipped-left>
+                    <v-app-bar-nav-icon @click.stop="toggleDrawer"></v-app-bar-nav-icon>
+                    <v-toolbar-title>{{config('app.name')}}</v-toolbar-title>
                     <v-spacer></v-spacer>
-                    <v-btn color="orange darken-1" text @click.native="dialogCancel">Cancel</v-btn>
-                    <v-btn color="green darken-1" text @click.native="dialogOk">Ok</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
+                    <v-menu bottom left>
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                                   dark
+                                   icon
+                                   large
+                                   v-bind="attrs"
+                                   v-on="on">
+                                <v-avatar size="32px" item>
+                                    @if(true)
+                                    <v-icon>mdi-account-circle</v-icon>
+                                    @else
+                                    <v-img src="https://cdn.vuetifyjs.com/images/logos/logo.svg" alt="Vuetify"></v-img>
+                                    @endif
+                                </v-avatar>
+                            </v-btn>
+                        </template>
 
-        <!-- the progress bar -->
-        <vue-progress-bar></vue-progress-bar>
+                        <v-list>
+                            <v-list-item @click="">
+                                <v-list-item-title>{!! debug(auth()->user()) !!}</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="">
+                                <v-list-item-title>Settings</v-list-item-title>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
+                </v-app-bar>
 
-    </template>
+                <v-content>
+                    <div>
+                        <v-breadcrumbs :items="getBreadcrumbs">
+                            <template v-slot:item="props">
+                                <v-breadcrumbs-item :to="props.item.to" exact
+                                                    :key="props.item.label"
+                                                    :disabled="props.item.disabled">
+                                    <template v-slot:divider>
+                                        <v-icon>mdi-forward</v-icon>
+                                    </template>
+                                    @{{ props.item.label }}
+                                </v-breadcrumbs-item>
+                            </template>
+                        </v-breadcrumbs>
+                    </div>
+                    <v-divider></v-divider>
+                    <transition name="fade">
+                        <router-view></router-view>
+                    </transition>
+                </v-content>
+                <v-footer fixed>
+                    <span>&copy; {{ date('Y') }}</span>
+                </v-footer>
+            </v-app>
 
-</div>
+            <!-- loader -->
+            <div v-if="showLoader" class="wask_loader bg_half_transparent">
+                <moon-loader color="red"></moon-loader>
+            </div>
 
-<!-- Scripts -->
-<script src="{{ asset('js/manifest.js') }}"></script>
-<script src="{{ asset('js/vendor.js') }}"></script>
-<script src="{{ asset('js/admin.js') }}"></script>
+            <!-- snackbar -->
+            <v-snackbar
+                        :timeout="snackbarDuration"
+                        :color="snackbarColor"
+                        top
+                        v-model="showSnackbar">
+                @{{ snackbarMessage }}
+            </v-snackbar>
+
+            <!-- dialog confirm -->
+            <v-dialog v-show="showDialog" v-model="showDialog" absolute max-width="450px">
+                <v-card>
+                    <v-card-title>
+                        <div class="headline">
+                            <v-icon v-if="dialogIcon">@{{dialogIcon}}</v-icon> @{{ dialogTitle }}
+                        </div>
+                    </v-card-title>
+                    <v-card-text>@{{ dialogMessage }}</v-card-text>
+                    <v-card-actions v-if="dialogType=='confirm'">
+                        <v-spacer></v-spacer>
+                        <v-btn color="orange darken-1" text @click.native="dialogCancel">Cancel</v-btn>
+                        <v-btn color="green darken-1" text @click.native="dialogOk">Ok</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+
+            <!-- the progress bar -->
+            <vue-progress-bar></vue-progress-bar>
+
+        </template>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/manifest.js') }}"></script>
+    <script src="{{ asset('js/vendor.js') }}"></script>
+    <script src="{{ asset('js/admin.js') }}"></script>
 </body>
+
 </html>
