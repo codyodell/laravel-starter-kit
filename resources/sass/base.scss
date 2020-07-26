@@ -2,55 +2,68 @@
 @import "dropzone";
 
 /* general */
+
 a {
-   text-decoration: none;
+    text-decoration: none;
 }
+
 .bg_half_transparent {
-   background: rgba($loader-bg-color, $loader-bg-transparency);
+    background: rgba($loader-bg-color, $loader-bg-transparency);
 }
+
 .wask_loader {
-   padding: 10rem 0;
-   position: fixed;
-   z-index: 501;
-   border: 0;
-   width: 100%;
-   left: 0;
-   top: 0;
-   bottom: 0;
+    padding: 10rem 0;
+    position: fixed;
+    z-index: 501;
+    border: 0;
+    width: 100%;
+    left: 0;
+    top: 0;
+    bottom: 0;
 }
-.wask_loader > div.v-spinner > div {
-   margin: 0 auto;
+
+.wask_loader>div.v-spinner>div {
+    margin: 0 auto;
 }
+
 .permissions_container {
-   padding: 10px;
+    padding: 10px;
 }
+
 .fade-enter-active,
 .fade-leave-active {
-   transition-property: opacity;
-   transition-duration: 0.25s;
+    transition-property: opacity;
+    transition-duration: 0.25s;
 }
+
 .fade-enter-active {
-   transition-delay: 0.25s;
+    transition-delay: 0.25s;
 }
+
 .fade-enter,
 .fade-leave-active {
-   opacity: 0;
+    opacity: 0;
 }
+
 .breadcrumbs li a {
-   text-decoration: none;
-   color: $menu-text-color;
+    text-decoration: none;
+    color: $menu-text-color;
 }
+
 
 /* pre-defined */
+
 .wask_td_action {
-   min-width: 150px;
+    min-width: 150px;
 }
 
+
 /* override */
+
 #admin .snack {
-   z-index: 500 !important;
+    z-index: 500 !important;
 }
 
 span.v-btn {
-   width: 24em;
+    width: 24em;
 }

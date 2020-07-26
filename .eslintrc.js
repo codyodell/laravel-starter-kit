@@ -1,13 +1,15 @@
 module.exports = {
+    root: true,
     env: {
-        browser: true,
-        es2020: true
+        node: true,
     },
     extends: ["vuetify"],
     parserOptions: {
-        ecmaVersion: 11,
-        sourceType: "module"
+        parser: "babel-eslint",
     },
-    plugins: ["vue"],
-    rules: {}
-};
+    rules: {
+        "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
+        "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
+        "vue/max-attributes-per-line": "off",
+    },
+}

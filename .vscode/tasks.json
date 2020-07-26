@@ -8,6 +8,17 @@
       "problemMatcher": [],
       "label": "npm: watch",
       "detail": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+    },
+    {
+      "type": "npm",
+      "script": "dev",
+      "problemMatcher": [],
+      "label": "npm: dev",
+      "detail": "npm run development",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }

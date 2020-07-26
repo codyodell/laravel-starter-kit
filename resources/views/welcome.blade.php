@@ -1,76 +1,97 @@
 <!doctype html>
-<html lang="{{ app()->getLocale() }}" dir="ltr">
-
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>@{{ page_name }} — A Laravel/Vue.js Project</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-    <link href="//fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-    <link href="//cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
-    <link href="//cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Laravel</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+
+    <!-- Styles -->
+    <style>
+        html, body {
+            background-color: #fff;
+            color: #636b6f;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 100;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .full-height {
+            height: 100vh;
+        }
+
+        .flex-center {
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+
+        .position-ref {
+            position: relative;
+        }
+
+        .top-right {
+            position: absolute;
+            right: 10px;
+            top: 18px;
+        }
+
+        .content {
+            text-align: center;
+        }
+
+        .title {
+            font-size: 84px;
+        }
+
+        .links > a {
+            color: #636b6f;
+            padding: 0 25px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: .1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .m-b-md {
+            margin-bottom: 30px;
+        }
+
+        .swiss {
+            max-width: 300px;
+            opacity: 0.2;
+        }
+    </style>
 </head>
+<body>
+<div class="flex-center position-ref full-height">
+    @if (Route::has('login'))
+        <div class="top-right links">
+            @auth
+                <a href="{{ url('/admin') }}">Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}">Login</a>
+                    <a href="{{ route('register') }}">Register</a>
+                    @endauth
+        </div>
+    @endif
 
-<body class="no-js full-height">
-    <div id="app">
-        <v-app>
-            <v-main>
-                <v-container>
-                    @if (Route::has('login'))
-                    <v-list data-pos="abs" class="top-right">
-                        @auth
-                        <a href="{{ url('/admin') }}">Dashboard</a>
-                        @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                        @endauth
-                    </v-list>
-                    @endif
+    <div class="content">
+        <div class="title m-b-md">
+            <img class="swiss" src="{{url('img/camper-swiss-knife.jpg')}}">
+        </div>
 
-                    <main class="content full-height">
-                        <v-card class="text-center">
-                            <v-card-title>
-                                <h1>@{{ page_name }}</h1>
-                            </v-card-title>
-                            <v-card-text>
-                                <v-subheader>Powered by</v-subheader>
-                                <p>
-                                    <v-img src="{{ url('v-img/logos/laravel.svg') }}" alt="Laravel" />
-                                    <v-img src="{{ url('imv-g/logos/vuejs.svg') }}" alt="Vue.js" />
-                                </p>
-                            </v-card-text>
-                        </v-card>
-                    </main>
-                </v-container>
-            </v-main>
-        </v-app>
+        <div class="links">
+            <h1>Laravel <span style="color: #F4D8D8">Starter Kit</span></h1>
+            <h4>Powered by VueJS + Material Design</h4>
+        </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-    <script>
-        new Vue({
-            el: '#app',
-            data: () => ({
-                vuetify: new Vuetify(),
-                page_name: 'Welcome',
-                top_nav: [
-                    {
-                        name: 'Dashboard',
-                        url: '/dashboard',
-                    }, {
-                        name: 'Login',
-                        url: '/login',
-                    }, {
-                        name: 'Register',
-                        url: '/register',
-                    }
-                ]
-            }),
-            beforeCreate() {
-                this.page_name = "{{ env('APP_NAME') }}";
-            }
-        });
-    </script>
+</div>
 </body>
-
 </html>

@@ -1,15 +1,6 @@
 {
-   "git.ignoreLimitWarning": true,
-   "eslint.enable": true,
-   "editor.codeLens": false,
-   "editor.minimap.renderCharacters": false,
-   "workbench.preferredDarkColorTheme": "Material Theme",
-   "workbench.preferredHighContrastColorTheme": "Solarized Dark",
-   "workbench.preferredLightColorTheme": "Community Material Theme Ocean",
-   "materialTheme.accent": "Bright Teal",
-   "workbench.colorCustomizations": {
-      "activityBar.background": "#1B3311",
-      "titleBar.activeBackground": "#264817",
-      "titleBar.activeForeground": "#F7FCF6"
-   }
+    "editor.formatOnSave": true,
+    "[blade]": {
+        "editor.autoClosingBrackets": "always",
+    }
 }

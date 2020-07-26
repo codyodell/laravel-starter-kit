@@ -1,12 +1,15 @@
-[![Build Status](https://travis-ci.org/darryldecode/laravel-starter-kit.svg?branch=master)](https://travis-ci.org/darryldecode/laravel-starter-kit)
+[![Build Status](https://travis-ci.org/codyodell/pwashop-laravel.svg?branch=master)](https://travis-ci.org/codyodell/pwashop-laravel)
 
-## Laravel + VueJS + Material Design<
-NOTE: This uses hybrid routing. Inner pages is SPA using vue-router for smoother user experience. So if you are an advanced user of laravel and vueJS, then this one is for you. But if you are just learning laravel and vueJS, then this might not be for you.
+## PWA Shop
+
+- [Local URL](http://pwashop.laravel.local:7000/)
+- [GitLab Repo](https://gitlab.com/codyodell/pwashop-laravel/)
 
 <img src="https://assets.darrylfernandez.com/wp-content/uploads/2018/04/Screenshot_2.png"></p>
 
-# [See Documentation](https://laravel-starter-kit-docs.darrylfernandez.com/)
-# [See Demo App](https://laravel-starter-kit.darrylfernandez.com/)
+# [See Documentation](https://pwashop-laravel-docs.darrylfernandez.com/)
+
+# [See Demo App](https://pwashop-laravel.darrylfernandez.com/)
 
 ### Demo
 
@@ -15,7 +18,7 @@ NOTE: This uses hybrid routing. Inner pages is SPA using vue-router for smoother
   <dd>admin@gmail.com</dd>
   <dt>Password</dt>
   <dd>12345678</dd>
-</dl> 
+</dl>
 
 ------
 
@@ -24,7 +27,7 @@ NOTE: This uses hybrid routing. Inner pages is SPA using vue-router for smoother
 - Only accepts patches, improvements & bug fixes.
 - For pull requests related to additional modules or features, it will be subject for discussion as this project is intended for a very lean starting point and avoids to be bloated.
 
-##### NOTES
+#### NOTES
 
 I created this starter kit for personal use on my own project. But if you find it useful on yours, feel free to use it. I will keep this project up to date as this is one of my toolset in my day to day work. But I cannot promise to give support. Thank you.
 

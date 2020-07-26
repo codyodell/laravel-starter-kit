@@ -18,7 +18,7 @@ class CreateCategoryProduct extends Migration
             $table->id();
             $table->unsignedInteger('category_id')->index();
             $table->unsignedInteger('product_id')->index();
-            $table->timestamps();
+            $table->nullableTimestamps();
         });
     }
 

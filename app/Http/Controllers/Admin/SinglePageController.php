@@ -1,12 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: darryldecode
- * Date: 4/2/2018
- * Time: 8:40 AM
- */
-
 namespace App\Http\Controllers\Admin;
 
 use App\Components\Core\Menu\MenuItem;

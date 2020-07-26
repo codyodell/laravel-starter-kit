@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Components\User\Models\User;
 use App\Components\Product\Models\Category;
 
-class Product extends Model {
+class Product extends Model
+{
 
     protected $table = 'products';
 

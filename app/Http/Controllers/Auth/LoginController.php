@@ -69,4 +69,9 @@ class LoginController extends Controller
         $this->incrementLoginAttempts($request);
         return $this->sendFailedLoginResponse($request);
     }
+
+    public function index()
+    {
+        return View::make('auth.login');
+    }
 }

@@ -17,16 +17,10 @@ Route::get('files/{id}/download', 'Front\\FileController@fileDownload')->name('f
 
 Auth::routes();
 
-// NOTE:
-// remove the demo middleware before you start on a project, this middleware if only
-// for demo purpose to prevent viewers to modify data on a live demo site
-
 // admin
-// Route::prefix('admin')->namespace('Admin')->middleware(['auth','demo'])->group(function()
 Route::prefix('admin')->namespace('Admin')->group(function () {
     // single page
     Route::get('/', 'SinglePageController@displaySPA')->name('admin.spa');
-
     // resource routes
     Route::resource('users', 'UserController');
     Route::resource('products', 'ProductController');

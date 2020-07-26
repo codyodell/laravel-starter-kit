@@ -33,8 +33,11 @@ class ProductController extends AdminController
         $validate = validator($request->all(), [
             'name' => 'string|required|unique:products|max:255',
             'description' => 'required',
+            'price' => 'float|required',
             'attributes' => 'json',
             'brand_id' => 'integer',
+            'categories' => 'array|required',
+            'created_by' => 'integer|required',
         ]);
         if ($validate->fails())
             return $this->sendResponseBadRequest($validate->errors()->first());
@@ -64,10 +67,11 @@ class ProductController extends AdminController
         $validate = validator($request->all(), [
             'name'          => 'string|required|unique:products|max:255',
             'description'   => 'required',
-            'price'         => 'float',
+            'price'         => 'float|required',
             'attributes'    => 'json',
             'categories'    => 'array',
-            'brand_id'      => 'integer'
+            'brand_id'      => 'integer',
+            'created_by'    => 'integer',
         ]);
 
         if ($validate->fails())
@@ -88,7 +92,7 @@ class ProductController extends AdminController
                 $product->categories()->attach($categoryId);
             }
         }
-        
+
         if (count($categoryIds)) {
             $product->categories()->sync($categoryIds);
         }
