@@ -19,12 +19,11 @@
             <template v-slot:item="{ item }">
               <tr>
                 <td>
-                  <strong>
-                    <a
-                      @click="showDialog('product_details', item.id)"
-                      title="View product details"
-                    >{{ item.name }}</a>
-                  </strong>
+                  <a
+                    @click="showDialog('product_details', item.id)"
+                    title="View product details"
+                    class="text-h6"
+                  >{{ item.name }}</a>
                 </td>
                 <td>
                   <v-chip-group>
@@ -61,6 +60,7 @@
                 <td>
                   <v-btn
                     text
+                    small
                     @click="
                       $router.push({
                         name: 'users.view',
@@ -72,6 +72,7 @@
                 <td class="text-right">
                   <v-btn
                     tile
+                    small
                     @click="
                       $router.push({
                         name: 'product.edit',
@@ -87,12 +88,13 @@
             </template>
           </v-data-table>
         </v-col>
-        <v-col cols="3" md="4" sm="12" class="pl-3">
+        <v-col cols="2" md="2" sm="3" xs="12" class="pl-3">
           <!-- Search Filters -->
           <v-form ref="form" v-model="valid">
-            <v-card flat>
+            <v-card flat role="search">
               <v-card-title>
-                <v-icon left>filter_alt</v-icon>Filters
+                <v-icon left>filter_alt</v-icon>
+                <span>Filters</span>
               </v-card-title>
               <v-card-text>
                 <v-text-field

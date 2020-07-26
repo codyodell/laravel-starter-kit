@@ -1,10 +1,16 @@
 @php
+
+$user = Auth::user();
+$user_id = Auth::id();
+
 $config = [
-'lang' => app()->getLocale(),
-'app_name' => config('app.name', 'PWA Shop'),
+'lang' => str_replace('_', '-', app()->getLocale()),
+'app_name' => config('app.name', 'PWA Shop Admin'),
 'app_url' => config('app.url'),
 'app_description' => config('app.description'),
+
 ];
+
 @endphp
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
@@ -13,20 +19,11 @@ $config = [
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
     <title>{{ $config['app_name'] }}</title>
-
-    <!-- Styles -->
-    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons|Material+Icons+Sharp'
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons|Material+Icons+Sharp'
           rel="stylesheet">
-
-    <!-- admin.css here -->
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
-
-    <!-- app js values -->
     <script type="application/javascript">
         window.config = @json($config);
     </script>
@@ -74,7 +71,7 @@ $config = [
 
                 <v-app-bar app clipped-left>
                     <v-app-bar-nav-icon @click.stop="toggleDrawer"></v-app-bar-nav-icon>
-                    <v-toolbar-title>{{config('app.name')}}</v-toolbar-title>
+                    <v-toolbar-title>{{ config('app.name') }}</v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-menu bottom left>
                         <template v-slot:activator="{ on, attrs }">
@@ -85,21 +82,30 @@ $config = [
                                    v-bind="attrs"
                                    v-on="on">
                                 <v-avatar size="32px" item>
-                                    @if(true)
-                                    <v-icon>mdi-account-circle</v-icon>
+                                    @if(Auth::check())
+                                    <v-img src="{!! $user->photo_url !!}" alt="Logged in as {!! $user->name !!}">
+                                    </v-img>
                                     @else
-                                    <v-img src="https://cdn.vuetifyjs.com/images/logos/logo.svg" alt="Vuetify"></v-img>
+                                    <v-icon>mdi-account-circle</v-icon>
                                     @endif
                                 </v-avatar>
                             </v-btn>
                         </template>
 
                         <v-list>
-                            <v-list-item @click="">
-                                <v-list-item-title>{!! debug(auth()->user()) !!}</v-list-item-title>
+                            <v-list-item>
+                                <v-list-item-title>
+                                    <v-btn small text :to="{name: 'user.view', params: {id: {{ $user_id }} }}"
+                                           title="View Profile">
+                                        Logged in as <strong>{{ $user->name }}</strong>
+                                    </v-btn>
+                                </v-list-item-title>
                             </v-list-item>
                             <v-list-item @click="">
                                 <v-list-item-title>Settings</v-list-item-title>
+                            </v-list-item>
+                            <v-list-item @click="clickLogout('{{ route('logout') }}', '{{ url('/') }}')">
+                                <v-list-item-title>Logout</v-list-item-title>
                             </v-list-item>
                         </v-list>
                     </v-menu>
@@ -132,7 +138,7 @@ $config = [
 
             <!-- loader -->
             <div v-if="showLoader" class="wask_loader bg_half_transparent">
-                <moon-loader color="red"></moon-loader>
+                <moon-loader color="grey lighten-2"></moon-loader>
             </div>
 
             <!-- snackbar -->
@@ -155,8 +161,8 @@ $config = [
                     <v-card-text>@{{ dialogMessage }}</v-card-text>
                     <v-card-actions v-if="dialogType=='confirm'">
                         <v-spacer></v-spacer>
-                        <v-btn color="orange darken-1" text @click.native="dialogCancel">Cancel</v-btn>
-                        <v-btn color="green darken-1" text @click.native="dialogOk">Ok</v-btn>
+                        <v-btn color="grey darken-1" text @click.native="dialogCancel">Cancel</v-btn>
+                        <v-btn color="primary darken-1" @click.native="dialogOk">Ok</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
