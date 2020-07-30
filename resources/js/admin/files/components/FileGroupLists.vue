@@ -33,7 +33,9 @@
                   </td>
                   <td>{{ item.description }}</td>
                   <td>{{ item.file_count }}</td>
-                  <td>{{ $appFormatters.formatDate(item.created_at) }}</td>
+                  <td>
+                     <timeago :datetime="item.created_at"></timeago>
+                  </td>
                   <td class="align-right">
                      <v-btn @click="showDialog('file_group_edit',item)" icon small>
                         <v-icon class="blue--text">edit</v-icon>
@@ -98,14 +100,14 @@
 </template>
 
 <script>
-import FileGroupAdd from "./FileGroupAdd.vue";
-import FileGroupEdit from "./FileGroupEdit.vue";
+import FileGroupAdd from "./FileGroupAdd.vue"
+import FileGroupEdit from "./FileGroupEdit.vue"
 export default {
    components: {
       FileGroupAdd,
       FileGroupEdit
    },
-   data() {
+   data () {
       return {
          headers: [
             {
@@ -138,34 +140,34 @@ export default {
                show: false
             }
          }
-      };
+      }
    },
-   mounted() {
-      console.log("pages.files.components.FileGroupLists.vue");
+   mounted () {
+      console.log("pages.files.components.FileGroupLists.vue")
 
-      const self = this;
+      const self = this
 
       self.$eventBus.$on(
-         ["FILE_GROUP_ADDED", "FILE_GROUP_UPDATED", "FILE_GROUP_DELETED"],
+         [ "FILE_GROUP_ADDED", "FILE_GROUP_UPDATED", "FILE_GROUP_DELETED" ],
          () => {
-            self.loadFileGroups(() => {});
+            self.loadFileGroups(() => { })
          }
-      );
+      )
    },
    watch: {
-      "filters.name": _.debounce(function(v) {
-         this.loadFileGroups(() => {});
+      "filters.name": _.debounce(function (v) {
+         this.loadFileGroups(() => { })
       }, 500),
-      "pagination.page": function() {
-         this.loadFileGroups(() => {});
+      "pagination.page": function () {
+         this.loadFileGroups(() => { })
       },
-      "pagination.rowsPerPage": function() {
-         this.loadFileGroups(() => {});
+      "pagination.rowsPerPage": function () {
+         this.loadFileGroups(() => { })
       }
    },
    methods: {
-      trash(group) {
-         const self = this;
+      trash (group) {
+         const self = this
 
          self.$store.commit("showDialog", {
             type: "confirm",
@@ -174,69 +176,69 @@ export default {
             okCb: () => {
                axios
                   .delete("/admin/file-groups/" + group.id)
-                  .then(function(response) {
+                  .then(function (response) {
                      self.$store.commit("showSnackbar", {
                         message: response.data.message,
                         color: "success",
                         duration: 3000
-                     });
+                     })
 
-                     self.$eventBus.$emit("FILE_GROUP_DELETED");
+                     self.$eventBus.$emit("FILE_GROUP_DELETED")
                   })
-                  .catch(function(error) {
+                  .catch(function (error) {
                      if (error.response) {
                         self.$store.commit("showSnackbar", {
                            message: error.response.data.message,
                            color: "error",
                            duration: 3000
-                        });
+                        })
                      } else if (error.request) {
-                        console.log(error.request);
+                        console.log(error.request)
                      } else {
-                        console.log("Error", error.message);
+                        console.log("Error", error.message)
                      }
-                  });
+                  })
             },
             cancelCb: () => {
-               console.log("CANCEL");
+               console.log("CANCEL")
             }
-         });
+         })
       },
-      showDialog(dialog, data) {
-         const self = this;
+      showDialog (dialog, data) {
+         const self = this
 
          switch (dialog) {
             case "file_group_edit":
-               self.dialogs.edit.fileGroup = data;
+               self.dialogs.edit.fileGroup = data
                setTimeout(() => {
-                  self.dialogs.edit.show = true;
-               }, 500);
-               break;
+                  self.dialogs.edit.show = true
+               }, 500)
+               break
             case "file_group_add":
                setTimeout(() => {
-                  self.dialogs.add.show = true;
-               }, 500);
-               break;
+                  self.dialogs.add.show = true
+               }, 500)
+               break
          }
       },
-      loadFileGroups(cb) {
-         const self = this;
+      loadFileGroups (cb) {
+         const self = this
 
          let params = {
             name: self.filters.name,
             page: self.pagination.page,
             per_page: self.pagination.rowsPerPage
-         };
+         }
 
          axios
             .get("/admin/file-groups", { params: params })
-            .then(function(response) {
-               self.items = response.data.data.data;
-               self.totalItems = response.data.data.total;
-               self.pagination.totalItems = response.data.data.total;
+            .then(function (response) {
+               self.items = response.data.data.data
+               self.totalItems = response.data.data.total
+               self.pagination.totalItems = response.data.data.total
                self.disable_pagination = self.totalItems > 0;
-               (cb || Function)();
-            });
+               (cb || Function)()
+            })
       }
    }
 };

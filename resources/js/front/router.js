@@ -6,10 +6,18 @@ Vue.use(Router)
 
 const router = new Router({
     base: "/",
-    routes: [{ name: "home", path: "/home", component: require("./home/Home") }, {
+    routes: [{
+        name: "home",
+        path: "/home",
+        component: require("./home/Home")
+    }, {
         name: "login",
         path: "/login",
         component: require("./login/Login")
+    }, {
+        name: "register",
+        path: "/register",
+        component: require("./Register/Register")
     }, {
         name: "dashboard",
         path: "/dashboard",

@@ -3,7 +3,8 @@
     "description": "Laravel 7 Starter Kit Powered by VueJS + Material Design",
     "keywords": [
         "framework",
-        "laravel"
+        "laravel",
+        "PWA"
     ],
     "license": "MIT",
     "type": "project",
@@ -15,7 +16,7 @@
         "intervention/image": "^2.4",
         "laravel/framework": "^7.0",
         "laravel/helpers": "^1.2",
-        "laravel/slack-notification-channel": "^2.1",
+        "laravel/socialite": "^4.4",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "ramsey/uuid": "^3.7"
@@ -23,17 +24,13 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",
         "barryvdh/laravel-ide-helper": "^2.6",
-        "coderello/laravel-populated-factory": "^0.3.2",
         "filp/whoops": "~2.0",
-        "fzaninotto/faker": "~1.4",
+        "fzaninotto/faker": "^1.9",
         "laravel/dusk": "^6.4",
         "mockery/mockery": "0.9.*",
         "phpunit/phpunit": "^8.5"
     },
     "autoload": {
-        "files": [
-            "app/helpers.php"
-        ],
         "classmap": [
             "database/seeds",
             "database/factories"

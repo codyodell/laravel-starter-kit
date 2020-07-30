@@ -1,44 +1,41 @@
+<!DOCTYPE html>
 @php
 
 $user = Auth::user();
-$user_id = Auth::id();
 
 $config = [
-'lang' => str_replace('_', '-', app()->getLocale()),
-'app_name' => config('app.name', 'PWA Shop Admin'),
+'locale' => str_replace('_', '-', app()->getLocale()),
+'app_name' => config('app.name'),
 'app_url' => config('app.url'),
 'app_description' => config('app.description'),
-
 ];
 
 @endphp
-<!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{!! $config['locale']; !!}">
 
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ config('app.name') }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $config['app_name'] }}</title>
-    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons|Material+Icons+Sharp'
-          rel="stylesheet">
-    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     <script type="application/javascript">
         window.config = @json($config);
     </script>
+    <link
+          href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Roboto+Mono|Material+Icons&display=swap">
+    <link href="{{ asset('css/admin.css') }}">
 </head>
 
 <body>
     <div id="admin">
-
         <template>
             <v-app id="inspire">
-
-                <v-navigation-drawer v-model="showDrawer"
+                <v-navigation-drawer
                                      app
-                                     clipped
-                                     left>
+                                     left
+                                     v-model="showDrawer"
+                                     :clipped="$vuetify.breakpoint.lgAndUp">
                     <v-list dense>
                         @foreach($nav as $n)
                         @if($n->navType==\App\Components\Core\Menu\MenuItem::$NAV_TYPE_NAV && $n->visible)
@@ -56,20 +53,18 @@ $config = [
                         <v-divider></v-divider>
                         @endif
                         @endforeach
-
                         <v-list-item @click="clickLogout('{{ route('logout') }}', '{{ url('/') }}')">
                             <v-list-item-action>
-                                <v-icon>directions_walk</v-icon>
+                                <v-icon>mdi-logout-variant</v-icon>
                             </v-list-item-action>
                             <v-list-item-content>
                                 <v-list-item-title>Logout</v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
-
                     </v-list>
                 </v-navigation-drawer>
 
-                <v-app-bar app clipped-left>
+                <v-app-bar app :clipped="$vuetify.breakpoint.lgAndUp">
                     <v-app-bar-nav-icon @click.stop="toggleDrawer"></v-app-bar-nav-icon>
                     <v-toolbar-title>{{ config('app.name') }}</v-toolbar-title>
                     <v-spacer></v-spacer>
@@ -80,31 +75,38 @@ $config = [
                                    icon
                                    large
                                    v-bind="attrs"
-                                   v-on="on">
-                                <v-avatar size="32px" item>
-                                    @if(Auth::check())
-                                    <v-img src="{!! $user->photo_url !!}" alt="Logged in as {!! $user->name !!}">
-                                    </v-img>
+                                   v-on="on"
+                                   title="Logged in as {!! $user->name !!}">
+                                <v-avatar size="32px" color="grey darken-2" item>
+                                    @auth
+                                    <v-img src="{!! $user->photo_url !!}" alt="Logged in as {!! $user->name !!}" />
                                     @else
-                                    <v-icon>mdi-account-circle</v-icon>
-                                    @endif
+                                    <v-icon>mdi-account</v-icon>
+                                    @endauth
                                 </v-avatar>
                             </v-btn>
                         </template>
 
                         <v-list>
-                            <v-list-item>
+                            <v-list-item title="View Profile"
+                                         :to="{name: 'user.view', params: {id: {{ Auth::id() }} }}">
+                                <v-list-item-action>
+                                    <v-icon>mdi-account</v-icon>
+                                </v-list-item-action>
                                 <v-list-item-title>
-                                    <v-btn small text :to="{name: 'user.view', params: {id: {{ $user_id }} }}"
-                                           title="View Profile">
-                                        Logged in as <strong>{{ $user->name }}</strong>
-                                    </v-btn>
+                                    Logged in as <strong>{{ $user->name }}</strong>
                                 </v-list-item-title>
                             </v-list-item>
                             <v-list-item @click="">
+                                <v-list-item-action>
+                                    <v-icon>mdi-gear</v-icon>
+                                </v-list-item-action>
                                 <v-list-item-title>Settings</v-list-item-title>
                             </v-list-item>
                             <v-list-item @click="clickLogout('{{ route('logout') }}', '{{ url('/') }}')">
+                                <v-list-item-action>
+                                    <v-icon>mdi-logout-variant</v-icon>
+                                </v-list-item-action>
                                 <v-list-item-title>Logout</v-list-item-title>
                             </v-list-item>
                         </v-list>
@@ -126,13 +128,32 @@ $config = [
                             </template>
                         </v-breadcrumbs>
                     </div>
-                    <v-divider></v-divider>
                     <transition name="fade">
                         <router-view></router-view>
                     </transition>
                 </v-content>
-                <v-footer fixed>
-                    <span>&copy; {{ date('Y') }}</span>
+                <v-footer app>
+                    <v-row>
+                        <v-col cols="4" sm="12" class="text-sm-center">
+                            <v-btn icon small>
+                                <v-icon>mdi-facebook</v-icon>
+                            </v-btn>
+                            <v-btn icon small>
+                                <v-icon>mdi-twitter</v-icon>
+                            </v-btn>
+                            <v-btn icon small>
+                                <v-icon>mdi-github</v-icon>
+                            </v-btn>
+                        </v-col>
+                        <v-col cols="4" sm="6" xs="12" class="text-center">
+                            <v-btn small>
+                                <v-icon left>md-home</v-icon>Home
+                            </v-btn>
+                        </v-col>
+                        <v-col cols="4" sm="6" xs="12" class="text-right text-sm-center">
+                            <span>&copy; {{ date('Y') }}</span>
+                        </v-col>
+                    </v-row>
                 </v-footer>
             </v-app>
 

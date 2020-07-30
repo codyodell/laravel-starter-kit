@@ -11,6 +11,12 @@ mix.copyDirectory("resources/img", "public/img")
     .js("resources/js/admin/admin.js", "public/js")
     .js("resources/js/front/front.js", "public/js")
     .sass("resources/sass/admin.scss", "public/css")
-    .sass("resources/sass/front.scss", "public/css").sourceMaps().extract([
+    .sass("resources/sass/front.scss", "public/css").extract([
         "vue", "vue-router", "moment", "axios", "lodash", "dropzone"
     ])
+
+if (mix.inProduction()) {
+    mix.sourceMaps()
+}
+
+mix.browserSync('pwashop.laravel.local')

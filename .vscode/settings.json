@@ -2,5 +2,6 @@
     "editor.formatOnSave": true,
     "[blade]": {
         "editor.autoClosingBrackets": "always",
-    }
+    },
+    "eslint.enable": false
 }

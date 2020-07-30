@@ -1,19 +1,16 @@
 require("../bootstrap")
+
 window.Vue = require("vue")
+
 import "@mdi/font/css/materialdesignicons.css"
 import "vuetify/dist/vuetify.min.css"
 import Vue from "vue"
 import Vuetify from "vuetify"
 import VueProgressBar from "vue-progressbar"
 import VueTimeago from "vue-timeago"
-Vue.use(VueTimeago, {
-    name: "Timeago",
-    locales: {
-        "zh-CN": require("date-fns/locale/zh_cn"),
-        ja: require("date-fns/locale/ja")
-    }
-})
+
 Vue.use(Vuetify)
+
 Vue.use(VueProgressBar, {
     color: "#ffcb6b",
     failedColor: "#ff5874",
@@ -27,10 +24,18 @@ Vue.use(VueProgressBar, {
     inverse: false
 })
 
-// global component registrations here 
+Vue.use(VueTimeago, {
+    name: "Timeago",
+    locales: {
+        "zh-CN": require("date-fns/locale/zh_cn"),
+        ja: require("date-fns/locale/ja")
+    }
+})
+
+// global component registrations here
 Vue.component("moon-loader", require("vue-spinner/src/MoonLoader.vue"))
 
-// app 
+// app
 import router from "./router"
 import store from "../common/Store"
 import eventBus from "../common/Event"
@@ -59,7 +64,7 @@ const front = new Vue({
             iconfont: "mdi"
         }
     }),
-    el: "#admin",
+    el: "#app",
     eventBus,
     router,
     store,
@@ -75,9 +80,14 @@ const front = new Vue({
             }, {
                 title: "Settings",
                 route: route("settings")
-            }, { title: "Logout", route: route("logout") }]
+            }, {
+                title: "Logout",
+                route: route("logout")
+            }]
         },
-        getBreadcrumbs() { return store.getters.getBreadcrumbs },
+        getBreadcrumbs() {
+            return store.getters.getBreadcrumbs
+        },
         showLoader() {
             return
         },
@@ -117,7 +127,7 @@ const front = new Vue({
         }
     },
     mounted() {
-        const self = this // Progress bar top 
+        const self = this // Progress bar top
         AxiosAjaxDetct.init(() => { self.$Progress.start() },
             () => { self.$Progress.finish() })
     },

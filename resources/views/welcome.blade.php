@@ -24,73 +24,60 @@ $config = [
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
-    <title>Laravel</title>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <title>{{ config('app.name') }}</title>
+    <meta name="description" content="{{ config('app.description') }}">
+    <meta name="author" content="{{ config('app.author') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
     <script type="application/javascript">
         window.config = @json($config);
     </script>
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Roboto+Mono&amp;display=swap"
+          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="{{  mix('css/front.css') }}" rel="stylesheet">
 </head>
 
 <body>
     <div id="app">
-        <v-app>
+        <v-app id="inspire">
             <v-main>
-                <v-toolbar dark dense>
-                    <v-toolbar-title>
-                        <v-btn text large title="{{ app_name }}" @click="$router.push({name: 'welcome'})">
-                            <span>{{ app_name }}</span>
+                <v-app-bar app flat>
+                    <v-app-bar-nav-icon></v-app-bar-nav-icon>
+                    <v-toolbar-title class="pa-0">
+                        <v-btn text large class="logo" title="{{ config('app.name') }}" href="{{ url('/') }}">
+                            <v-icon left>mdi-storefront-outline</v-icon>
+                            <span>{{ $config['app_name'] }}</span>
                         </v-btn>
                     </v-toolbar-title>
                     <v-spacer></v-spacer>
-                    @if(Route::has('login'))
-                    <v-toolbar-items>
-                        @auth
-                        <v-btn small href="{{ url('/admin') }}">Dashboard</v-btn>
-                        @else
-                        <v-btn small href="{{ route('login') }}">Login</v-btn>
-                        <v-btn small href="{{ route('register') }}">Register</v-btn>
-                        @endauth
-                    </v-toolbar-items>
-                    @endif
-                </v-toolbar>
-                <v-container fluid>
-                    <v-row
-                           class="fill-height"
-                           align="center"
-                           justify="center">
-                        <v-col cols="12" justify-center>
-                            <div class="text-center">
+                    @auth
+                    <v-btn small text href="{{ url('/admin') }}">Dashboard</v-btn>
+                    @else
+                    <v-btn small text href="{{ route('login') }}">Login</v-btn>
+                    <v-btn small text href="{{ route('register') }}">Register</v-btn>
+                    @endauth
+                </v-app-bar>
+                <v-container fluid class="fill-height">
+                    <v-row align="center" justify="center">
+                        <v-col cols="12" sm="8" md="4">
+                            <v-sheet class="pa-4 text-center">
                                 <h4>Powered By</h4>
-                                <img src="{{ asset('img/logos/laravel.svg') }}" width="240px" alt="Laravel">
-                                <img src="{{ asset('img/logos/vuejs.svg') }}" width="240px" alt="Vue.js">
-                            </div>
+                                <img src="{{ asset('img/logos/laravel.svg') }}" height="140px" alt="Laravel">
+                                <img src="{{ asset('img/logos/vuejs.svg') }}" height="140px" alt="Vue.js">
+                            </v-sheet>
                         </v-col>
                     </v-row>
                 </v-container>
+                <v-footer app class="text-center" align="center">
+                    <v-icon>mdi-facebook</v-icon>
+                    <v-icon>mdi-twitter</v-icon>
+                    <v-icon>mdi-facebook</v-icon>
+                </v-footer>
             </v-main>
         </v-app>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-    <script>
-        new Vue({
-        el: '#app',
-        vuetify: new Vuetify(),
-        data: () => ({
-            app_name: 'PWA Shop',
-            nav_top: []
-        }),
-        mounted() {
-            if(config.logged_in) {
-
-            } else {
-                
-            }
-        },
-    })
-    </script>
+    <script src="{{ mix('js/front.js') }}"></script>
 </body>
 
 </html>

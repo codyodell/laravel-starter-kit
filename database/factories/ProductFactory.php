@@ -19,7 +19,7 @@ $factory->define(\App\Components\Product\Models\Product::class, function (Faker 
             $arAttributes[$strAttributeName][] = $faker->words(rand(1, 12), true);
         }
     }
-    $nDateVariance = 365 * 2;
+    $nDateVariance = 365 / 2; // ~6 months
     $nDateRandom_Created = rand($nDateVariance, rand($nDateVariance, -1));
     $nDateRandom_Updated = rand($nDateRandom_Created, rand($nDateRandom_Created, -1));
     $users = User::all()->pluck('id')->toArray();
@@ -30,6 +30,7 @@ $factory->define(\App\Components\Product\Models\Product::class, function (Faker 
         'description' => $faker->paragraphs(2, true),
         'price' => $faker->randomFloat(2, 1.99, 399.99),
         'attributes' => $arAttributes,
+        'photo' => $faker->photo(),
         'brand_id' => $faker->randomElement($brands),
         'created_by' => $faker->randomElement($users),
         'created_at' => Carbon::now()->subtract($nDateRandom_Created, 'day'),

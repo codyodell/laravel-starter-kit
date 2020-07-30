@@ -2,19 +2,17 @@
 
 namespace App\Components\Product\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-use App\Components\User\Models\User;
 use App\Components\Product\Models\Category;
+use App\Components\User\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
 
     protected $table = 'products';
 
-    // Cast attributes JSON to array
     protected $casts = [
-        'attributes' => 'array'
+        'attributes' => 'array',
     ];
 
     protected $fillable = [
@@ -22,7 +20,7 @@ class Product extends Model
         'description',
         'price',
         'attributes',
-        'brand_id',
+        'brand',
         'categories',
         'attributes',
     ];

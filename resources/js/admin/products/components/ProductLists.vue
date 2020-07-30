@@ -73,12 +73,8 @@
                   <v-btn
                     tile
                     small
-                    @click="
-                      $router.push({
-                        name: 'product.edit',
-                        params: { id: item.id }
-                      })
-                    "
+                    color="secondary"
+                    @click="$router.push({name: 'product.edit', params: { id: item.id }})"
                     title="Edit this product"
                   >
                     <v-icon left>mdi-pencil</v-icon>Edit
@@ -88,8 +84,8 @@
             </template>
           </v-data-table>
         </v-col>
-        <v-col cols="2" md="2" sm="3" xs="12" class="pl-3">
-          <!-- Search Filters -->
+        <v-col cols="2" md="2" sm="3" xs="12" class="pl-2">
+          <!-- Right Column: Search Filters -->
           <v-form ref="form" v-model="valid">
             <v-card flat role="search">
               <v-card-title>
@@ -123,13 +119,13 @@
                 ></v-select>
               </v-card-text>
               <v-card-actions>
-                <v-btn text color="grey darken-1">
-                  <v-icon icon left>cancel</v-icon>Cancel
+                <v-btn small text color="grey darken-2" @click="clear">
+                  <v-icon left>mdi-close</v-icon>Cancel
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn small color="success" :disabled="!valid">
+                <v-btn small color="success" :disabled="!valid" @click="submit">
                   Apply Filters
-                  <v-icon right>arrow_right</v-icon>
+                  <v-icon right>mdi-arrow-right</v-icon>
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -141,11 +137,13 @@
     <v-dialog :laze="false" v-model="dialogs.view.show" transition="dialog-bottom-transition">
       <v-card>
         <v-card-title>{{ dialogs.view.product.name }}</v-card-title>
-        <v-card-text></v-card-text>
+        <v-card-text>
+          <product-details></product-details>
+        </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn icon @click.native="dialogs.view.show = false" title="Close">
-            <v-icon>delete</v-icon>
+            <v-icon>mdi-delete</v-icon>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -161,7 +159,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn icon @click.native="dialogs.edit.show = false" title="Close Form">
-            <v-icon>delete</v-icon>
+            <v-icon>mdi-delete</v-icon>
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -172,12 +170,13 @@
 <script>
 import ProductAdd from "./ProductAdd.vue"
 import ProductEdit from "./ProductEdit.vue"
-// import ProductDetails from "./ProductDetails.vue";
+import ProductDetails from "./ProductDetails.vue"
 
 export default {
    components: {
       ProductAdd,
-      ProductEdit
+      ProductEdit,
+      ProductDetails
    },
    data: () => ({
       title: "Manage Products",
@@ -344,8 +343,8 @@ export default {
                console.info("loadProducts().then()")
                console.dir(self.items)
                self.totalItems = resp.data.data.total
-               self.pagination.totalItems = resp.data.data.total;
-               (cb || Function)()
+               self.pagination.totalItems = resp.data.data.total
+                  (cb || Function)()
             })
             .catch(function (error) {
                self.isLoadingProducts = false
@@ -367,14 +366,14 @@ export default {
          const self = this
          self.isLoadingCategories = true
          axios
-            .get("/admin/categories", self.requestParams(params))
+            .get(`/admin/categories`, self.requestParams(params))
             .then(function (resp) {
                self.isLoadingCategories = false
                const items = resp.data.data
                console.info("loadCategories().then()")
                console.dir(items)
-               self.categories = items;
-               (cb || Function)()
+               self.categories = items.map(item => item.name)
+                  (cb || Function)()
             })
       },
       requestParams: params => ({ params: params })

@@ -37,7 +37,7 @@
                   <v-text-field filled prepend-icon="search" label="Filter By Email" v-model="filters.email"></v-text-field>
                </div>
                <div class="flex-grow-1 pa-2">
-                  <v-autocomplete 
+                  <v-autocomplete
                   filled
                   multiple
                   chips
@@ -122,7 +122,9 @@
                         text-color="white"
                      >{{group.name}}</v-chip>
                   </td>
-                  <td>{{ $appFormatters.formatDate(item.last_login) }}</td>
+                  <td>
+                     <timeago :datetime="item.last_login"></timeago>
+                  </td>
                   <td class="text-center">
                      <v-avatar outlined>
                         <v-icon v-if="item.active != null" class="green--text">check_circle</v-icon>
@@ -190,7 +192,7 @@
 
 <script>
 export default {
-   data() {
+   data () {
       return {
          headers: [
             { text: "Name", value: "name", align: "left", sortable: true },
@@ -235,46 +237,46 @@ export default {
                show: false
             }
          }
-      };
+      }
    },
-   mounted() {
-      const self = this;
+   mounted () {
+      const self = this
 
-      self.loadGroups(() => {});
+      self.loadGroups(() => { })
 
       self.$eventBus.$on(
-         ["USER_ADDED", "USER_UPDATED", "USER_DELETED", "GROUP_ADDED"],
+         [ "USER_ADDED", "USER_UPDATED", "USER_DELETED", "GROUP_ADDED" ],
          () => {
-            self.loadUsers(() => {});
+            self.loadUsers(() => { })
          }
-      );
+      )
 
       self.$store.commit("setBreadcrumbs", [
          { label: "Users", to: { name: "users.list" } }
-      ]);
+      ])
    },
    watch: {
       pagination: {
-         handler() {
-            this.loadUsers(() => {});
+         handler () {
+            this.loadUsers(() => { })
          }
       },
-      "filters.name": _.debounce(function() {
-         const self = this;
-         self.loadUsers(() => {});
+      "filters.name": _.debounce(function () {
+         const self = this
+         self.loadUsers(() => { })
       }, 700),
-      "filters.email": _.debounce(function() {
-         const self = this;
-         self.loadUsers(() => {});
+      "filters.email": _.debounce(function () {
+         const self = this
+         self.loadUsers(() => { })
       }, 700),
-      "filters.groupId": _.debounce(function() {
-         const self = this;
-         self.loadUsers(() => {});
+      "filters.groupId": _.debounce(function () {
+         const self = this
+         self.loadUsers(() => { })
       }, 700)
    },
    methods: {
-      trash(user) {
-         const self = this;
+      trash (user) {
+         const self = this
 
          self.$store.commit("showDialog", {
             type: "confirm",
@@ -284,50 +286,50 @@ export default {
             okCb: () => {
                axios
                   .delete("/admin/users/" + user.id)
-                  .then(function(response) {
+                  .then(function (response) {
                      self.$store.commit("showSnackbar", {
                         message: response.data.message,
                         color: "success",
                         duration: 3000
-                     });
+                     })
 
-                     self.$eventBus.$emit("USER_DELETED");
+                     self.$eventBus.$emit("USER_DELETED")
                   })
-                  .catch(function(error) {
-                     self.$store.commit("hideLoader");
+                  .catch(function (error) {
+                     self.$store.commit("hideLoader")
 
                      if (error.response) {
                         self.$store.commit("showSnackbar", {
                            message: error.response.data.message,
                            color: "error",
                            duration: 3000
-                        });
+                        })
                      } else if (error.request) {
-                        console.log(error.request);
+                        console.log(error.request)
                      } else {
-                        console.log("Error", error.message);
+                        console.log("Error", error.message)
                      }
-                  });
+                  })
             },
             cancelCb: () => {
-               console.log("CANCEL");
+               console.log("CANCEL")
             }
-         });
+         })
       },
-      showDialog(dialog, data) {
-         const self = this;
+      showDialog (dialog, data) {
+         const self = this
 
          switch (dialog) {
             case "user_permissions":
-               self.dialogs.showPermissions.items = data;
+               self.dialogs.showPermissions.items = data
                setTimeout(() => {
-                  self.dialogs.showPermissions.show = true;
-               }, 500);
-               break;
+                  self.dialogs.showPermissions.show = true
+               }, 500)
+               break
          }
       },
-      loadUsers(cb) {
-         const self = this;
+      loadUsers (cb) {
+         const self = this
 
          let params = {
             name: self.filters.name,
@@ -335,28 +337,28 @@ export default {
             group_id: self.filters.groupId.join(","),
             page: self.pagination.page,
             per_page: self.pagination.itemsPerPage
-         };
+         }
 
-         axios.get("/admin/users", { params: params }).then(function(response) {
-            self.items = response.data.data.data;
-            self.totalItems = response.data.data.total;
+         axios.get("/admin/users", { params: params }).then(function (response) {
+            self.items = response.data.data.data
+            self.totalItems = response.data.data.total
             self.pagination.totalItems = response.data.data.total;
-            (cb || Function)();
-         });
+            (cb || Function)()
+         })
       },
-      loadGroups(cb) {
-         const self = this;
+      loadGroups (cb) {
+         const self = this
 
          let params = {
             paginate: "no"
-         };
+         }
 
          axios
             .get("/admin/groups", { params: params })
-            .then(function(response) {
-               self.filters.groupOptions = response.data.data;
-               cb();
-            });
+            .then(function (response) {
+               self.filters.groupOptions = response.data.data
+               cb()
+            })
       }
    }
 };

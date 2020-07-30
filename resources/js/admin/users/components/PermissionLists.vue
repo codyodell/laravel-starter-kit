@@ -56,7 +56,9 @@
                   <td>{{ item.title }}</td>
                   <td>{{ item.key }}</td>
                   <td>{{ item.description }}</td>
-                  <td>{{ $appFormatters.formatDate(item.created_at) }}</td>
+                  <td>
+                     <timeago :datetime="item.created_at"></timeago>
+                  </td>
                   <td>
                      <div class="text-center">
                         <v-btn
@@ -83,7 +85,7 @@
 
 <script>
 export default {
-   data() {
+   data () {
       return {
          headers: [
             {
@@ -132,31 +134,31 @@ export default {
                show: false
             }
          }
-      };
+      }
    },
-   mounted() {
-      const self = this;
+   mounted () {
+      const self = this
 
       self.$store.commit("setBreadcrumbs", [
          { label: "Users", to: { name: "users.list" } },
          { label: "Permissions", name: "" }
-      ]);
+      ])
    },
    watch: {
-      "pagination.page": function() {
-         this.loadPermissions(() => {});
+      "pagination.page": function () {
+         this.loadPermissions(() => { })
       },
-      "pagination.rowsPerPage": function() {
-         this.loadPermissions(() => {});
+      "pagination.rowsPerPage": function () {
+         this.loadPermissions(() => { })
       },
-      "filters.title": _.debounce(function() {
-         const self = this;
-         self.loadPermissions(() => {});
+      "filters.title": _.debounce(function () {
+         const self = this
+         self.loadPermissions(() => { })
       }, 700)
    },
    methods: {
-      trash(permission) {
-         const self = this;
+      trash (permission) {
+         const self = this
 
          self.$store.commit("showDialog", {
             type: "confirm",
@@ -165,53 +167,53 @@ export default {
             okCb: () => {
                axios
                   .delete("/admin/permissions/" + permission.id)
-                  .then(function(response) {
+                  .then(function (response) {
                      self.$store.commit("showSnackbar", {
                         message: response.data.message,
                         color: "success",
                         duration: 3000
-                     });
+                     })
 
-                     self.loadPermissions(() => {});
+                     self.loadPermissions(() => { })
                   })
-                  .catch(function(error) {
-                     self.$store.commit("hideLoader");
+                  .catch(function (error) {
+                     self.$store.commit("hideLoader")
 
                      if (error.response) {
                         self.$store.commit("showSnackbar", {
                            message: error.response.data.message,
                            color: "error",
                            duration: 3000
-                        });
+                        })
                      } else if (error.request) {
-                        console.log(error.request);
+                        console.log(error.request)
                      } else {
-                        console.log("Error", error.message);
+                        console.log("Error", error.message)
                      }
-                  });
+                  })
             },
             cancelCb: () => {
-               console.log("CANCEL");
+               console.log("CANCEL")
             }
-         });
+         })
       },
-      loadPermissions(cb) {
-         const self = this;
+      loadPermissions (cb) {
+         const self = this
 
          let params = {
             title: self.filters.title,
             page: self.pagination.page,
             per_page: self.pagination.rowsPerPage
-         };
+         }
 
          axios
             .get("/admin/permissions", { params: params })
-            .then(function(response) {
-               self.items = response.data.data.data;
-               self.totalItems = response.data.data.total;
+            .then(function (response) {
+               self.items = response.data.data.data
+               self.totalItems = response.data.data.total
                self.pagination.totalItems = response.data.data.total;
-               (cb || Function)();
-            });
+               (cb || Function)()
+            })
       }
    }
 };

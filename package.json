@@ -1,41 +1,49 @@
 {
-  "private": true,
-  "scripts": {
-    "dev": "npm run development",
-    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "prod": "npm run production",
-    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "watch-poll": "npm run watch -- --watch-poll"
-  },
-  "dependencies": {
-    "dropzone": "^5.7.1",
-    "moment": "^2.27.0",
-    "register-service-worker": "^1.7.1",
-    "vue-moment": "^4.1.0",
-    "vue-progressbar": "^0.7.5",
-    "vue-router": "^3.3.4",
-    "vue-spinner": "^1.0.4",
-    "vue-template-compiler": "^2.6.11",
-    "vue-timeago": "^5.1.2",
-    "vuetify": "^2.3.5",
-    "vuex": "^3.5.1"
-  },
-  "devDependencies": {
-    "@mdi/font": "^4.9.95",
-    "@vue/cli-plugin-pwa": "~4.4.0",
-    "axios": "^0.18.1",
-    "bootstrap-sass": "^3.3.7",
-    "cross-env": "^5.2.1",
-    "eslint": "^7.5.0",
-    "eslint-config-google": "^0.14.0",
-    "eslint-config-vuetify": "^0.6.1",
-    "eslint-plugin-vue": "^6.2.2",
-    "jquery": "^3.5.1",
-    "laravel-mix": "^2.1",
-    "lodash": "^4.17.19",
-    "sass": "^1.26.10",
-    "vue": "^2.6.11"
-  }
+    "private": true,
+    "scripts": {
+        "dev": "npm run development",
+        "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "watch": "npm run development -- --watch",
+        "watch-poll": "npm run watch -- --watch-poll",
+        "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --disable-host-check --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "prod": "npm run production",
+        "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+        "lint": "eslint --fix --ext .js,.vue resources/js"
+    },
+    "dependencies": {
+        "axios": "^0.18.1",
+        "dropzone": "^5.7.2",
+        "laravel-mix": "^5.0.4",
+        "moment": "^2.27.0",
+        "register-service-worker": "^1.7.1",
+        "vue": "^2.6.11",
+        "vue-moment": "^4.1.0",
+        "vue-progressbar": "^0.7.5",
+        "vue-router": "^3.3.4",
+        "vue-spinner": "^1.0.4",
+        "vue-template-compiler": "^2.6.11",
+        "vue-timeago": "^5.1.2",
+        "vuetify": "^2.3.5",
+        "vuex": "^3.5.1",
+        "webpack": "^4.44.0"
+    },
+    "devDependencies": {
+        "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+        "@babel/preset-env": "^7.4.4",
+        "@mdi/font": "^4.9.95",
+        "babel-eslint": "^10.0.1",
+        "cross-env": "^5.2.1",
+        "eslint": "^5.16.0",
+        "eslint-config-standard": "^12.0.0",
+        "eslint-plugin-import": "^2.17.2",
+        "eslint-plugin-node": "^9.0.1",
+        "eslint-plugin-promise": "^4.1.1",
+        "eslint-plugin-standard": "^4.0.0",
+        "eslint-plugin-vue": "^5.2.2",
+        "lodash": "^4.17.19",
+        "sass": "^1.26.10",
+        "sass-loader": "^7.1.0",
+        "webpack-bundle-analyzer": "^3.3.2",
+        "webpack-cli": "^3.3.12"
+    }
 }
