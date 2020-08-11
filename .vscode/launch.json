@@ -7,6 +7,16 @@
             "type": "firefox",
             "request": "launch",
             "reAttach": true,
+            "name": "Launch http://spa.laravel.local/",
+            "url": "http://spa.laravel.local/",
+            "webRoot": "${workspaceFolder}/public",
+            "firefoxExecutable": "/Users/codyodell/Applications/Firefox Developer Edition.app",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "firefox",
+            "request": "launch",
+            "reAttach": true,
             "name": "Launch localhost",
             "url": "http://pwashop.laravel.local",
             "webRoot": "${workspaceFolder}"

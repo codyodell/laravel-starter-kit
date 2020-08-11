@@ -5,8 +5,7 @@
 
 .dropzone,
 .dropzone * {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .dropzone {
@@ -67,19 +66,16 @@
 @-webkit-keyframes passing-through {
   0% {
     opacity: 0;
-    -webkit-transform: translateY(40px);
     transform: translateY(40px);
   }
 
   30%, 70% {
     opacity: 1;
-    -webkit-transform: translateY(0px);
     transform: translateY(0px);
   }
 
   100% {
     opacity: 0;
-    -webkit-transform: translateY(-40px);
     transform: translateY(-40px);
   }
 }
@@ -87,19 +83,16 @@
 @keyframes passing-through {
   0% {
     opacity: 0;
-    -webkit-transform: translateY(40px);
     transform: translateY(40px);
   }
 
   30%, 70% {
     opacity: 1;
-    -webkit-transform: translateY(0px);
     transform: translateY(0px);
   }
 
   100% {
     opacity: 0;
-    -webkit-transform: translateY(-40px);
     transform: translateY(-40px);
   }
 }
@@ -107,13 +100,11 @@
 @-webkit-keyframes slide-in {
   0% {
     opacity: 0;
-    -webkit-transform: translateY(40px);
     transform: translateY(40px);
   }
 
   30% {
     opacity: 1;
-    -webkit-transform: translateY(0px);
     transform: translateY(0px);
   }
 }
@@ -121,55 +112,46 @@
 @keyframes slide-in {
   0% {
     opacity: 0;
-    -webkit-transform: translateY(40px);
     transform: translateY(40px);
   }
 
   30% {
     opacity: 1;
-    -webkit-transform: translateY(0px);
     transform: translateY(0px);
   }
 }
 
 @-webkit-keyframes pulse {
   0% {
-    -webkit-transform: scale(1);
     transform: scale(1);
   }
 
   10% {
-    -webkit-transform: scale(1.1);
     transform: scale(1.1);
   }
 
   20% {
-    -webkit-transform: scale(1);
     transform: scale(1);
   }
 }
 
 @keyframes pulse {
   0% {
-    -webkit-transform: scale(1);
     transform: scale(1);
   }
 
   10% {
-    -webkit-transform: scale(1.1);
     transform: scale(1.1);
   }
 
   20% {
-    -webkit-transform: scale(1);
     transform: scale(1);
   }
 }
 
 .dropzone,
 .dropzone * {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .dropzone {
@@ -228,7 +210,6 @@
 .dropzone .dz-preview.dz-file-preview .dz-image {
   border-radius: 20px;
   background: #999;
-  background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#ddd));
   background: linear-gradient(to bottom, #eee, #ddd);
 }
 
@@ -237,7 +218,6 @@
 }
 
 .dropzone .dz-preview.dz-image-preview .dz-details {
-  -webkit-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
 
@@ -303,7 +283,6 @@
 }
 
 .dropzone .dz-preview:hover .dz-image img {
-  -webkit-transform: scale(1.05, 1.05);
   transform: scale(1.05, 1.05);
   -webkit-filter: blur(8px);
   filter: blur(8px);
@@ -356,13 +335,11 @@
 
 .dropzone .dz-preview.dz-processing .dz-progress {
   opacity: 1;
-  -webkit-transition: all 0.2s linear;
   transition: all 0.2s linear;
 }
 
 .dropzone .dz-preview.dz-complete .dz-progress {
   opacity: 0;
-  -webkit-transition: opacity 0.4s ease-in;
   transition: opacity 0.4s ease-in;
 }
 
@@ -390,14 +367,12 @@
 
 .dropzone .dz-preview .dz-progress .dz-upload {
   background: #333;
-  background: -webkit-gradient(linear, left top, left bottom, from(#666), to(#444));
   background: linear-gradient(to bottom, #666, #444);
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   width: 0;
-  -webkit-transition: width 300ms ease-in-out;
   transition: width 300ms ease-in-out;
 }
 
@@ -417,7 +392,6 @@
   display: block;
   display: none;
   opacity: 0;
-  -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
   border-radius: 8px;
   font-size: 13px;
@@ -425,7 +399,6 @@
   left: -10px;
   width: 140px;
   background: #be2626;
-  background: -webkit-gradient(linear, left top, left bottom, from(#be2626), to(#a92222));
   background: linear-gradient(to bottom, #be2626, #a92222);
   padding: 0.5em 1.2em;
   color: white;
@@ -474,15 +447,12 @@ a {
 
 .fade-enter-active,
 .fade-leave-active {
-  -webkit-transition-property: opacity;
   transition-property: opacity;
-  -webkit-transition-duration: 0.25s;
-          transition-duration: 0.25s;
+  transition-duration: 0.25s;
 }
 
 .fade-enter-active {
-  -webkit-transition-delay: 0.25s;
-          transition-delay: 0.25s;
+  transition-delay: 0.25s;
 }
 
 .fade-enter,
@@ -505,10 +475,6 @@ a {
 
 #admin .snack {
   z-index: 500 !important;
-}
-
-span.v-btn {
-  width: 24em;
 }
 
 .v-btn--rounded {

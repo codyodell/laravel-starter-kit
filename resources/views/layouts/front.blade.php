@@ -37,15 +37,18 @@
       </v-main>
     </v-app>
   </div>
-  @yield('footer_scripts')
-  <script async defer>
-  new Vue({
-    el: '#app',
-    vuetify: new Vuetify(),
-    created() {
-      this.$vuetify.theme.dark = true;
-    }
-  });
+  <script src="{{ asset('js/manifest.js') }}"></script>
+  <script src="{{ asset('js/vendor.js') }}"></script>
+  <script src="{{ asset('js/admin.js') }}"></script>
+  <script>
+    new Vue({
+      el: '#app'
+      , vuetify: new Vuetify()
+      , created() {
+        this.$vuetify.theme.dark = true;
+      }
+    });
+
   </script>
 </body>
 

@@ -107,6 +107,6 @@ class File extends Model
      */
     public static function getStoragePath()
     {
-        return config('filesystems.local');
+        return config('filesystems.');
     }
 }

@@ -5,15 +5,15 @@
 </template>
 <script>
 export default {
-   data: () => ({
-      page_name: "Home"
-   }),
-   computed: {
-      page_slug () {
-         return this.page_name.split(' ').join('-').toLowerCase()
-      }
-   }
-}
+  data: () => ({
+    page_name: "Home",
+  }),
+  computed: {
+    page_slug() {
+      return this.page_name.split(" ").join("-").toLowerCase();
+    },
+  },
+};
 </script>
 
 <style lang="sass" scoped>

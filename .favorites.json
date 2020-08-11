@@ -1,0 +1,19 @@
+[
+    {
+        "type": "Group",
+        "name": "PWA Shop",
+        "parent_id": null,
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "mFo1WYSXdr3xN7s9",
+        "iconColor": "rgb(0, 128, 0)"
+    },
+    {
+        "type": "File",
+        "name": "/usr/local/var/www/pwashop.laravel.local/app/Components/Core/Utilities/Helpers.php",
+        "parent_id": null,
+        "workspaceRoot": "/usr/local/var/www/pwashop.laravel.local",
+        "workspacePath": "app/Components/Core/Utilities/Helpers.php",
+        "id": "3emjtoniEM7pvQwH"
+    }
+]
