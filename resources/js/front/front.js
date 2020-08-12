@@ -1,15 +1,15 @@
-require("../bootstrap")
+require("../bootstrap");
 
-window.Vue = require("vue")
+window.Vue = require("vue");
 
-import "@mdi/font/css/materialdesignicons.css"
-import "vuetify/dist/vuetify.min.css"
-import Vue from "vue"
-import Vuetify from "vuetify"
-import VueProgressBar from "vue-progressbar"
-import VueTimeago from "vue-timeago"
+import "@mdi/font/css/materialdesignicons.css";
+import "vuetify/dist/vuetify.min.css";
+import Vue from "vue";
+import Vuetify from "vuetify";
+import VueProgressBar from "vue-progressbar";
+import VueTimeago from "vue-timeago";
 
-Vue.use(Vuetify)
+Vue.use(Vuetify);
 
 Vue.use(VueProgressBar, {
     color: "#ffcb6b",
@@ -22,7 +22,7 @@ Vue.use(VueProgressBar, {
     },
     autoRevert: true,
     inverse: false
-})
+});
 
 Vue.use(VueTimeago, {
     name: "Timeago",
@@ -30,25 +30,24 @@ Vue.use(VueTimeago, {
         "zh-CN": require("date-fns/locale/zh_cn"),
         ja: require("date-fns/locale/ja")
     }
-})
+});
 
 // global component registrations here
-Vue.component("moon-loader", require("vue-spinner/src/MoonLoader.vue"))
+Vue.component("moon-loader", require("vue-spinner/src/MoonLoader.vue"));
 
 // app
-import router from "./router"
-import store from "../common/Store"
-import eventBus from "../common/Event"
-import formatters from "../common/Formatters"
-import AxiosAjaxDetct from "../common/AxiosAjaxDetect"
+import router from "./router";
+import store from "../common/Store";
+import eventBus from "../common/Event";
+import formatters from "../common/Formatters";
+import AxiosAjaxDetct from "../common/AxiosAjaxDetect";
 
-Vue.use(formatters)
-Vue.use(eventBus)
+Vue.use(formatters);
+Vue.use(eventBus);
 
 const front = new Vue({
     vuetify: new Vuetify({
         theme: {
-            dark: true,
             themes: {
                 dark: {
                     primary: "#6479f6",
@@ -70,83 +69,94 @@ const front = new Vue({
     store,
     data: () => ({
         drawer: true,
-        page_name: "Welcome"
+        page_name: "Home"
     }),
     computed: {
         getTopMenuItems() {
             return [{
-                title: "Profile",
-                route: "/admin/users/1"
-            }, {
-                title: "Settings",
-                route: route("settings")
-            }, {
-                title: "Logout",
-                route: route("logout")
-            }]
+                    title: "Profile",
+                    route: "/admin/users/1"
+                },
+                {
+                    title: "Settings",
+                    route: route("settings")
+                },
+                {
+                    title: "Login",
+                    route: route("login")
+                }
+            ];
         },
         getBreadcrumbs() {
-            return store.getters.getBreadcrumbs
+            return store.getters.getBreadcrumbs;
         },
         showLoader() {
-            return
+            return;
         },
         showSnackbar: {
             get() {
-                return
+                return;
             },
             set(val) {
-                if (!val)
-                    store.commit("hideSnackbar")
+                if (!val) store.commit("hideSnackbar");
             }
         },
         snackbarMessage() {
-            return
+            return;
         },
         snackbarColor() {
-            return
+            return;
         },
         snackbarDuration() {
-            return
+            return;
         },
         showDialog: {
             get() {
-                return
+                return;
             },
-            set(val) { if (!val) store.commit("hideDialog") }
+            set(val) {
+                if (!val) store.commit("hideDialog");
+            }
         },
-        dialogType() { return store.getters.dialogType },
+        dialogType() {
+            return store.getters.dialogType;
+        },
         dialogTitle() {
-            return
+            return;
         },
         dialogMessage() {
-            return
+            return;
         },
         dialogIcon() {
-            return store.getters.dialogIcon
+            return store.getters.dialogIcon;
         }
     },
     mounted() {
-        const self = this // Progress bar top
-        AxiosAjaxDetct.init(() => { self.$Progress.start() },
-            () => { self.$Progress.finish() })
+        const self = this; // Progress bar top
+        AxiosAjaxDetct.init(
+            () => {
+                self.$Progress.start();
+            },
+            () => {
+                self.$Progress.finish();
+            }
+        );
     },
     methods: {
         menuClick(routeName, routeType) {
-            let rn = routeType || "vue"
-            if (rn ===
-                "vue") { this.$router.push({ name: routeName }) }
+            let rn = routeType || "vue";
+            if (rn === "vue") {
+                this.$router.push({ name: routeName });
+            }
             if (rn === "full_load") {
-                window.location.href = routeName
+                window.location.href = routeName;
             }
         },
-        clickLogout(logoutUrl,
-            afterLogoutRedirectUrl) {
-            axios.post(logoutUrl).then(r => {
-                window.location.href = afterLogoutRedirectUrl
-            })
+        dialogOk() {
+            store.commit("dialogOk");
         },
-        dialogOk() { store.commit("dialogOk") },
-        dialogCancel() { store.commit("dialogCancel") }
+        dialogCancel() {
+            store.commit("dialogCancel");
+        }
     }
-})
+});

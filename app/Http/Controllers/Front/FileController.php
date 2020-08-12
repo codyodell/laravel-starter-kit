@@ -8,7 +8,6 @@
 
 namespace App\Http\Controllers\Front;
 
-
 use App\Components\File\Contracts\IFileRepository;
 use App\Components\File\Repositories\FileRepository;
 use App\Components\File\Services\FileService;
@@ -47,11 +46,11 @@ class FileController extends FrontController
     {
         $file = $this->fileService->previewFile([
             'id' => $id,
-            'w' => $request->get('w',null),
-            'h' => $request->get('h',null),
-            'aspect_ratio' => $request->get('aspect_ratio',true),
-            'up_size' => $request->get('up_size',true),
-            'action' => $request->get('action','resize'), // resize|fit
+            'w' => $request->get('w', null),
+            'h' => $request->get('h', null),
+            'aspect_ratio' => $request->get('aspect_ratio', true),
+            'up_size' => $request->get('up_size', true),
+            'action' => $request->get('action', 'resize'), // resize|fit
         ]);
 
         return $file;
@@ -70,7 +69,9 @@ class FileController extends FrontController
 
         $res = $this->fileService->downloadFile($id, $token);
 
-        if($res) return $res;
+        if ($res) {
+            return $res;
+        }
 
         return view('errors.403');
     }

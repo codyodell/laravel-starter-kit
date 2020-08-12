@@ -5,5 +5,15 @@
     "/js/front.js": "/js/front.js",
     "/js/manifest.js": "/js/manifest.js",
     "/js/vendor.js": "/js/vendor.js",
+    "/images/favicon.16.png": "/images/favicon.16.png",
+    "/images/favicon.32.png": "/images/favicon.32.png",
+    "/images/logo.128.png": "/images/logo.128.png",
+    "/images/logo.1280.png": "/images/logo.1280.png",
+    "/images/logo.256.png": "/images/logo.256.png",
+    "/images/logo.32.png": "/images/logo.32.png",
+    "/images/logo.512.png": "/images/logo.512.png",
+    "/images/logo.64.png": "/images/logo.64.png",
+    "/images/logo.72.png": "/images/logo.72.png",
+    "/images/logo.pwa-shop.svg": "/images/logo.pwa-shop.svg",
     "/manifest.json": "/manifest.json"
 }

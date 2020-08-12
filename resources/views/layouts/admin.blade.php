@@ -54,7 +54,8 @@ $config = [
                 <v-icon>mdi-logout-variant</v-icon>
               </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>Logout</v-list-item-title </v-list-item-content>
+                <v-list-item-title>Logout</v-list-item-title>
+              </v-list-item-content>
             </v-list-item>
           </v-list>
         </v-navigation-drawer>

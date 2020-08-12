@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Blade;
 
 class HomeController extends FrontController
 {
     public function index()
     {
-        return view('welcome');
+        return view('home');
     }
 }

@@ -1,18 +1,21 @@
 <template>
-  <v-container fluid data-component="{!! page_slug !!}">
+  <v-container fluid :data-component="page_slug">
     <h1>{{ page_name }}</h1>
   </v-container>
 </template>
 <script>
 export default {
   data: () => ({
-    page_name: "Home",
+    page_name: "Home"
   }),
   computed: {
     page_slug() {
-      return this.page_name.split(" ").join("-").toLowerCase();
-    },
-  },
+      return this.page_name
+        .split(" ")
+        .join("-")
+        .toLowerCase();
+    }
+  }
 };
 </script>
 
