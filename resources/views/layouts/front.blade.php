@@ -20,7 +20,7 @@ $config = [
   <meta name="author" content="{{ config('app.author') }}">
   <link rel="manifest" href="{{ asset('manifest.json') }}">
   <script>
-    window.config = @json($config)
+    window.config = @json($config);
 
   </script>
   <link rel="stylesheet" href="{{ mix('/css/front.css') }}">

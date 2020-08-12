@@ -1,3 +1,7 @@
-<div>
-    <!-- The only way to do great work is to love what you do. - Steve Jobs -->
-</div>
+<v-container fluid full-height {{  $attributes }}>
+  <v-row align="center" justify="center">
+    <v-col cols="12">
+      {{ $slot }}
+    </v-col>
+  </v-row>
+</v-container>

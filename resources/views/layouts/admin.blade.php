@@ -5,9 +5,9 @@ $user = Auth::user();
 
 $config = [
 'locale' => str_replace('_', '-', app()->getLocale()),
-'app_name' => config('app.name'),
-'app_url' => config('app.url'),
-'app_description' => config('app.description'),
+'name' => config('app.name'),
+'url' => config('app.url'),
+'description' => config('app.description'),
 ];
 
 @endphp
