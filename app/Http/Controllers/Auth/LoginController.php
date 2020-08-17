@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Front\FrontController;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
-class LoginController extends Controller
+class LoginController extends FrontController
 {
     /*
     |--------------------------------------------------------------------------
@@ -58,7 +58,6 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
-
             $this->guard()->user()->logLastLogin();
             return $this->sendLoginResponse($request);
         }
@@ -72,6 +71,11 @@ class LoginController extends Controller
 
     public function index()
     {
-        return View::make('auth.login');
+        $config = [
+            'config' => $this->app_config,
+            'nav' => $this->nav
+        ];
+
+        return view('auth.login', $config);
     }
 }

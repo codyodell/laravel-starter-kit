@@ -2,6 +2,7 @@
 
 namespace App\Components\User\Models;
 
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -41,15 +42,20 @@ class User extends Authenticatable
         'photo_url',
     ];
 
-    public function getPhotoUrlAttribute()
-    {
-        return 'https://www.gravatar.com/avatar/' . md5(strtolower($this->email)) . '.jpg?s=200&d=mm';
-    }
-
     /**
      * the validation rules
      *
      * @var array
      */
     public static $rules = [];
+
+    public function AuthRouteAPI(Request $request)
+    {
+        return $request->user();
+    }
+
+    public function getPhotoUrlAttribute()
+    {
+        return 'https://www.gravatar.com/avatar/' . md5(strtolower($this->email)) . '.jpg?s=200&d=mm';
+    }
 }

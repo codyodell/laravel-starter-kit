@@ -3,5 +3,11 @@
     "[blade]": {
         "editor.autoClosingBrackets": "always",
     },
-    "eslint.enable": false
+    "eslint.enable": false,
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#2a1583",
+        "activityBar.border": "#003d80",
+        "editor.background": "#1e1d22",
+        "statusBar.background": "#22116b"
+    }
 }

@@ -15,5 +15,69 @@
         "workspaceRoot": "/usr/local/var/www/pwashop.laravel.local",
         "workspacePath": "app/Components/Core/Utilities/Helpers.php",
         "id": "3emjtoniEM7pvQwH"
+    },
+    {
+        "type": "File",
+        "name": "/usr/local/var/www/pwashop.laravel.local/routes/web.php",
+        "parent_id": null,
+        "workspaceRoot": "/usr/local/var/www/pwashop.laravel.local",
+        "workspacePath": "routes/web.php",
+        "id": "vs8I5FM2HP7A9ySX"
+    },
+    {
+        "type": "Directory",
+        "name": "/usr/local/var/www/pwashop.laravel.local/resources/views",
+        "parent_id": null,
+        "workspaceRoot": "/usr/local/var/www/pwashop.laravel.local",
+        "workspacePath": "resources/views",
+        "id": "jHuAS3OUqemZLPDl"
+    },
+    {
+        "type": "Directory",
+        "name": "/usr/local/var/www/pwashop.laravel.local/app/Http/Controllers",
+        "parent_id": null,
+        "workspaceRoot": "/usr/local/var/www/pwashop.laravel.local",
+        "workspacePath": "app/Http/Controllers",
+        "id": "JUQvrdTWpAIzksXK"
+    },
+    {
+        "type": "Directory",
+        "name": "/usr/local/var/www/pwashop.laravel.local/app/Components",
+        "parent_id": null,
+        "workspaceRoot": "/usr/local/var/www/pwashop.laravel.local",
+        "workspacePath": "app/Components",
+        "id": "LTfNZ10B47uV8Coi"
+    },
+    {
+        "type": "Directory",
+        "name": "/usr/local/var/www/pwashop.laravel.local/resources/js",
+        "parent_id": null,
+        "workspaceRoot": "/usr/local/var/www/pwashop.laravel.local",
+        "workspacePath": "resources/js",
+        "id": "BuwpSaWlbTKt4J3O"
+    },
+    {
+        "type": "Directory",
+        "name": "/usr/local/var/www/pwashop.laravel.local/resources/sass",
+        "parent_id": null,
+        "workspaceRoot": "/usr/local/var/www/pwashop.laravel.local",
+        "workspacePath": "resources/sass",
+        "id": "AsBZzVlKP1ShNFya"
+    },
+    {
+        "type": "Directory",
+        "name": "/usr/local/var/www/pwashop.laravel.local/database",
+        "parent_id": null,
+        "workspaceRoot": "/usr/local/var/www/pwashop.laravel.local",
+        "workspacePath": "database",
+        "id": "Uyq7G8Hdpr5S0kB3"
+    },
+    {
+        "type": "Group",
+        "name": "PWA Shop",
+        "parent_id": null,
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "zewVHQmjOPrApBES"
     }
 ]

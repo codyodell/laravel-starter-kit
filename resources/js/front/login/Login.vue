@@ -9,13 +9,13 @@ export default {
   data: () => ({
     page_name: "Login",
     username: "",
-    password: "",
+    password: ""
   }),
   computed: {
     slug() {
-      return this.page_name.split(" ").join("-").toLowerCase();
-    },
-  },
+      return $appFormatters.slug(this.page_name);
+    }
+  }
 };
 </script>
 

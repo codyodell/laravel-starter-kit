@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers\Front;
 
-# use Illuminate\Http\Request;
-# use Illuminate\Support\Facades\Blade;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
-use App\Components\User\Models\User;
+use App\Http\Controllers\Front\FrontController;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends FrontController
 {
     public function index()
     {
-        $currentUeeser = \Auth::user();
+        $config = [
+            'config' => $this->app_config,
+            'nav' => $this->nav
+        ];
 
-        view()->share('current_user', $currentUser);
-
-        return view('layouts.front');
+        return view('front.home', $config);
     }
 }

@@ -32,6 +32,7 @@ $config = [
     <template>
       <v-app id="inspire">
         <v-navigation-drawer app left v-model="showDrawer" :clipped="$vuetify.breakpoint.lgAndUp">
+          @unless(empty($nav))
           <v-list dense>
             @foreach($nav as $n)
             @if($n->navType==\App\Components\Core\Menu\MenuItem::$NAV_TYPE_NAV && $n->visible)
@@ -58,6 +59,7 @@ $config = [
               </v-list-item-content>
             </v-list-item>
           </v-list>
+          @endunless
         </v-navigation-drawer>
 
         <v-app-bar app :clipped="$vuetify.breakpoint.lgAndUp">
@@ -66,8 +68,8 @@ $config = [
           <v-spacer></v-spacer>
           <v-menu bottom left>
             <template v-slot:activator="{ on, attrs }">
-              <v-btn dark icon large v-bind="attrs" v-on="on" title="Logged in as {!! $user->name !!}">
-                <v-avatar size="72px" color="grey lighten-1" item>
+              <v-btn dark icon large v-bind="attrs" v-on="on" @auth title="Logged in as {!! $user->name !!}" @endauth>
+                <v-avatar size="32px" color="grey darken-1" item>
                   @auth
                   <v-img src="{!! $user->photo_url !!}" alt="Logged in as {!! $user->name !!}" />
                   @else

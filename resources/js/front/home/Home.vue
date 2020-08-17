@@ -1,6 +1,9 @@
 <template>
   <v-container fluid :data-component="page_slug">
     <h1>{{ page_name }}</h1>
+    <transition name="fade">
+      <router-view></router-view>
+    </transition>
   </v-container>
 </template>
 <script>
@@ -10,16 +13,14 @@ export default {
   }),
   computed: {
     page_slug() {
-      return this.page_name
-        .split(" ")
-        .join("-")
-        .toLowerCase();
+      return $appFormatters.slug(this.page_name);
     }
   }
 };
 </script>
 
-<style lang="sass" scoped>
-[data-component]
-  background-color: rgba(0,0,0,0.33)
+<style lang="scss" scoped>
+[data-component] {
+  background-color: rgba(0, 0, 0, 0.33);
+}
 </style>

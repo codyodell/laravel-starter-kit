@@ -1,4 +1,4 @@
-<v-container fluid full-height {{  $attributes }}>
+<v-container fluid full-height>
   <v-row align="center" justify="center">
     <v-col cols="12">
       {{ $slot }}

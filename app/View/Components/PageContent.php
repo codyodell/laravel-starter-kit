@@ -3,9 +3,8 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
-# use Illuminate\Support\Facades\Blade;
 
-class PageContent extends Component
+class PageContentComponent extends Component
 {
     public function __construct()
     {

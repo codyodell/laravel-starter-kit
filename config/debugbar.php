@@ -78,7 +78,7 @@ return [
     | in the Messages tab.
     |
      */
-    'error_handler' => false,
+    'error_handler' => true,
 
     /*
     |--------------------------------------------------------------------------
