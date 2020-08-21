@@ -1,245 +1,243 @@
 <template>
-   <div class="component-wrap">
-      <!-- search -->
+  <div data-component>
+    <!-- search -->
+    <v-card>
+      <div class="d-flex flex-row">
+        <div class="flex-grow-1">
+          <v-text-field prepend-icon="search" label="Filter By Name" v-model="filters.name"></v-text-field>
+        </div>
+        <div class="flex-grow-1 text-right">
+          <v-btn @click="showDialog('file_group_add')" dark class="primary lighten-1">
+            New File Group
+            <v-icon right>add</v-icon>
+          </v-btn>
+        </div>
+      </div>
+    </v-card>
+    <!-- /search -->
+
+    <!-- groups table -->
+    <v-data-table
+      :items="items"
+      v-bind:headers="headers"
+      :server-items-length="totalItems"
+      :disable-pagination="disable_pagination"
+      :options.sync="pagination"
+      class="elevation-1"
+    >
+      <template slot="items" slot-scope="props">
+        <tbody>
+          <tr v-for="item in items" :key="item.id">
+            <td>
+              <strong>{{ item.name }}</strong>
+            </td>
+            <td>{{ item.description }}</td>
+            <td>{{ item.file_count }}</td>
+            <td>
+              <timeago :datetime="item.created_at"></timeago>
+            </td>
+            <td class="align-right">
+              <v-btn @click="showDialog('file_group_edit',item)" icon small>
+                <v-icon class="blue--text">edit</v-icon>
+              </v-btn>
+              <v-btn @click="trash(props.item)" icon small>
+                <v-icon class="red--text">delete</v-icon>
+              </v-btn>
+            </td>
+          </tr>
+        </tbody>
+      </template>
+    </v-data-table>
+
+    <!-- add file group -->
+    <v-dialog
+      v-model="dialogs.add.show"
+      fullscreen
+      transition="dialog-bottom-transition"
+      :overlay="false"
+    >
       <v-card>
-         <div class="d-flex flex-row">
-            <div class="flex-grow-1">
-               <v-text-field prepend-icon="search" label="Filter By Name" v-model="filters.name"></v-text-field>
-            </div>
-            <div class="flex-grow-1 text-right">
-               <v-btn @click="showDialog('file_group_add')" dark class="primary lighten-1">
-                  New File Group
-                  <v-icon right>add</v-icon>
-               </v-btn>
-            </div>
-         </div>
+        <v-toolbar class="primary">
+          <v-btn icon @click.native="dialogs.add.show = false">
+            <v-icon>close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Create New File Group</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn text @click.native="dialogs.add.show = false">Done</v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
+        <v-card-text>
+          <file-group-add></file-group-add>
+        </v-card-text>
       </v-card>
-      <!-- /search -->
+    </v-dialog>
 
-      <!-- groups table -->
-      <v-data-table
-         :items="items"
-         v-bind:headers="headers"
-         :server-items-length="totalItems"
-         :disable-pagination="disable_pagination"
-         :options.sync="pagination"
-         class="elevation-1"
-      >
-         <template slot="items" slot-scope="props">
-            <tbody>
-               <tr v-for="item in items" :key="item.id">
-                  <td>
-                     <strong>{{ item.name }}</strong>
-                  </td>
-                  <td>{{ item.description }}</td>
-                  <td>{{ item.file_count }}</td>
-                  <td>
-                     <timeago :datetime="item.created_at"></timeago>
-                  </td>
-                  <td class="align-right">
-                     <v-btn @click="showDialog('file_group_edit',item)" icon small>
-                        <v-icon class="blue--text">edit</v-icon>
-                     </v-btn>
-                     <v-btn @click="trash(props.item)" icon small>
-                        <v-icon class="red--text">delete</v-icon>
-                     </v-btn>
-                  </td>
-               </tr>
-            </tbody>
-         </template>
-      </v-data-table>
-
-      <!-- add file group -->
-      <v-dialog
-         v-model="dialogs.add.show"
-         fullscreen
-         transition="dialog-bottom-transition"
-         :overlay="false"
-      >
-         <v-card>
-            <v-toolbar class="primary">
-               <v-btn icon @click.native="dialogs.add.show = false">
-                  <v-icon>close</v-icon>
-               </v-btn>
-               <v-toolbar-title>Create New File Group</v-toolbar-title>
-               <v-spacer></v-spacer>
-               <v-toolbar-items>
-                  <v-btn text @click.native="dialogs.add.show = false">Done</v-btn>
-               </v-toolbar-items>
-            </v-toolbar>
-            <v-card-text>
-               <file-group-add></file-group-add>
-            </v-card-text>
-         </v-card>
-      </v-dialog>
-
-      <!-- edit file group -->
-      <v-dialog
-         v-model="dialogs.edit.show"
-         :laze="false"
-         transition="dialog-bottom-transition"
-         :overlay="false"
-      >
-         <v-card>
-            <v-toolbar class="primary">
-               <v-btn icon @click.native="dialogs.edit.show = false">
-                  <v-icon>close</v-icon>
-               </v-btn>
-               <v-toolbar-title>Edit File Group</v-toolbar-title>
-               <v-spacer></v-spacer>
-               <v-toolbar-items>
-                  <v-btn text @click.native="dialogs.edit.show = false">Done</v-btn>
-               </v-toolbar-items>
-            </v-toolbar>
-            <v-card-text>
-               <file-group-edit :propFileGroupId="dialogs.edit.fileGroup.id"></file-group-edit>
-            </v-card-text>
-         </v-card>
-      </v-dialog>
-   </div>
+    <!-- edit file group -->
+    <v-dialog
+      v-model="dialogs.edit.show"
+      :laze="false"
+      transition="dialog-bottom-transition"
+      :overlay="false"
+    >
+      <v-card>
+        <v-toolbar class="primary">
+          <v-btn icon @click.native="dialogs.edit.show = false">
+            <v-icon>close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Edit File Group</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn text @click.native="dialogs.edit.show = false">Done</v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
+        <v-card-text>
+          <file-group-edit :propFileGroupId="dialogs.edit.fileGroup.id"></file-group-edit>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
-import FileGroupAdd from "./FileGroupAdd.vue"
-import FileGroupEdit from "./FileGroupEdit.vue"
+import FileGroupAdd from "./FileGroupAdd.vue";
+import FileGroupEdit from "./FileGroupEdit.vue";
 export default {
-   components: {
-      FileGroupAdd,
-      FileGroupEdit
-   },
-   data () {
-      return {
-         headers: [
-            {
-               text: "Name",
-               value: "name",
-               align: "start",
-               sortable: false
-            },
-            { text: "Description", value: "description" },
-            { text: "Total Files", value: "file_count" },
-            { text: "Date Created", value: "created_at" },
-            { text: null, value: "controls", align: "end" }
-         ],
-         items: [],
-         totalItems: 0,
-         disable_pagination: true,
-         pagination: {
-            rowsPerPage: 10
-         },
+  components: {
+    FileGroupAdd,
+    FileGroupEdit
+  },
+  data: () => ({
+    headers: [
+      {
+        text: "Name",
+        value: "name",
+        align: "start",
+        sortable: false
+      },
+      { text: "Description", value: "description" },
+      { text: "Total Files", value: "file_count" },
+      { text: "Date Created", value: "created_at" },
+      { text: null, value: "controls", align: "end" }
+    ],
+    items: [],
+    totalItems: 0,
+    disable_pagination: true,
+    pagination: {
+      rowsPerPage: 10
+    },
 
-         filters: {
-            name: ""
-         },
+    filters: {
+      name: ""
+    },
 
-         dialogs: {
-            edit: {
-               fileGroup: {}
-            },
-            add: {
-               show: false
-            }
-         }
+    dialogs: {
+      edit: {
+        fileGroup: {}
+      },
+      add: {
+        show: false
       }
-   },
-   mounted () {
-      console.log("pages.files.components.FileGroupLists.vue")
+    }
+  }),
+  mounted() {
+    console.log("pages.files.components.FileGroupLists.vue");
 
-      const self = this
+    const self = this;
 
-      self.$eventBus.$on(
-         [ "FILE_GROUP_ADDED", "FILE_GROUP_UPDATED", "FILE_GROUP_DELETED" ],
-         () => {
-            self.loadFileGroups(() => { })
-         }
-      )
-   },
-   watch: {
-      "filters.name": _.debounce(function (v) {
-         this.loadFileGroups(() => { })
-      }, 500),
-      "pagination.page": function () {
-         this.loadFileGroups(() => { })
-      },
-      "pagination.rowsPerPage": function () {
-         this.loadFileGroups(() => { })
+    self.$eventBus.$on(
+      ["FILE_GROUP_ADDED", "FILE_GROUP_UPDATED", "FILE_GROUP_DELETED"],
+      () => {
+        self.loadFileGroups(() => {});
       }
-   },
-   methods: {
-      trash (group) {
-         const self = this
+    );
+  },
+  watch: {
+    "filters.name": _.debounce(function(v) {
+      this.loadFileGroups(() => {});
+    }, 500),
+    "pagination.page": function() {
+      this.loadFileGroups(() => {});
+    },
+    "pagination.rowsPerPage": function() {
+      this.loadFileGroups(() => {});
+    }
+  },
+  methods: {
+    trash(group) {
+      const self = this;
 
-         self.$store.commit("showDialog", {
-            type: "confirm",
-            title: "Confirm Deletion",
-            message: "Are you sure you want to delete this file group?",
-            okCb: () => {
-               axios
-                  .delete("/admin/file-groups/" + group.id)
-                  .then(function (response) {
-                     self.$store.commit("showSnackbar", {
-                        message: response.data.message,
-                        color: "success",
-                        duration: 3000
-                     })
+      self.$store.commit("showDialog", {
+        type: "confirm",
+        title: "Confirm Deletion",
+        message: "Are you sure you want to delete this file group?",
+        okCb: () => {
+          axios
+            .delete("/admin/file-groups/" + group.id)
+            .then(function(response) {
+              self.$store.commit("showSnackbar", {
+                message: response.data.message,
+                color: "success",
+                duration: 3000
+              });
 
-                     self.$eventBus.$emit("FILE_GROUP_DELETED")
-                  })
-                  .catch(function (error) {
-                     if (error.response) {
-                        self.$store.commit("showSnackbar", {
-                           message: error.response.data.message,
-                           color: "error",
-                           duration: 3000
-                        })
-                     } else if (error.request) {
-                        console.log(error.request)
-                     } else {
-                        console.log("Error", error.message)
-                     }
-                  })
-            },
-            cancelCb: () => {
-               console.log("CANCEL")
-            }
-         })
-      },
-      showDialog (dialog, data) {
-         const self = this
-
-         switch (dialog) {
-            case "file_group_edit":
-               self.dialogs.edit.fileGroup = data
-               setTimeout(() => {
-                  self.dialogs.edit.show = true
-               }, 500)
-               break
-            case "file_group_add":
-               setTimeout(() => {
-                  self.dialogs.add.show = true
-               }, 500)
-               break
-         }
-      },
-      loadFileGroups (cb) {
-         const self = this
-
-         let params = {
-            name: self.filters.name,
-            page: self.pagination.page,
-            per_page: self.pagination.rowsPerPage
-         }
-
-         axios
-            .get("/admin/file-groups", { params: params })
-            .then(function (response) {
-               self.items = response.data.data.data
-               self.totalItems = response.data.data.total
-               self.pagination.totalItems = response.data.data.total
-               self.disable_pagination = self.totalItems > 0;
-               (cb || Function)()
+              self.$eventBus.$emit("FILE_GROUP_DELETED");
             })
+            .catch(function(error) {
+              if (error.response) {
+                self.$store.commit("showSnackbar", {
+                  message: error.response.data.message,
+                  color: "error",
+                  duration: 3000
+                });
+              } else if (error.request) {
+                console.log(error.request);
+              } else {
+                console.log("Error", error.message);
+              }
+            });
+        },
+        cancelCb: () => {
+          console.log("CANCEL");
+        }
+      });
+    },
+    showDialog(dialog, data) {
+      const self = this;
+
+      switch (dialog) {
+        case "file_group_edit":
+          self.dialogs.edit.fileGroup = data;
+          setTimeout(() => {
+            self.dialogs.edit.show = true;
+          }, 500);
+          break;
+        case "file_group_add":
+          setTimeout(() => {
+            self.dialogs.add.show = true;
+          }, 500);
+          break;
       }
-   }
+    },
+    loadFileGroups(cb) {
+      const self = this;
+
+      let params = {
+        name: self.filters.name,
+        page: self.pagination.page,
+        per_page: self.pagination.rowsPerPage
+      };
+
+      axios
+        .get("/admin/file-groups", { params: params })
+        .then(function(response) {
+          self.items = response.data.data.data;
+          self.totalItems = response.data.data.total;
+          self.pagination.totalItems = response.data.data.total;
+          self.disable_pagination = self.totalItems > 0;
+          (cb || Function)();
+        });
+    }
+  }
 };
 </script>

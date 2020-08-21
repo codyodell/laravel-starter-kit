@@ -8,7 +8,6 @@
 
 namespace App\Components\Core\Menu;
 
-
 use Illuminate\Support\Arr;
 
 class MenuItem
@@ -95,10 +94,8 @@ class MenuItem
      */
     public function __construct(array $menuData = [])
     {
-        if(!empty($menuData))
-        {
-            if($menuData['nav_type'] === self::$NAV_TYPE_NAV)
-            {
+        if (!empty($menuData)) {
+            if ($menuData['nav_type'] === self::$NAV_TYPE_NAV) {
                 $this->groupRequirements = $menuData['group_requirements'];
                 $this->permissionRequirements = $menuData['permission_requirements'];
                 $this->label = $menuData['label'];
@@ -107,9 +104,7 @@ class MenuItem
                 $this->routeType = $menuData['route_type'];
                 $this->routeName = $menuData['route_name'];
                 $this->visible = $menuData['visible'] ?? true;
-            }
-            else
-            {
+            } else {
                 $this->navType = self::$NAV_TYPE_DIVIDER;
             }
         }

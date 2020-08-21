@@ -1,66 +1,117 @@
+// import "babel-polyfill";
+
 require("../bootstrap");
 
-window.Vue = require("vue");
-
 import "@mdi/font/css/materialdesignicons.css";
-import "vuetify/dist/vuetify.min.css";
+
 import Vue from "vue";
-import Vuetify from "vuetify";
+import _ from "lodash";
+import vuetify from "../plugins/vuetify";
+import Readable from "../common/Mixins";
+import VueProgressBar from "vue-progressbar";
 
-Vue.use(Vuetify);
-
-// app
 import router from "./router";
 import store from "../common/Store";
 import eventBus from "../common/Event";
 import formatters from "../common/Formatters";
-import AxiosAjaxDetct from "../common/AxiosAjaxDetect";
+import AxiosAjaxDetect from "../common/AxiosAjaxDetect";
 
 Vue.use(formatters);
 Vue.use(eventBus);
+Vue.use(VueProgressBar, {
+    color: "#dbdbdb",
+    failedColor: "#fea19c",
+    thickness: "4px",
+    transition: {
+        speed: "0.2s",
+        opacity: "0.4s",
+        termination: 300
+    },
+    autoRevert: true,
+    inverse: false
+});
 
-const front = new Vue({
-    vuetify: new Vuetify({
-        theme: {
-            themes: {
-                dark: {
-                    primary: "#6479f6",
-                    info: "#95affb",
-                    success: "#65b25f",
-                    secondary: "#bfc7d5",
-                    accent: "#ffcb6b",
-                    error: "#ff5874"
-                }
-            }
-        },
-        icons: {
-            iconfont: "mdi"
-        }
-    }),
+// Global Components
+Vue.component("moon-loader", require("vue-spinner/src/MoonLoader.vue").default);
+
+new Vue({
     el: "#app",
+    mixins: [Readable],
+    vuetify,
     eventBus,
     router,
     store,
     data: () => ({
         drawer: true,
-        page_name: "Home"
+        nav_top: [{
+                label: "Home",
+                title: "Go to Homepage",
+                icon: "mdi-home",
+                routeName: "home"
+            },
+            {
+                label: "Login",
+                title: "Login to Your Account",
+                icon: "mdi-login",
+                routeName: "login"
+            },
+            {
+                label: "Register",
+                title: "Signup for an Account",
+                icon: "mdi-account",
+                routeName: "register"
+            }
+        ],
+        nav_social: [{
+                title: "Follow us on Twitter",
+                url: "https://www.twitter.com/",
+                icon: "mdi-twitter"
+            },
+            {
+                title: "Facebook",
+                url: "https://www.facebook.com/",
+                icon: "mdi-facebook"
+            },
+            {
+                title: "Reddit",
+                url: "https://www.reddit.com/",
+                icon: "mdi-reddit"
+            },
+            {
+                title: "GitHub",
+                url: "https://www.github.com/",
+                icon: "mdi-github"
+            }
+        ]
     }),
     created() {
         this.$vuetify.theme.dark = true;
     },
+    mounted() {
+        const self = this;
+        // Progress bar top
+        AxiosAjaxDetect.init(
+            () => {
+                self.$Progress.start();
+            },
+            () => {
+                self.$Progress.finish();
+            }
+        );
+    },
     computed: {
         getTopMenuItems() {
-            return [];
+            return this.nav_top;
         },
         getBreadcrumbs() {
             return store.getters.getBreadcrumbs;
         },
         showLoader() {
-            return;
+            return store.getters.showLoader;
         },
         showSnackbar: {
             get() {
-                return;
+                return store.getters.showSnackbar;
             },
             set(val) {
                 if (!val) store.commit("hideSnackbar");
@@ -75,17 +126,17 @@ const front = new Vue({
             }
         },
         snackbarMessage() {
-            return;
+            return store.getters.snackbarMessage;
         },
         snackbarColor() {
-            return;
+            return store.getters.snackbarColor;
         },
         snackbarDuration() {
-            return;
+            return store.getters.snackbarDuration;
         },
         showDialog: {
             get() {
-                return;
+                return store.getters.showDialog;
             },
             set(val) {
                 if (!val) store.commit("hideDialog");
@@ -95,25 +146,14 @@ const front = new Vue({
             return store.getters.dialogType;
         },
         dialogTitle() {
-            return;
+            return store.getters.dialogTitle;
         },
         dialogMessage() {
-            return;
+            return store.getters.dialogMessage;
         },
         dialogIcon() {
             return store.getters.dialogIcon;
         }
-    },
-    mounted() {
-        const self = this; // Progress bar top
-        AxiosAjaxDetct.init(
-            () => {
-                self.$Progress.start();
-            },
-            () => {
-                self.$Progress.finish();
-            }
-        );
     },
     methods: {
         menuClick(routeName, routeType) {
@@ -124,6 +164,11 @@ const front = new Vue({
             if (rn === "full_load") {
                 window.location.href = routeName;
             }
+        },
+        clickLogout(logoutUrl, afterLogoutRedirectUrl) {
+            axios.post(logoutUrl).then(r => {
+                window.location.href = afterLogoutRedirectUrl;
+            });
         },
         dialogOk() {
             store.commit("dialogOk");

@@ -1,7 +1,8 @@
+@charset "UTF-8";
 @import "variables";
 @import "dropzone";
 
-/* general */
+/* --- General --- */
 
 a {
     text-decoration: none;
@@ -62,4 +63,20 @@ a {
 
 #admin .snack {
     z-index: 500 !important;
+}
+
+
+/* --- Cards --- */
+
+#frmLogin {
+    .card--transparent {
+        background-color: transparent;
+        >header {
+            background-color: transparent;
+        }
+    }
+    .v-label,
+    .mdi-checkbox-blank-outline:after {
+        font-size: 1.05em;
+    }
 }

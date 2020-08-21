@@ -1,7 +1,7 @@
 <template>
-  <div data-component="admin" class="page_wrap_vue">
+  <section :data-component="slug">
     <h1>
-      <v-icon>view_dashboard</v-icon>
+      <v-icon left>mdi-view-dashboard</v-icon>
       {{ page_name }}
     </h1>
     <p>
@@ -12,23 +12,23 @@
       single page routes for admin can be found at
       <kbd>resources/js/admin/router.js</kbd>
     </p>
-  </div>
+  </section>
 </template>
 
 <script>
 export default {
-   data: () => ({
-      page_name: "Admin Dashboard"
-   }),
-   mounted () {
-      const self = this
-
-      self.$store.commit("setBreadcrumbs", [
-         {
-            label: "Admin Dashboard",
-            name: ""
-         }
-      ])
-   }
+  data: () => ({
+    page_name: "Admin Dashboard"
+  }),
+  mounted() {
+    console.info("Admin.vue -> Mounted");
+    const self = this;
+    self.$store.commit("setBreadcrumbs", [
+      {
+        label: "Admin Dashboard",
+        name: ""
+      }
+    ]);
+  }
 };
 </script>

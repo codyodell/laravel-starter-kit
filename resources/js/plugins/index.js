@@ -1,2 +1,2 @@
 import "./axios";
-import "./vuetify";
+import vuetify from "./vuetify";

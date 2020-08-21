@@ -1,18 +1,15 @@
 <template>
-  <div class="page_wrap_vue pa-3">
+  <section :data-component="slug">
     <transition name="fade">
       <router-view></router-view>
     </transition>
-  </div>
+  </section>
 </template>
 
 <script>
 export default {
   data: () => ({
     active: ""
-  }),
-  mounted() {
-    const self = this;
-  }
+  })
 };
 </script>

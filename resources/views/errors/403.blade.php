@@ -1,23 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <title>Resource Not Found | {{config('app.name')}}</title>
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-</head>
-<body>
-<h1>403</h1>
-<h2>Resource Forbidden.</h2>
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
-</body>
-</html>
+@php
+$page_title = '$page_title';
+$page_subtitle = 'Resource Forbidden';
+@endphp
+@extends('layouts.front')
+@section('title', $page_title . ': ' . $page_subtitle)
+@section('content')
+@include('partials.header')
+@component('components.page-content')
+<v-carousel dark height="500" hide-delimiter-background hide-delimiters :show-arrows="false">
+  <v-carousel-item>
+    <v-sheet height="100%" align="center" justify="center" style="font-size: 1.75em;">
+      <h1>
+        <v-icon left color="grey">mdi-alert-box</v-icon>
+        {{ $page_title }}
+      </h1>
+      <p>{{ $page_subtitle }}</p>
+    </v-sheet>
+  </v-carousel-item>
+</v-carousel>
+@endcomponent
+@endsection

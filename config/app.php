@@ -13,8 +13,8 @@ return [
     |
      */
 
-    'name' => env('APP_NAME', 'eCommerce PWA - A Laravel/Vue.js Project'),
-
+    'name' => env('APP_NAME', 'PWA Shop'),
+    'description' => env('APP_DESCRIPTION', 'A Laravel/Vue.js Project'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -52,7 +52,7 @@ return [
     |
      */
 
-    'url' => env('APP_URL', 'http://pwashop.laravel.local'),
+    'url' => env('APP_URL', 'https://pwashop.laravel.local'),
 
     /*
     |--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ return [
     |
      */
 
-    'timezone' => 'UTC',
+    'timezone' => 'CST',
 
     /*
     |--------------------------------------------------------------------------

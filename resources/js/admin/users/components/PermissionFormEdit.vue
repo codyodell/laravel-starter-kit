@@ -3,7 +3,8 @@
     <!-- form -->
     <v-card>
       <v-card-title>
-        <v-icon>vpn_key</v-icon>Edit Permission
+        <v-icon>vpn_key</v-icon>
+        {{ page_name }}
       </v-card-title>
       <v-divider class="mb-2"></v-divider>
       <v-form v-model="valid" ref="permissionFormEdit" lazy-validation>
@@ -49,23 +50,21 @@ export default {
       required: true
     }
   },
-  data() {
-    return {
-      valid: false,
-      isLoading: false,
-      title: "",
-      titleRules: [v => !!v || "Title is required"],
-      description: "",
-      descriptionRules: [v => !!v || "Description is required"],
-      permissionKey: "",
-      permissionKeyRules: [
-        v => !!v || "Permission Key is required",
-        v =>
-          !v.match(/[^\w\.]+/g) ||
-          "Description cannot contain special characters"
-      ]
-    };
-  },
+  data: () => ({
+    page_name: "Edit Permission",
+    valid: false,
+    isLoading: false,
+    title: "",
+    titleRules: [v => !!v || "Title is required"],
+    description: "",
+    descriptionRules: [v => !!v || "Description is required"],
+    permissionKey: "",
+    permissionKeyRules: [
+      v => !!v || "Permission Key is required",
+      v =>
+        !v.match(/[^\w\.]+/g) || "Description cannot contain special characters"
+    ]
+  }),
   mounted() {
     this.loadPermission();
   },

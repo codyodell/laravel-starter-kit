@@ -1,19 +1,19 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+import "babel-polyfill";
 
-// vendor
 require("../bootstrap");
-window.Vue = require("vue");
 
-// 3rd party
-import "@mdi/font/css/materialdesignicons.css";
 import "vuetify/dist/vuetify.min.css";
+import "@mdi/font/css/materialdesignicons.css";
+
 import Vue from "vue";
-import Vuetify from "vuetify";
+import vuetify from "../plugins/vuetify";
 import _ from "lodash";
+import router from "./router";
+import store from "../common/Store";
+import eventBus from "../common/Event";
+import formatters from "../common/Formatters";
+import AxiosAjaxDetect from "../common/AxiosAjaxDetect";
+
 import VueProgressBar from "vue-progressbar";
 import VueTimeago from "vue-timeago";
 
@@ -30,18 +30,11 @@ Vue.use(VueTimeago, {
 
 Vue.use(require("vue-moment"));
 
-// this is the vuetify theming options
-// you can change colors here based on your needs
-// and please dont forget to recompile scripts
-Vue.use(Vuetify);
-
-// this is the progress bar settings, you
-// can change colors here to fit on your needs or match
-// your theming above
+// this is the progress bar settings, you can change colors here to fit on your needs or match your theming above
 Vue.use(VueProgressBar, {
-    color: "#ffcb6b",
-    failedColor: "#ff5874",
-    thickness: "5px",
+    color: "#dbdbdb",
+    failedColor: "#fea19c",
+    thickness: "4px",
     transition: {
         speed: "0.2s",
         opacity: "0.6s",
@@ -52,41 +45,34 @@ Vue.use(VueProgressBar, {
 });
 
 // global component registrations here
-Vue.component("moon-loader", require("vue-spinner/src/MoonLoader.vue"));
-
-// app
-import router from "./router";
-import store from "../common/Store";
-import eventBus from "../common/Event";
-import formatters from "../common/Formatters";
-import AxiosAjaxDetct from "../common/AxiosAjaxDetect";
+Vue.component("moon-loader", require("vue-spinner/src/MoonLoader.vue").default);
 
 Vue.use(formatters);
 Vue.use(eventBus);
 
-const admin = new Vue({
-    vuetify: new Vuetify({
-        theme: {
-            dark: true,
-            themes: {
-                dark: {
-                    primary: "#6479f6",
-                    info: "#95affb",
-                    success: "#65b25f",
-                    secondary: "#bfc7d5",
-                    accent: "#ffcb6b",
-                    error: "#ff5874"
-                }
+var Readable = {
+    computed: {
+        slug() {
+            if (this.page_name) {
+                return _.kebabCase(this.page_name);
             }
-        },
-        icons: {
-            iconfont: "mdi"
         }
-    }),
+    }
+};
+
+new Vue({
     el: "#admin",
+    mixins: [Readable],
+    vuetify,
     eventBus,
     router,
     store,
+    data: () => ({
+        drawer: true
+    }),
+    created() {
+        this.$vuetify.theme.dark = true;
+    },
     mounted() {
         const self = this;
         let isFirstPage = this.$route.name === "dashboard";
@@ -96,18 +82,19 @@ const admin = new Vue({
         // progress bar top
         AxiosAjaxDetct.init(
             () => {
-                self.$Progress.start();
+                self.$Progress.start(),
             },
             () => {
-                self.$Progress.finish();
+                self.$Progress.finish()
             }
         );
     },
     computed: {
         getTopMenuItems() {
             return [{
-                    title: "Profile",
-                    route: "/admin/users/1"
+                    title: "Your Profile",
+                    route: "/admin/users/1",
+                    icon: "mdi-card-account-details"
                 },
                 {
                     title: "Settings",

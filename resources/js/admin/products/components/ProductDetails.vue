@@ -1,13 +1,13 @@
 <template>
-  <div class="component-wrap">
-    <h1>{{ name }}</h1>
-  </div>
+  <section :data-component="slug">
+    <h1>{{ page_name }}</h1>
+  </section>
 </template>
 
 <script>
 export default {
   data: () => ({
-    page_name: "",
+    page_name: "Product Details",
     valid: false,
     loading: false,
     name: "",
@@ -17,10 +17,10 @@ export default {
     attributes: {},
     created_by: "",
     created_at: "",
-    updated_at: "",
+    updated_at: ""
   }),
   mounted() {
     const self = this;
-  },
+  }
 };
 </script>

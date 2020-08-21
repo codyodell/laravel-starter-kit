@@ -1,6 +1,7 @@
 {{-- Loader --}}
 <div v-if="showLoader" class="wask_loader bg_half_transparent">
-  <v-progress-circular :size="72" :width="4" color="primary" indeterminate></v-progress-circular>
+  <moon-loader color="grey lighten-2"></moon-loader>
+  {{-- <v-progress-circular :size="72" :width="4" color="primary" indeterminate></v-progress-circular> --}}
 </div>
 
 {{-- Snackbar --}}
@@ -26,4 +27,4 @@
 </v-dialog>
 
 {{-- Progress Bar --}}
-<v-progress-circular :size="72" :width="4" color="white" indeterminate></v-progress-circular>
+<vue-progress-bar></vue-progress-bar>

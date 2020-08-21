@@ -14,7 +14,7 @@ return [
     |
      */
 
-    'enabled' => env('DEBUGBAR_ENABLED', true),
+    'enabled' => env('DEBUGBAR_ENABLED', false),
     'except' => [
         //
     ],
@@ -78,7 +78,7 @@ return [
     | in the Messages tab.
     |
      */
-    'error_handler' => true,
+    'error_handler' => false,
 
     /*
     |--------------------------------------------------------------------------

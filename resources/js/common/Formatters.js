@@ -13,11 +13,8 @@ export default {
             formatMbToBytes(mb) {
                 return (mb * 1048576).toFixed(2);
             },
-            slug(string) {
-                return this.page_name
-                    .split(" ")
-                    .join("-")
-                    .toLowerCase();
+            slug(strSlug) {
+                return _.kebabCase(strSlug);
             }
         };
     }

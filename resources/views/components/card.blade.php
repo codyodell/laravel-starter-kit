@@ -1,7 +1,12 @@
-<v-card data-component="card">
-  @isset($title)
-  <v-card-title>{{ $title }}</v-card-title>
-  @endisset
+<v-card data-component="blade[card]" {{ $attributes }}>
+  @unless(empty($title))
+  <v-card-title>
+    @unless(empty($icon))
+    <v-icon left>{{ $icon }}</v-icon>
+    @endunless
+    {{ $title }}
+  </v-card-title>
+  @endunless
   <v-card-text>
     {{ $slot }}
   </v-card-text>

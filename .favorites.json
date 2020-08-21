@@ -79,5 +79,53 @@
         "workspaceRoot": null,
         "workspacePath": null,
         "id": "zewVHQmjOPrApBES"
+    },
+    {
+        "type": "File",
+        "name": "/usr/local/var/www/pwashop.laravel.local/storage/logs/laravel.log",
+        "parent_id": null,
+        "workspaceRoot": "/usr/local/var/www/pwashop.laravel.local",
+        "workspacePath": "storage/logs/laravel.log",
+        "id": "NTr01Ic29tROKGDj"
+    },
+    {
+        "type": "File",
+        "name": "/usr/local/var/www/pwashop.laravel.local/package.json",
+        "parent_id": null,
+        "workspaceRoot": "/usr/local/var/www/pwashop.laravel.local",
+        "workspacePath": "package.json",
+        "id": "64Yb7thNXlgrJKiE"
+    },
+    {
+        "type": "File",
+        "name": "/usr/local/var/www/pwashop.laravel.local/composer.json",
+        "parent_id": null,
+        "workspaceRoot": "/usr/local/var/www/pwashop.laravel.local",
+        "workspacePath": "composer.json",
+        "id": "j6ufkDt9iCIp7msA"
+    },
+    {
+        "type": "File",
+        "name": "/usr/local/var/www/pwashop.laravel.local/.env",
+        "parent_id": null,
+        "workspaceRoot": "/usr/local/var/www/pwashop.laravel.local",
+        "workspacePath": ".env",
+        "id": "vICMdLbnPYeUqAWK"
+    },
+    {
+        "type": "File",
+        "name": "/usr/local/var/www/pwashop.laravel.local/resources/js/admin/admin.js",
+        "parent_id": null,
+        "workspaceRoot": "/usr/local/var/www/pwashop.laravel.local",
+        "workspacePath": "resources/js/admin/admin.js",
+        "id": "XmEzFLKT0gYZ78dP"
+    },
+    {
+        "type": "File",
+        "name": "/usr/local/var/www/pwashop.laravel.local/resources/js/front/front.js",
+        "parent_id": null,
+        "workspaceRoot": "/usr/local/var/www/pwashop.laravel.local",
+        "workspacePath": "resources/js/front/front.js",
+        "id": "XF0gHbuhtRm9saqB"
     }
 ]

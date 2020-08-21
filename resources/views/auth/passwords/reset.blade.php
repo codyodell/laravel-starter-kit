@@ -1,70 +1,27 @@
 @extends('layouts.front')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
-
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('password.request') }}">
-                        {{ csrf_field() }}
-
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" required autofocus>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-
-                                @if ($errors->has('password_confirmation'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Reset Password
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@component('components.page-content')
+<v-form method="POST" action="{{ route('password.request') }}">
+  {{ csrf_field() }}
+  <input type="hidden" name="token" value="{{ $token }}">
+  <v-card>
+    <v-card-title>Reset Password</v-card-title>
+    <v-card-text>
+      <input id="email" type="email" label="E-Mail Address" name="email" value="{{ $email or old('email') }}" class="{{ $errors->has('email') ? ' has-error' : null }}" required autofocus>
+      <span v-show="$errors->has('email')">{{ $errors->first('email') }}</span>
+      <input id="password" type="password" label="Password" name=" password" class="{{ $errors->has('password') ? 'has-error' : null }}" required>
+      <span v-show="$errors->has('password')">{{ $errors->first('password') }}</span>
+      <input id="password-confirm" type="password" label="Confirm Password" name="password_confirmation" class="{{ $errors->has('password_confirmation') ? 'has-error' : null }}" required>
+      <span v-show="$errors->has('password_confirmation')">{{ $errors->first('password_confirmation') }}</span>
+    </v-card-text>
+    <v-card-actions>
+      <button type="submit" color="primary">
+        Reset Password
+        <v-icon>mdi-chevron-right</v-icon>
+      </button>
+    </v-card-actions>
+  </v-card>
+</v-form>
+@endcomponent
 @endsection

@@ -18,7 +18,10 @@ module.exports = {
     plugins: ["vue"],
     rules: {
         "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
-        "no-console": process.env.NODE_ENV === "production" ? "warn" : "off"
+        "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
+        "vue/max-attributes-per-line": "off",
+        semi: ["ignore", "always"],
+        quotes: ["warning", "double"]
     },
     extends: [
         "plugin:vue/recommended",

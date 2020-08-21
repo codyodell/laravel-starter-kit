@@ -2,7 +2,8 @@
   <div>
     <v-card>
       <v-card-title>
-        <v-icon>person</v-icon>Edit User
+        <v-icon left>mdi-account</v-icon>
+        {{ page_name }}
       </v-card-title>
       <v-divider class="mb-2"></v-divider>
       <v-form v-model="valid" ref="userFormEdit" lazy-validation>
@@ -127,6 +128,7 @@ export default {
     const self = this;
 
     return {
+      page_name: "Edit User",
       valid: false,
       name: "",
       nameRules: [v => !!v || "Name is required"],
@@ -209,7 +211,7 @@ export default {
       self.$store.commit("showLoader");
 
       axios
-        .put("/admin/users/" + self.propUserId, payload)
+        .put(`/admin/users/${self.propUserId}`, payload)
         .then(function(response) {
           self.$store.commit("showSnackbar", {
             message: response.data.message,
@@ -264,7 +266,7 @@ export default {
       // reset first
       self.groups = [];
 
-      axios.get("/admin/users/" + self.propUserId).then(function(response) {
+      axios.get(`/admin/users/${self.propUserId}`).then(function(response) {
         let User = response.data.data;
 
         self.name = User.name;
@@ -307,7 +309,7 @@ export default {
         paginate: "no"
       };
 
-      axios.get("/admin/groups", { params: params }).then(function(response) {
+      axios.get(`/admin/groups`, { params: params }).then(function(response) {
         self.options.groups = response.data.data;
 
         _.each(self.options.groups, g => {

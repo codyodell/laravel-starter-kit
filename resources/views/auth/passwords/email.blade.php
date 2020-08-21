@@ -1,47 +1,25 @@
 @extends('layouts.front')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
-
-                <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <form class="form-horizontal" method="POST" action="{{ route('password.email') }}">
-                        {{ csrf_field() }}
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Send Password Reset Link
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+@component('components.page-content')
+<v-form method="POST" action="{{ route('password.email') }}">
+  {{ csrf_field() }}
+  <v-card flat tile>
+    <v-card-title>Reset Password</v-card-title>
+    <v-card-text>
+      @if (session('status'))
+      <v-alert type="success">{{ session('status') }}</v-alert>
+      @endif
+      <input id="email" type="email" class="{{ $errors->has('email') ? ' has-error' : null }}" label="E-Mail Address" name=" email" value="{{ old('email') }}" required>
+      <v-alert :v-show="$errors->has('email')" type="error">{{ $errors->first('email') }}</v-alert>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn type="submit" :loading="loading" color="primary">
+        Send Password Reset Link
+        <v-icon>mdi-chevron-right</v-icon>
+      </v-btn>
+    </v-card-actions>
+  </v-card>
+</v-form>
+@endcomponent
 @endsection
